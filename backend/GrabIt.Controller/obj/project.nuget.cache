@@ -1,16 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "yK5tynMckLilfFg/xaKTNVdP2cUZqLTLBfEuN7Tij6aUe4k1v+H7Wnd30ResMm+DOrM4N9q0/hQYtg5hthhV0A==",
+  "dgSpecHash": "py4seYBlOmjw4y1dTqfEaAY0T8sdzBTSFlrwL1sguxXmPMRusIs0nht+val6MnqcDWqXcjtawiuEDcxtVvfjmg==",
   "success": true,
   "projectFilePath": "/home/vikas/Integrefy/fs15_Fullstack/backend/GrabIt.Controller/GrabIt.Controller.csproj",
-  "expectedPackageFiles": [
-    "/home/vikas/.nuget/packages/microsoft.aspnetcore.openapi/7.0.9/microsoft.aspnetcore.openapi.7.0.9.nupkg.sha512",
-    "/home/vikas/.nuget/packages/microsoft.extensions.apidescription.server/6.0.5/microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
-    "/home/vikas/.nuget/packages/microsoft.openapi/1.4.3/microsoft.openapi.1.4.3.nupkg.sha512",
-    "/home/vikas/.nuget/packages/swashbuckle.aspnetcore/6.5.0/swashbuckle.aspnetcore.6.5.0.nupkg.sha512",
-    "/home/vikas/.nuget/packages/swashbuckle.aspnetcore.swagger/6.5.0/swashbuckle.aspnetcore.swagger.6.5.0.nupkg.sha512",
-    "/home/vikas/.nuget/packages/swashbuckle.aspnetcore.swaggergen/6.5.0/swashbuckle.aspnetcore.swaggergen.6.5.0.nupkg.sha512",
-    "/home/vikas/.nuget/packages/swashbuckle.aspnetcore.swaggerui/6.5.0/swashbuckle.aspnetcore.swaggerui.6.5.0.nupkg.sha512"
-  ],
+  "expectedPackageFiles": [],
   "logs": []
 }
