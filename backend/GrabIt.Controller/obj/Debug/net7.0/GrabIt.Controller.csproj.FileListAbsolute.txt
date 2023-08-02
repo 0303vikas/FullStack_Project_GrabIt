@@ -1,0 +1,12 @@
+/home/vikas/Integrefy/fs15_Fullstack/backend/GrabIt.Controller/bin/Debug/net7.0/GrabIt.Controller.deps.json
+/home/vikas/Integrefy/fs15_Fullstack/backend/GrabIt.Controller/bin/Debug/net7.0/GrabIt.Controller.dll
+/home/vikas/Integrefy/fs15_Fullstack/backend/GrabIt.Controller/bin/Debug/net7.0/GrabIt.Controller.pdb
+/home/vikas/Integrefy/fs15_Fullstack/backend/GrabIt.Controller/obj/Debug/net7.0/GrabIt.Controller.csproj.AssemblyReference.cache
+/home/vikas/Integrefy/fs15_Fullstack/backend/GrabIt.Controller/obj/Debug/net7.0/GrabIt.Controller.GeneratedMSBuildEditorConfig.editorconfig
+/home/vikas/Integrefy/fs15_Fullstack/backend/GrabIt.Controller/obj/Debug/net7.0/GrabIt.Controller.AssemblyInfoInputs.cache
+/home/vikas/Integrefy/fs15_Fullstack/backend/GrabIt.Controller/obj/Debug/net7.0/GrabIt.Controller.AssemblyInfo.cs
+/home/vikas/Integrefy/fs15_Fullstack/backend/GrabIt.Controller/obj/Debug/net7.0/GrabIt.Controller.csproj.CoreCompileInputs.cache
+/home/vikas/Integrefy/fs15_Fullstack/backend/GrabIt.Controller/obj/Debug/net7.0/GrabIt.Controller.dll
+/home/vikas/Integrefy/fs15_Fullstack/backend/GrabIt.Controller/obj/Debug/net7.0/refint/GrabIt.Controller.dll
+/home/vikas/Integrefy/fs15_Fullstack/backend/GrabIt.Controller/obj/Debug/net7.0/GrabIt.Controller.pdb
+/home/vikas/Integrefy/fs15_Fullstack/backend/GrabIt.Controller/obj/Debug/net7.0/ref/GrabIt.Controller.dll

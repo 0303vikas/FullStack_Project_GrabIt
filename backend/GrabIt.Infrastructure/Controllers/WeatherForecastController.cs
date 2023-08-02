@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace backend.Controllers;
+namespace GrabIt.Infrastructure.Controllers;
 
 [ApiController]
 [Route("[controller]")]

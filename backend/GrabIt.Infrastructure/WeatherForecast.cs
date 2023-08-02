@@ -1,4 +1,4 @@
-namespace backend;
+namespace GrabIt.Infrastructure;
 
 public class WeatherForecast
 {
