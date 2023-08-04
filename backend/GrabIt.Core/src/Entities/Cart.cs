@@ -6,6 +6,5 @@ namespace GrabIt.Core.src.Entities
     {
         public User UserId { get; set; }
         public List<CartProduct> CartProducts { get; set; }
-
     }
 }

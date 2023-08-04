@@ -7,7 +7,7 @@ namespace GrabIt.Core.src.Entities
         public string Email { get; set; }
         public string Password { get; set; }
         public UserRole Role { get; set; }
-        public List<Address> Addresses { get; set; }
+        public List<Address> Addresses { get; set; } = new();
         public Image ImageURL { get; set; }
     }
 

@@ -1,15 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
+using GrabIt.Core.src.Shared;
 
 namespace GrabIt.Core.src.RepositoryInterfaces
 {
     public interface IBaseRepo<T>
     {
-        IEnumerable<T> GetAdd();
+        IEnumerable<T> GetAll(QueryOptions queryType);
         T GetOneById(string id);
         bool DeleteOneById(string id);
-        T UpdateOneById(T updateData);
+        T UpdateOneById(T originalData, T updateData);
     }
 }
