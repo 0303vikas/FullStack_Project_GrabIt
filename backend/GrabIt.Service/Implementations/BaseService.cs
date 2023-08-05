@@ -20,7 +20,7 @@ namespace GrabIt.Service.Implementations
         }
         public bool DeleteOneById(string id)
         {
-            GetOneById(id);
+            _ = _baseRepo.GetOneById(id) ?? throw ErrorHandlerService.ExceptionNotFound($"No Item with id: {id} was found.");
             _baseRepo.DeleteOneById(id);
             return true;
         }

@@ -3,7 +3,7 @@ using GrabIt.Service.Dtos;
 
 namespace GrabIt.Service.ServiceInterfaces
 {
-    public interface IUserService
+    public interface IUserService : IBaseService<User, UserDto>
     {
         UserDto GetProfile();
         UserDto CreateAdmin(User user);

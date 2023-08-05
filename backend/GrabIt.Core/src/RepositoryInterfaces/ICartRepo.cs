@@ -1,13 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using GrabIt.Core.src.Entities;
 
 namespace GrabIt.Core.src.RepositoryInterfaces
 {
-    public interface ICartRepo : IBaseRepo<Cart>
+    public interface ICartRepo
     {
+        Cart GetOneByUserId(string userId);
+        bool DeleteOneByUserId(string userId);
 
     }
 }
