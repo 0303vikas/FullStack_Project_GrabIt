@@ -13,6 +13,4 @@ namespace GrabIt.Service.Dtos
         public List<Image> ImageURLList { get; set; }
 
     }
-
-    //public int Stock { get; set; }
 }

@@ -1,13 +1,14 @@
 
 using GrabIt.Core.src.Shared;
 
-namespace GrabIt.Core.src.RepositoryInterfaces
+namespace GrabIt.Service.ServiceInterfaces
 {
-    public interface IBaseRepo<T>
+    public interface IBaseServiceWithoutDto<T>
     {
         IEnumerable<T> GetAll(QueryOptions queryType);
         T GetOneById(string id);
         bool DeleteOneById(string id);
-        T UpdateOne(T originalData, T updateData);
+        T UpdateOneById(string id, T updateData);
+
     }
 }

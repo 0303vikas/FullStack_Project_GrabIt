@@ -11,7 +11,7 @@ namespace GrabIt.Service.Implementations
     public class BaseService<T, TDto> : IBaseService<T, TDto>
     {
         private readonly IBaseRepo<T> _baseRepo;
-        private readonly IMapper _mapper;
+        protected readonly IMapper _mapper;
 
         public BaseService(IBaseRepo<T> baseRepo, IMapper mapper)
         {
@@ -39,7 +39,7 @@ namespace GrabIt.Service.Implementations
         public TDto UpdateOneById(string id, TDto updateData)
         {
             var foundEntity = _baseRepo.GetOneById(id) ?? throw ErrorHandlerService.ExceptionNotFound($"No Item with id: {id} was found.");
-            var updatedEntity = _baseRepo.UpdateOneById(foundEntity, _mapper.Map<T>(updateData));
+            var updatedEntity = _baseRepo.UpdateOne(foundEntity, _mapper.Map<T>(updateData));
             return _mapper.Map<TDto>(updatedEntity);
         }
     }
