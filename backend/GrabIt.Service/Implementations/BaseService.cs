@@ -1,8 +1,6 @@
 using AutoMapper;
-using GrabIt.Core.src.Entities;
 using GrabIt.Core.src.RepositoryInterfaces;
 using GrabIt.Core.src.Shared;
-using GrabIt.Service.Dtos;
 using GrabIt.Service.ErrorHandler;
 using GrabIt.Service.ServiceInterfaces;
 

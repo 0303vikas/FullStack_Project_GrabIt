@@ -1,9 +1,7 @@
-
-namespace GrabIt.Core.src.Entities
+namespace GrabIt.Service.Dtos
 {
-    public class Payment
+    public class PaymentDto
     {
-        public Order OrderId { get; set; }
         public string PaymentMethod { get; set; }
         public string Transection_id { get; set; }
     }

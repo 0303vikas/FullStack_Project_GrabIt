@@ -16,6 +16,11 @@ namespace GrabIt.Service.Implementations
             _userRepo = userRepo;
         }
 
+        public UserDto CreateAdmin(User user)
+        {
+            throw new NotImplementedException();
+        }
+
         public UserDto GetProfile()
         {
             throw new NotImplementedException();
