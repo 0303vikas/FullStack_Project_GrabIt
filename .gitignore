@@ -5,6 +5,16 @@ backend/appsettings.json
 backend/appsettings.*.json
 backend/obj/
 backend/bin/
+backend/GrabIt.Controller/obj/
+backend/GrabIt.Controller/bin/
+backend/GrabIt.Core/obj/
+backend/GrabIt.Core/bin/
+backend/GrabIt.Service/obj/
+backend/GrabIt.Service/bin/
+backend/GrabIt.Infrastructure/obj/
+backend/GrabIt.Infrastructure/bin/
+backend/GrabIt.Infrastructure/appsettings.Development.json
+backend/GrabIt.Infrastructure/appsettings.json
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
