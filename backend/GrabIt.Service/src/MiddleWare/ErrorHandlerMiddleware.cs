@@ -1,10 +1,34 @@
+using Microsoft.AspNetCore.Http;
+
 namespace GrabIt.Infrastructure.MiddleWare
 {
     public class ErrorHandlerMiddleware : IMiddleware
     {
-        public Task InvokeAsync(HttpContext context, RequestDelegate next)
+        public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await next(context);
+
+            }
+            catch (Exception e)
+            {
+
+                context.Response.StatusCode = 500;
+                context.Response.ContentType = "application/json";
+
+                await context.Response.WriteAsJsonAsync(
+                    new
+                    {
+                        StatusCode = 500,
+                        e.Message
+                    }
+                );
+
+
+            }
+
+
         }
     }
 }

@@ -4,7 +4,7 @@ namespace GrabIt.Core.src.RepositoryInterfaces
 {
     public interface IPaymentRepo
     {
-        Payment GetByOrderId(string id);
+        Task<Payment> GetByOrderId(string id);
 
     }
 }

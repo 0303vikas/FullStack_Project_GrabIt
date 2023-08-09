@@ -5,8 +5,8 @@ namespace GrabIt.Service.ServiceInterfaces
 {
     public interface IUserService : IBaseService<User, UserDto>
     {
-        UserDto GetProfile();
-        UserDto CreateAdmin(User user);
+        Task<UserDto> GetProfile();
+        Task<UserDto> CreateAdmin(User user);
 
     }
 }

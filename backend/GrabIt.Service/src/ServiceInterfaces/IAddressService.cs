@@ -4,7 +4,7 @@ namespace GrabIt.Service.ServiceInterfaces
 {
     public interface IAddressService
     {
-        IEnumerable<Address> GetAllUserAddressById(IEnumerable<string> ids);
-        bool DeleteOneById(string id);
+        Task<IEnumerable<Address>> GetAllUserAddressById(IEnumerable<string> ids);
+        Task<bool> DeleteOneById(string id);
     }
 }

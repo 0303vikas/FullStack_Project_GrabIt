@@ -5,6 +5,6 @@ namespace GrabIt.Service.ServiceInterfaces
 {
     public interface IProductService : IBaseService<Product, ProductDto>
     {
-        IEnumerable<ProductDto> GetAllByCategoryId(string categoryId);
+        Task<IEnumerable<ProductDto>> GetAllByCategoryId(string categoryId);
     }
 }

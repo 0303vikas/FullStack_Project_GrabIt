@@ -4,6 +4,6 @@ namespace GrabIt.Service.ServiceInterfaces
 {
     public interface IPaymentService
     {
-        PaymentDto GetByOrderId(string id);
+        Task<PaymentDto> GetByOrderId(string id);
     }
 }

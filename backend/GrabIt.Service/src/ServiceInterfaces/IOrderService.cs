@@ -5,8 +5,8 @@ namespace GrabIt.Service.ServiceInterfaces
 {
     public interface IOrderService : IBaseService<Order, OrderDto>
     {
-        IEnumerable<OrderDto> GetOrdersByUserId(string id);
-        OrderDto UpdateOrderStatus(string id, OrderStatusType orderStatus);
-        bool CancelOrder(string id);
+        Task<IEnumerable<OrderDto>> GetOrdersByUserId(string id);
+        Task<OrderDto> UpdateOrderStatus(string id, OrderStatusType orderStatus);
+        Task<bool> CancelOrder(string id);
     }
 }

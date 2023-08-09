@@ -7,7 +7,7 @@ namespace GrabIt.Core.src.RepositoryInterfaces
 {
     public interface IBaseWithCreateMethod<T> : IBaseRepo<T>
     {
-        T CreateOne(T createData);
+        Task<T> CreateOne(T createData);
 
     }
 }

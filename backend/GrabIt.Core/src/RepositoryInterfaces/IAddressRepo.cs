@@ -4,8 +4,8 @@ namespace GrabIt.Core.src.RepositoryInterfaces
 {
     public interface IAddressRepo
     {
-        IEnumerable<Address> GetAllUserAddressById(IEnumerable<string> ids);
-        bool DeleteOneById(string id);
-        Address GetOneById(string id);
+        Task<IEnumerable<Address>> GetAllUserAddressById(IEnumerable<string> ids);
+        Task<bool> DeleteOneById(string id);
+        Task<Address> GetOneById(string id);
     }
 }

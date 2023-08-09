@@ -5,9 +5,9 @@ namespace GrabIt.Core.src.RepositoryInterfaces
 {
     public interface IBaseRepo<T>
     {
-        IEnumerable<T> GetAll(QueryOptions queryType);
-        T GetOneById(string id);
-        bool DeleteOneById(string id);
-        T UpdateOne(T originalData, T updateData);
+        Task<IEnumerable<T>> GetAll(QueryOptions queryType);
+        Task<T> GetOneById(string id);
+        Task<bool> DeleteOneById(string id);
+        Task<T> UpdateOne(T originalData, T updateData);
     }
 }

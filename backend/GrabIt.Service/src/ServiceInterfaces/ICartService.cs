@@ -5,7 +5,7 @@ namespace GrabIt.Service.ServiceInterfaces
 {
     public interface ICartService
     {
-        CartDto GetOneByUserId(string userId);
-        bool DeleteOneByUserId(string userId);
+        Task<CartDto> GetOneByUserId(string userId);
+        Task<bool> DeleteOneByUserId(string userId);
     }
 }

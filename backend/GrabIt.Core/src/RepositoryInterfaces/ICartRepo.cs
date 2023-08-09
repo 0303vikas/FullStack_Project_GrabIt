@@ -4,8 +4,8 @@ namespace GrabIt.Core.src.RepositoryInterfaces
 {
     public interface ICartRepo
     {
-        Cart GetOneByUserId(string userId);
-        bool DeleteOneByUserId(string userId);
+        Task<Cart> GetOneByUserId(string userId);
+        Task<bool> DeleteOneByUserId(string userId);
 
     }
 }

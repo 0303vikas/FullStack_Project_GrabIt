@@ -4,6 +4,6 @@ namespace GrabIt.Core.src.RepositoryInterfaces
 {
     public interface IUserRepo : IBaseWithCreateMethod<User>
     {
-        User CreateAdmin(User user);
+        Task<User> CreateAdmin(User user);
     }
 }
