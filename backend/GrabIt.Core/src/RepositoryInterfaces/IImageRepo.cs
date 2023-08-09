@@ -1,10 +1,8 @@
-
-
 using GrabIt.Core.src.Entities;
 
 namespace GrabIt.Core.src.RepositoryInterfaces
 {
-    public interface IImageRepo : IBaseRepo<Image>
+    public interface IImageRepo : IBaseWithCreateMethod<Image>
     {
 
     }
