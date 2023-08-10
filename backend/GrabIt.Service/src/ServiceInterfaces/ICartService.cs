@@ -3,9 +3,9 @@ using GrabIt.Service.Dtos;
 
 namespace GrabIt.Service.ServiceInterfaces
 {
-    public interface ICartService
+    public interface ICartService : IBaseService<Cart, CartDto>
     {
-        Task<CartDto> GetOneByUserId(string userId);
-        Task<bool> DeleteOneByUserId(string userId);
+        Task<CartDto> CreateOne(CartDto createData);
+
     }
 }

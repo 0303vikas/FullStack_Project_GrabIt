@@ -8,5 +8,6 @@ namespace GrabIt.Core.src.RepositoryInterfaces
         Task<T> GetOneById(Guid id);
         Task<bool> DeleteOneById(Guid id);
         Task<T> UpdateOne(T originalData, T updateData);
+        Task<T> CreateOne(T createData);
     }
 }

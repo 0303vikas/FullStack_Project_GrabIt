@@ -2,9 +2,10 @@ using GrabIt.Core.src.Entities;
 
 namespace GrabIt.Service.ServiceInterfaces
 {
-    public interface IAddressService
+    public interface IAddressService : IBaseServiceWithoutDto<Address>
     {
-        Task<IEnumerable<Address>> GetAllUserAddressById(IEnumerable<string> ids);
-        Task<bool> DeleteOneById(string id);
+        Task<IEnumerable<Address>> GetAllUserAddressByAddressId(IEnumerable<Guid> ids);
+        Task<Address> CreateOne(Address createData);
+
     }
 }

@@ -1,5 +1,3 @@
-
-
 using AutoMapper;
 using GrabIt.Core.src.Entities;
 using GrabIt.Core.src.RepositoryInterfaces;
@@ -16,9 +14,10 @@ namespace GrabIt.Service.Implementations
             _productRepo = productRepo;
         }
 
-        public IEnumerable<ProductDto> GetAllByCategoryId(string categoryId)
+        public async Task<IEnumerable<ProductDto>> GetAllByCategoryId(Guid categoryId)
         {
-            return _mapper.Map<IEnumerable<ProductDto>>(_productRepo.GetAllByCategoryId(categoryId));
+            return _mapper.Map<IEnumerable<ProductDto>>(await _productRepo.GetAllByCategoryId(categoryId));
         }
+
     }
 }

@@ -14,20 +14,22 @@ namespace GrabIt.Service.Implementations
             _addressRepo = addressRepo;
         }
 
-        public bool DeleteOneById(string id)
+        public async Task<bool> DeleteOneById(Guid id)
         {
-            _ = _addressRepo.GetOneById(id) ?? throw ErrorHandlerService.ExceptionNotFound($"No Item with id: {id} was found.");
-            _addressRepo.DeleteOneById(id);
+            _ = await _addressRepo.GetOneById(id) ?? throw ErrorHandlerService.ExceptionNotFound($"No Item with id: {id} was found.");
+            await _addressRepo.DeleteOneById(id);
             return true;
         }
 
-        public IEnumerable<Address> GetAllUserAddressById(IEnumerable<string> ids)
+        public async Task<IEnumerable<Address>> GetAllUserAddressById(IEnumerable<Guid> ids)
         {
             if (ids.Count() <= 0)
             {
                 return new List<Address>();
             }
-            return _addressRepo.GetAllUserAddressById(ids);
+            return await _addressRepo.GetAllByUserId(ids);
         }
+
+
     }
 }

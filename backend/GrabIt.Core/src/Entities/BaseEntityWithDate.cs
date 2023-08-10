@@ -1,4 +1,3 @@
-
 namespace GrabIt.Core.src.Entities
 {
     public class BaseEntityWithDate : BaseEntity

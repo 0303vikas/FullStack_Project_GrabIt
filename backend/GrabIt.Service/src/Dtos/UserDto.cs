@@ -13,4 +13,14 @@ namespace GrabIt.Service.Dtos
     }
 
     //public string Password { get; set; }
+
+    public class CreateDto
+    {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+    }
+
+
 }
+
