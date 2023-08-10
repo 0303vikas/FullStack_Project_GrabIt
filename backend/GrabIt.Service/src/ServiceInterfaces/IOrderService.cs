@@ -7,5 +7,6 @@ namespace GrabIt.Service.ServiceInterfaces
     {
         Task<IEnumerable<OrderDto>> GetOrdersByUserId(Guid id);
         Task<OrderDto> UpdateOrderStatus(Guid id, OrderStatusType orderStatus);
+        Task<OrderProductDto> CreateOne(OrderProductDto createData);
     }
 }

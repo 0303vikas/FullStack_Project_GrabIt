@@ -1,4 +1,5 @@
 using AutoMapper;
+using GrabIt.Core.src.Entities;
 using GrabIt.Core.src.RepositoryInterfaces;
 using GrabIt.Service.Dtos;
 using GrabIt.Service.ErrorHandler;
@@ -6,21 +7,18 @@ using GrabIt.Service.ServiceInterfaces;
 
 namespace GrabIt.Service.Implementations
 {
-    public class PaymentService : IPaymentService
+    public class PaymentService : BaseService<Payment, PaymentDto>, IPaymentService
     {
         private readonly IPaymentRepo _paymentRepo;
-        private readonly IMapper _mapper;
 
-        public PaymentService(IPaymentRepo paymentRepo, IMapper mapper)
+        public PaymentService(IPaymentRepo paymentRepo, IMapper mapper) : base(paymentRepo, mapper)
         {
             _paymentRepo = paymentRepo;
-            _mapper = mapper;
         }
 
-        public PaymentDto GetByOrderId(string id)
+        public Task<OrderProductDto> CreateOne(OrderProductDto createData)
         {
-            var foundPayment = _paymentRepo.GetByOrderId(id) ?? throw ErrorHandlerService.ExceptionNotFound($"No Payment with id: {id} was found.");
-            return _mapper.Map<PaymentDto>(foundPayment);
+            throw new NotImplementedException();
         }
     }
 }

@@ -16,14 +16,21 @@ namespace GrabIt.Service.Implementations
             _userRepo = userRepo;
         }
 
-        public UserDto CreateAdmin(User user)
+        public async Task<UserDto> CreateAdmin(User user)
         {
             throw new NotImplementedException();
         }
 
-        public UserDto GetProfile()
+        public async Task<OrderProductDto> CreateOne(OrderProductDto createData)
         {
             throw new NotImplementedException();
         }
+
+        public async Task<UserDto> GetProfile(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+
     }
 }

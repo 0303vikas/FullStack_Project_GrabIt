@@ -1,5 +1,3 @@
-
-
 using GrabIt.Core.src.RepositoryInterfaces;
 using GrabIt.Core.src.Shared;
 using GrabIt.Service.ErrorHandler;
@@ -16,28 +14,28 @@ namespace GrabIt.Service.Implementations
             _baseRepo = baseRepo;
         }
 
-        public bool DeleteOneById(string id)
+        public async Task<bool> DeleteOneById(Guid id)
         {
-            GetOneById(id);
-            _baseRepo.DeleteOneById(id);
+            await GetOneById(id);
+            await _baseRepo.DeleteOneById(id);
             return true;
         }
 
-        public IEnumerable<T> GetAll(QueryOptions queryType)
+        public async Task<IEnumerable<T>> GetAll(QueryOptions queryType)
         {
-            return _baseRepo.GetAll(queryType);
+            return await _baseRepo.GetAll(queryType);
         }
 
-        public T GetOneById(string id)
+        public async Task<T> GetOneById(Guid id)
         {
-            var foundItem = _baseRepo.GetOneById(id) ?? throw ErrorHandlerService.ExceptionNotFound($"No Item with id: {id} was found.");
+            var foundItem = await _baseRepo.GetOneById(id) ?? throw ErrorHandlerService.ExceptionNotFound($"No Item with id: {id} was found.");
             return foundItem;
         }
 
-        public T UpdateOneById(string id, T updateData)
+        public async Task<T> UpdateOneById(Guid id, T updateData)
         {
-            var foundEntity = GetOneById(id) ?? throw ErrorHandlerService.ExceptionNotFound($"No Item with id: {id} was found.");
-            return _baseRepo.UpdateOne(foundEntity, foundEntity);
+            var foundEntity = await GetOneById(id) ?? throw ErrorHandlerService.ExceptionNotFound($"No Item with id: {id} was found.");
+            return await _baseRepo.UpdateOne(foundEntity, foundEntity);
         }
     }
 }

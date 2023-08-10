@@ -15,24 +15,22 @@ namespace GrabIt.Service.Implementations
             _orderRepo = orderRepo;
         }
 
-        public bool CancelOrder(string id)
+        public Task<OrderProductDto> CreateOne(OrderProductDto createData)
         {
-            _ = _orderRepo.GetOneById(id) ?? throw ErrorHandlerService.ExceptionNotFound($"No Order with id: {id} was found.");
-            _orderRepo.CancelOrder(id);
-            return true;
+            throw new NotImplementedException();
         }
 
-        public IEnumerable<OrderDto> GetOrdersByUserId(string id)
+        public async Task<IEnumerable<OrderDto>> GetOrdersByUserId(Guid id)
         {
-            _ = _orderRepo.GetOneById(id) ?? throw ErrorHandlerService.ExceptionNotFound($"No Order with id: {id} was found.");
-            var foundOrders = _orderRepo.GetOrdersByUserId(id);
+            _ = await _orderRepo.GetOneById(id) ?? throw ErrorHandlerService.ExceptionNotFound($"No Order with id: {id} was found.");
+            var foundOrders = await _orderRepo.GetOrdersByUserId(id);
             return _mapper.Map<IEnumerable<OrderDto>>(foundOrders);
         }
 
-        public OrderDto UpdateOrderStatus(string id, OrderStatusType orderStatus)
+        public async Task<OrderDto> UpdateOrderStatus(Guid id, OrderStatusType orderStatus)
         {
-            _ = _orderRepo.GetOneById(id) ?? throw ErrorHandlerService.ExceptionNotFound($"No Order with id: {id} was found.");
-            var updatedOrder = _orderRepo.UpdateOrderStatus(id, orderStatus);
+            _ = await _orderRepo.GetOneById(id) ?? throw ErrorHandlerService.ExceptionNotFound($"No Order with id: {id} was found.");
+            var updatedOrder = await _orderRepo.UpdateOrderStatus(id, orderStatus);
             return _mapper.Map<OrderDto>(updatedOrder);
         }
     }

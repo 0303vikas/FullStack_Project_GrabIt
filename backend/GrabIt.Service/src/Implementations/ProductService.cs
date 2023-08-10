@@ -14,10 +14,14 @@ namespace GrabIt.Service.Implementations
             _productRepo = productRepo;
         }
 
+        public async Task<OrderProductDto> CreateOne(OrderProductDto createData)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<IEnumerable<ProductDto>> GetAllByCategoryId(Guid categoryId)
         {
             return _mapper.Map<IEnumerable<ProductDto>>(await _productRepo.GetAllByCategoryId(categoryId));
         }
-
     }
 }

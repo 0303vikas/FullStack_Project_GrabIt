@@ -5,23 +5,21 @@ using GrabIt.Service.ServiceInterfaces;
 
 namespace GrabIt.Service.Implementations
 {
-    public class AddressService : IAddressService
+    public class AddressService : BaseServiceWithoutDto<Address>, IAddressService
     {
         private readonly IAddressRepo _addressRepo;
 
-        public AddressService(IAddressRepo addressRepo)
+        public AddressService(IAddressRepo addressRepo) : base(addressRepo)
         {
             _addressRepo = addressRepo;
         }
 
-        public async Task<bool> DeleteOneById(Guid id)
+        public async Task<Address> CreateOne(Address createData)
         {
-            _ = await _addressRepo.GetOneById(id) ?? throw ErrorHandlerService.ExceptionNotFound($"No Item with id: {id} was found.");
-            await _addressRepo.DeleteOneById(id);
-            return true;
+            throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<Address>> GetAllUserAddressById(IEnumerable<Guid> ids)
+        public async Task<IEnumerable<Address>> GetAllUserAddressByAddressId(IEnumerable<Guid> ids)
         {
             if (ids.Count() <= 0)
             {
@@ -29,7 +27,5 @@ namespace GrabIt.Service.Implementations
             }
             return await _addressRepo.GetAllByUserId(ids);
         }
-
-
     }
 }

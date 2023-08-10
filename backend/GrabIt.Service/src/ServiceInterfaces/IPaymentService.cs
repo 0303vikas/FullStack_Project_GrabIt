@@ -5,5 +5,6 @@ namespace GrabIt.Service.ServiceInterfaces
 {
     public interface IPaymentService : IBaseService<Payment, PaymentDto>
     {
+        Task<OrderProductDto> CreateOne(OrderProductDto createData);
     }
 }

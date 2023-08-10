@@ -14,5 +14,10 @@ namespace GrabIt.Service.Implementations
         {
             _orderProductRepo = orderProductRepo;
         }
+
+        public async Task<OrderProductDto> CreateOne(OrderProductDto createData)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
