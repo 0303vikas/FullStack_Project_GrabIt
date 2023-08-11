@@ -6,6 +6,5 @@ namespace GrabIt.Service.ServiceInterfaces
     {
         Task<IEnumerable<Address>> GetAllUserAddressByAddressId(IEnumerable<Guid> ids);
         Task<Address> CreateOne(Address createData);
-
     }
 }

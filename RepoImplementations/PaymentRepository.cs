@@ -4,34 +4,38 @@ using GrabIt.Core.src.Shared;
 
 namespace GrabIt.Infrastructure.RepoImplementations
 {
-    public class UserRepository : IUserRepo
+    public class PaymentRepository : IPaymentRepo
     {
-        public User CreateAdmin(User user)
+        // public Payment GetByOrderId(string id)
+        // {
+        //     throw new NotImplementedException();
+        // }
+        public Task<Payment> CreateOne(Payment createData)
         {
             throw new NotImplementedException();
         }
 
-        public User CreateOne(User createData)
+        public Task<bool> DeleteOneById(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public bool DeleteOneById(string id)
+        public Task<IEnumerable<Payment>> GetAll(QueryOptions queryType)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<User> GetAll(QueryOptions queryType)
+        public Task<Payment> GetOneById(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public User GetOneById(string id)
+        public Task<Payment> GetOneByTransectionId(string id)
         {
             throw new NotImplementedException();
         }
 
-        public User UpdateOne(User originalData, User updateData)
+        public Task<Payment> UpdateOne(Payment originalData, Payment updateData)
         {
             throw new NotImplementedException();
         }
