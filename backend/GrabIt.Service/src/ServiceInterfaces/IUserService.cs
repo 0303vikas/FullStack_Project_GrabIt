@@ -3,11 +3,10 @@ using GrabIt.Service.Dtos;
 
 namespace GrabIt.Service.ServiceInterfaces
 {
-    public interface IUserService : IBaseService<User, UserDto>
+    public interface IUserService : IBaseService<User, UserReadDto, UserCreateDto, UserUpdateDto>
     {
-        Task<UserDto> GetProfile(Guid id);
-        Task<UserDto> CreateAdmin(User user);
-        Task<OrderProductDto> CreateOne(OrderProductDto createData);
+        Task<UserReadDto> GetProfile(Guid id);
+        Task<UserReadDto> CreateAdmin(User user);
 
     }
 }

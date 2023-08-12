@@ -4,8 +4,7 @@ using GrabIt.Service.src.Dtos;
 
 namespace GrabIt.Service.src.ServiceInterfaces
 {
-    public interface IImageService : IBaseService<Image, ImageDto>
+    public interface IImageService : IBaseService<Image, ImageReadDto, ImageCreateDto, ImageUpdateDto>
     {
-        Task<ImageDto> CreateOne(ImageDto createData);
     }
 }

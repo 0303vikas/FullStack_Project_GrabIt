@@ -2,11 +2,12 @@ using GrabIt.Core.src.Shared;
 
 namespace GrabIt.Service.ServiceInterfaces
 {
-    public interface IBaseService<T, TDto>
+    public interface IBaseService<T, TReadDto, TCreateDto, TUpdateDto>
     {
-        Task<IEnumerable<TDto>> GetAll(QueryOptions queryType);
-        Task<TDto> GetOneById(Guid id);
+        Task<IEnumerable<TReadDto>> GetAll(QueryOptions queryType);
+        Task<TReadDto> GetOneById(Guid id);
         Task<bool> DeleteOneById(Guid id);
-        Task<TDto> UpdateOneById(Guid id, TDto updateData);
+        Task<TReadDto> UpdateOneById(Guid id, TUpdateDto updateData);
+        Task<TReadDto> CreateOne(TCreateDto createData);
     }
 }

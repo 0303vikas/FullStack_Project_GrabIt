@@ -30,5 +30,15 @@ namespace GrabIt.Service.ErrorHandler
         {
             return new ErrorHandlerService($"Internal Server Error: {message}.", 500);
         }
+
+        public static ErrorHandlerService ExceptionArgumentNull(string message)
+        {
+            return new ErrorHandlerService($"Argument Null: {message}.", 400);
+        }
+
+        public static ErrorHandlerService ExceptionDuplicateData(string message)
+        {
+            return new ErrorHandlerService($"Duplicate data found: {message}.", 409);
+        }
     }
 }

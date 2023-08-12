@@ -2,7 +2,7 @@ using GrabIt.Core.src.Entities;
 
 namespace GrabIt.Service.Dtos
 {
-    public class UserDto
+    public class UserReadDto
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -14,13 +14,22 @@ namespace GrabIt.Service.Dtos
 
     //public string Password { get; set; }
 
-    public class CreateDto
+    public class UserCreateDto
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
+        public Image ImageUrl { get; set; }
     }
 
-
+    public class UserUpdateDto
+    {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public UserRole Role { get; set; }
+        public List<Address> Addresses { get; set; }
+        public Image ImageUrl { get; set; }
+    }
 }
 

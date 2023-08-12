@@ -6,7 +6,7 @@ using GrabIt.Service.ServiceInterfaces;
 
 namespace GrabIt.Service.Implementations
 {
-    public class BaseService<T, TDto> : IBaseService<T, TDto>
+    public class BaseService<T, TReadDto, TCreateDto, TUpdateDto> : IBaseService<T, TReadDto, TCreateDto, TUpdateDto>
     {
         private readonly IBaseRepo<T> _baseRepo;
         protected readonly IMapper _mapper;
@@ -17,15 +17,15 @@ namespace GrabIt.Service.Implementations
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<TDto>> GetAll(QueryOptions queryType)
+        public async Task<IEnumerable<TReadDto>> GetAll(QueryOptions queryType)
         {
-            return _mapper.Map<IEnumerable<TDto>>(await _baseRepo.GetAll(queryType));
+            return _mapper.Map<IEnumerable<TReadDto>>(await _baseRepo.GetAll(queryType));
         }
 
-        public async Task<TDto> GetOneById(Guid id)
+        public async Task<TReadDto> GetOneById(Guid id)
         {
             var foundItem = await _baseRepo.GetOneById(id) ?? throw ErrorHandlerService.ExceptionNotFound($"No Item with id: {id} was found.");
-            return _mapper.Map<TDto>(foundItem);
+            return _mapper.Map<TReadDto>(foundItem);
         }
 
         public async Task<bool> DeleteOneById(Guid id)
@@ -35,11 +35,17 @@ namespace GrabIt.Service.Implementations
             return true;
         }
 
-        public async Task<TDto> UpdateOneById(Guid id, TDto updateData)
+        public async Task<TReadDto> UpdateOneById(Guid id, TUpdateDto updateData)
         {
             var foundEntity = await _baseRepo.GetOneById(id) ?? throw ErrorHandlerService.ExceptionNotFound($"No Item with id: {id} was found.");
             var updatedEntity = await _baseRepo.UpdateOne(foundEntity, _mapper.Map<T>(updateData));
-            return _mapper.Map<TDto>(updatedEntity);
+            return _mapper.Map<TReadDto>(updatedEntity);
+        }
+
+        public virtual async Task<TReadDto> CreateOne(TCreateDto createData)
+        {
+            var createdEntity = await _baseRepo.CreateOne(_mapper.Map<T>(createData));
+            return _mapper.Map<TReadDto>(createdEntity);
         }
     }
 }

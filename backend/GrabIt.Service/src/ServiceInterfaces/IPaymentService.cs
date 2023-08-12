@@ -3,8 +3,7 @@ using GrabIt.Service.Dtos;
 
 namespace GrabIt.Service.ServiceInterfaces
 {
-    public interface IPaymentService : IBaseService<Payment, PaymentDto>
+    public interface IPaymentService : IBaseService<Payment, PaymentReadDto, PaymentCreateDto, PaymentUpdateDto>
     {
-        Task<OrderProductDto> CreateOne(OrderProductDto createData);
     }
 }

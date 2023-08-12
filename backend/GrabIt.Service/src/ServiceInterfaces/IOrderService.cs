@@ -3,10 +3,9 @@ using GrabIt.Service.Dtos;
 
 namespace GrabIt.Service.ServiceInterfaces
 {
-    public interface IOrderService : IBaseService<Order, OrderDto>
+    public interface IOrderService : IBaseService<Order, OrderReadDto, OrderCreateDto, OrderUpdateDto>
     {
-        Task<IEnumerable<OrderDto>> GetOrdersByUserId(Guid id);
-        Task<OrderDto> UpdateOrderStatus(Guid id, OrderStatusType orderStatus);
-        Task<OrderProductDto> CreateOne(OrderProductDto createData);
+        Task<IEnumerable<OrderReadDto>> GetOrdersByUserId(Guid id);
+        Task<OrderReadDto> UpdateOrderStatus(Guid id, OrderStatusType orderStatus);
     }
 }

@@ -2,9 +2,18 @@ using GrabIt.Core.src.Entities;
 
 namespace GrabIt.Service.Dtos
 {
-    public class CartDto
+    public class CartReadDto
     {
-        public List<CartProduct> CartProducts { get; set; }
+        public Dictionary<int, Product> CartProducts { get; set; }
+    }
 
+    public class CartCreateDto
+    {
+        public Dictionary<int, Product> CartProducts { get; set; }
+    }
+
+    public class CartUpdateDto
+    {
+        public Dictionary<int, Product> CartProducts { get; set; }
     }
 }

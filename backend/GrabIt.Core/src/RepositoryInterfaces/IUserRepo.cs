@@ -7,5 +7,6 @@ namespace GrabIt.Core.src.RepositoryInterfaces
     {
         Task<User> CreateAdmin(User user);
         Task<User> GetProfile(Guid id);
+        Task<bool> CheckEmailDuplicate(string email);
     }
 }

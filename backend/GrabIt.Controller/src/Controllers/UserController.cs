@@ -1,12 +1,11 @@
 using GrabIt.Core.src.Entities;
 using GrabIt.Service.Dtos;
-using Microsoft.AspNetCore.Mvc;
 using GrabIt.Service.ServiceInterfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GrabIt.Controller.src.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
+    [Authorize]
     public class UserController : GenericBaseController<User, UserDto>
     {
         public UserController(IUserService baseRepo) : base(baseRepo)

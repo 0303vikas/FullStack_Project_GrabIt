@@ -3,9 +3,8 @@ using GrabIt.Service.Dtos;
 
 namespace GrabIt.Service.ServiceInterfaces
 {
-    public interface ICartService : IBaseService<Cart, CartDto>
+    public interface ICartService : IBaseService<Cart, CartReadDto, CartCreateDto, CartUpdateDto>
     {
-        Task<CartDto> CreateOne(CartDto createData);
 
     }
 }

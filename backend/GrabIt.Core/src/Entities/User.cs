@@ -6,6 +6,7 @@ namespace GrabIt.Core.src.Entities
         public string LastName { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+        public byte[] Salt { get; set; }
         public UserRole Role { get; set; }
         public List<Address> Addresses { get; set; } = new();
         public Image ImageURL { get; set; }
