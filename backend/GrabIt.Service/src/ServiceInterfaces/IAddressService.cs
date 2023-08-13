@@ -3,7 +3,7 @@ using GrabIt.Service.src.Dtos;
 
 namespace GrabIt.Service.ServiceInterfaces
 {
-    public interface IAddressService : IBaseService<Address, AddressReadDto, AddressReadDto, AddressUpdateDto>
+    public interface IAddressService : IBaseService<Address, AddressReadDto, AddressCreateDto, AddressUpdateDto>
     {
     }
 }

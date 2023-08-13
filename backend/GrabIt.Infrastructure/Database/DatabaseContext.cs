@@ -16,7 +16,6 @@ namespace GrabIt.Infrastructure.Database
         public DbSet<OrderProduct> OrderProducts { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Cart> Carts { get; set; }
-        public DbSet<CartProduct> CartProducts { get; set; }
 
         public DatabaseContext(IConfiguration configuration)
         {
