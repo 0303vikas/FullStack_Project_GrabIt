@@ -7,7 +7,7 @@ using GrabIt.Service.ServiceInterfaces;
 
 namespace GrabIt.Service.Implementations
 {
-    public class OrderService : BaseService<Order, OrderDto>, IOrderService
+    public class OrderService : BaseService<Order, OrderReadDto, OrderCreateDto, OrderUpdateDto>, IOrderService
     {
         private readonly IOrderRepo _orderRepo;
         public OrderService(IOrderRepo orderRepo, IMapper mapper) : base(orderRepo, mapper)
@@ -15,24 +15,30 @@ namespace GrabIt.Service.Implementations
             _orderRepo = orderRepo;
         }
 
-        public Task<OrderProductDto> CreateOne(OrderProductDto createData)
+        public async Task<IEnumerable<OrderReadDto>> GetOrdersByUserId(Guid userId)
         {
-            throw new NotImplementedException();
+            return _mapper.Map<IEnumerable<OrderReadDto>>(await _orderRepo.GetOrdersByUserId(userId));
         }
 
-        public async Task<IEnumerable<OrderDto>> GetOrdersByUserId(Guid id)
+        public async Task<OrderReadDto> UpdateOrderStatus(Guid orderId, OrderStatusType orderStatus)
         {
-            _ = await _orderRepo.GetOneById(id) ?? throw ErrorHandlerService.ExceptionNotFound($"No Order with id: {id} was found.");
-            var foundOrders = await _orderRepo.GetOrdersByUserId(id);
-            return _mapper.Map<IEnumerable<OrderDto>>(foundOrders);
+            return _mapper.Map<OrderReadDto>(await _orderRepo.UpdateOrderStatus(orderId, orderStatus));
         }
 
-        public async Task<OrderDto> UpdateOrderStatus(Guid id, OrderStatusType orderStatus)
+        public override async Task<OrderReadDto> CreateOne(OrderCreateDto createData)
         {
-            _ = await _orderRepo.GetOneById(id) ?? throw ErrorHandlerService.ExceptionNotFound($"No Order with id: {id} was found.");
-            var updatedOrder = await _orderRepo.UpdateOrderStatus(id, orderStatus);
-            return _mapper.Map<OrderDto>(updatedOrder);
+            //price error 
+            if (createData.Payment == null || createData.Products == null || createData.DeliveryAddress == null) throw ErrorHandlerService.ExceptionArgumentNull("Payment, Products and DeliveryAddress can't be null.");
+            if (createData.TotalPrice <= 0) throw ErrorHandlerService.ExceptionArgumentNull("TotalPrice can't be less than or equal to 0.");
+            if (createData.Products.Count() <= 0) throw ErrorHandlerService.ExceptionArgumentNull("Products can't be empty.");
+
+            return await base.CreateOne(createData);
         }
+
+        // Update One
+
+
+
     }
 
 }

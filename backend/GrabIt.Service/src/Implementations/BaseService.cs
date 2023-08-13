@@ -35,16 +35,16 @@ namespace GrabIt.Service.Implementations
             return true;
         }
 
-        public async Task<TReadDto> UpdateOneById(Guid id, TUpdateDto updateData)
+        public virtual async Task<TReadDto> UpdateOneById(Guid id, TUpdateDto updateData)
         {
             var foundEntity = await _baseRepo.GetOneById(id) ?? throw ErrorHandlerService.ExceptionNotFound($"No Item with id: {id} was found.");
-            var updatedEntity = await _baseRepo.UpdateOne(foundEntity, _mapper.Map<T>(updateData));
+            var updatedEntity = await _baseRepo.UpdateOne(foundEntity, _mapper.Map<T>(updateData)) ?? throw ErrorHandlerService.ExceptionInternalServerError($"Error updating item with id: {id}");
             return _mapper.Map<TReadDto>(updatedEntity);
         }
 
         public virtual async Task<TReadDto> CreateOne(TCreateDto createData)
         {
-            var createdEntity = await _baseRepo.CreateOne(_mapper.Map<T>(createData));
+            var createdEntity = await _baseRepo.CreateOne(_mapper.Map<T>(createData)) ?? throw ErrorHandlerService.ExceptionInternalServerError($"Error creating item.");
             return _mapper.Map<TReadDto>(createdEntity);
         }
     }

@@ -4,6 +4,6 @@ namespace GrabIt.Core.src.RepositoryInterfaces
 {
     public interface IAddressRepo : IBaseRepo<Address>
     {
-        Task<IEnumerable<Address>> GetAllByUserId(IEnumerable<Guid> ids);
+        Task<bool> UpdateUserAddress(Guid addressId);
     }
 }

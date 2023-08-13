@@ -1,10 +1,9 @@
 using GrabIt.Core.src.Entities;
+using GrabIt.Service.src.Dtos;
 
 namespace GrabIt.Service.ServiceInterfaces
 {
-    public interface IAddressService : IBaseServiceWithoutDto<Address>
+    public interface IAddressService : IBaseService<Address, AddressReadDto, AddressReadDto, AddressUpdateDto>
     {
-        Task<IEnumerable<Address>> GetAllUserAddressByAddressId(IEnumerable<Guid> ids);
-
     }
 }
