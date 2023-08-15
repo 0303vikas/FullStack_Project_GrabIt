@@ -6,10 +6,9 @@ namespace GrabIt.Core.src.Entities
     {
         public float TotalPrice { get; set; }
         public List<OrderProduct> Products { get; set; }
-        public User UserId { get; set; }
-        public Address DeliveryAddress { get; set; }
+        public User User { get; set; }
+        public Address Address { get; set; }
         public OrderStatusType Status { get; set; }
-        public Payment Payment { get; set; }
     }
 
     public enum OrderStatusType

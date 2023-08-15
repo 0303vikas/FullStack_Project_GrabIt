@@ -28,7 +28,7 @@ namespace GrabIt.Service.Implementations
         public override async Task<OrderReadDto> CreateOne(OrderCreateDto createData)
         {
             //price error 
-            if (createData.Payment == null || createData.Products == null || createData.DeliveryAddress == null) throw ErrorHandlerService.ExceptionArgumentNull("Payment, Products and DeliveryAddress can't be null.");
+            if (createData.Products == null || createData.Address == null) throw ErrorHandlerService.ExceptionArgumentNull("Products and DeliveryAddress can't be null.");
             if (createData.TotalPrice <= 0) throw ErrorHandlerService.ExceptionArgumentNull("TotalPrice can't be less than or equal to 0.");
             if (createData.Products.Count() <= 0) throw ErrorHandlerService.ExceptionArgumentNull("Products can't be empty.");
 

@@ -13,6 +13,7 @@ backend/GrabIt.Service/obj/
 backend/GrabIt.Service/bin/
 backend/GrabIt.Infrastructure/obj/
 backend/GrabIt.Infrastructure/bin/
+backend/GrabIt.Infrastructure/Migrations/
 backend/GrabIt.Infrastructure/appsettings.Development.json
 backend/GrabIt.Infrastructure/appsettings.json
 backend/GrabIt.Test/obj/

@@ -4,6 +4,7 @@ using GrabIt.Core.src.RepositoryInterfaces;
 using GrabIt.Service.Dtos;
 using GrabIt.Service.ErrorHandler;
 using GrabIt.Service.ServiceInterfaces;
+using GrabIt.Service.src.Implementations;
 
 namespace GrabIt.Service.Implementations
 {
@@ -41,10 +42,16 @@ namespace GrabIt.Service.Implementations
             if (createData.Email == "" || createData.FirstName == "" || createData.LastName == "") throw ErrorHandlerService.ExceptionNotFound("Email, FirstName, LastName cannot be empty.");
             // Check null Data 
             if (createData.Email == null || createData.FirstName == null || createData.LastName == null) throw ErrorHandlerService.ExceptionNotFound("Email, FirstName, LastName cannot be null.");
-            // Check Email Duplicate
+            // Check Email Duplicate            
             if (await _userRepo.CheckEmailDuplicate(createData.Email)) throw ErrorHandlerService.ExceptionDuplicateData("Email already exists.");
 
-            var createdUser = await base.CreateOne(createData) ?? throw ErrorHandlerService.ExceptionInternalServerError("User not created.");
+            //Password Hashing
+            var userEntity = _mapper.Map<User>(createData);
+            HashingService.HashPassword(userEntity.Password, out var salt, out var hashPassword);
+            userEntity.Password = hashPassword;
+            userEntity.Salt = salt;
+
+            var createdUser = await base.CreateOne(_mapper.Map<UserCreateDto>(userEntity)) ?? throw ErrorHandlerService.ExceptionInternalServerError("User not created.");
             //Error Handling
             return createdUser;
         }
@@ -55,6 +62,8 @@ namespace GrabIt.Service.Implementations
             if (updateData.Email == "" || updateData.FirstName == "" || updateData.LastName == "") throw ErrorHandlerService.ExceptionNotFound("Email, FirstName, LastName cannot be empty.");
             // Check null Data 
             if (updateData.Email == null || updateData.FirstName == null || updateData.LastName == null) throw ErrorHandlerService.ExceptionNotFound("Email, FirstName, LastName cannot be null.");
+            // Check Email Duplicate
+            if (await _userRepo.CheckEmailDuplicate(updateData.Email, id)) throw ErrorHandlerService.ExceptionDuplicateData("Email already exists.");
 
             var updatedUser = await base.UpdateOneById(id, updateData) ?? throw ErrorHandlerService.ExceptionInternalServerError("User not updated.");
             //Error Handling

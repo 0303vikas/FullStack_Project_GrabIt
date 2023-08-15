@@ -7,6 +7,5 @@ namespace GrabIt.Service.ServiceInterfaces
     {
         Task<UserReadDto> GetProfile(Guid id);
         Task<UserReadDto> CreateAdmin(User user);
-
     }
 }

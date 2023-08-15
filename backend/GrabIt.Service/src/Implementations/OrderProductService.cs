@@ -22,7 +22,7 @@ namespace GrabIt.Service.Implementations
             if (createData.Product == null) throw ErrorHandlerService.ExceptionArgumentNull("OrderId and Product can't be empty or null.");
             if (createData.Quantity <= 0) throw ErrorHandlerService.ExceptionArgumentNull("Quantity can't be less than or equal to 0.");
             //Check Product Stock
-            if (await _orderProductRepo.GetProductStock(createData.Product.Id) < createData.Quantity) throw ErrorHandlerService.ExceptionBadRequest("Product Stock is less than Quantity.");
+            if (createData.Product.Stock < createData.Quantity) throw ErrorHandlerService.ExceptionBadRequest("Product Stock is less than Quantity.");
 
             var createdEntity = await base.CreateOne(createData) ?? throw ErrorHandlerService.ExceptionInternalServerError($"Error occured while creating new OrderProduct.");
             return createdEntity;
@@ -33,7 +33,7 @@ namespace GrabIt.Service.Implementations
             //Error Handling
             if (updateData.Quantity <= 0) throw ErrorHandlerService.ExceptionArgumentNull("Quantity can't be less than or equal to 0.");
             //Check Product Stock
-            if (await _orderProductRepo.GetProductStock(updateData.Product.Id) < updateData.Quantity) throw ErrorHandlerService.ExceptionBadRequest("Product Stock is less than Quantity.");
+            if (updateData.Product.Stock < updateData.Quantity) throw ErrorHandlerService.ExceptionBadRequest("Product Stock is less than Quantity.");
 
             var createdEntity = await base.UpdateOneById(id, updateData) ?? throw ErrorHandlerService.ExceptionInternalServerError($"Error occured while updating OrderProduct.");
             return createdEntity;
