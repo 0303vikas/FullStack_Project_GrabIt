@@ -16,9 +16,9 @@ namespace GrabIt.Infrastructure.RepoImplementations
             _products = _context.Products;
         }
 
-        public Task<IEnumerable<Product>> GetAllByCategoryId(Guid categoryId)
+        public async Task<IEnumerable<Product>> GetAllByCategoryId(Guid categoryId)
         {
-            throw new NotImplementedException();
+            return await _products.Where(e => e.CategoryId == categoryId).ToListAsync();
         }
     }
 }

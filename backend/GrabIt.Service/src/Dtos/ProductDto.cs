@@ -4,12 +4,15 @@ namespace GrabIt.Service.Dtos
 {
     public class ProductReadDto
     {
+        public Guid Id { get; set; }
         public string Title { get; set; }
         public float Price { get; set; }
         public string Description { get; set; }
-        public Category Category { get; set; }
-        public List<Image> ImageURLList { get; set; }
+        public Guid CategoryId { get; set; }
+        public List<string> ImageURLList { get; set; }
 
+
+        public Category Category { get; set; }
     }
 
     public class ProductCreateDto
@@ -18,8 +21,8 @@ namespace GrabIt.Service.Dtos
         public float Price { get; set; }
         public string Description { get; set; }
         public int Stock { get; set; }
-        public Category Category { get; set; }
-        public List<Image> ImageURLList { get; set; }
+        public Guid CategoryId { get; set; }
+        public List<string> ImageURLList { get; set; }
     }
 
     public class ProductUpdateDto
@@ -28,7 +31,7 @@ namespace GrabIt.Service.Dtos
         public float Price { get; set; }
         public string Description { get; set; }
         public int Stock { get; set; }
-        public Category Category { get; set; }
-        public List<Image> ImageURLList { get; set; }
+        public Guid CategoryId { get; set; }
+        public List<string> ImageURLList { get; set; }
     }
 }

@@ -5,6 +5,6 @@ namespace GrabIt.Core.src.RepositoryInterfaces
 {
     public interface IPaymentRepo : IBaseRepo<Payment>
     {
-        Task<Payment> GetOneByTransectionId(string id);
+        Task<Payment?> GetOneByTransectionId(string id);
     }
 }

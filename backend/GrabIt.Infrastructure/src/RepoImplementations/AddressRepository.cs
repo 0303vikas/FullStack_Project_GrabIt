@@ -16,10 +16,5 @@ namespace GrabIt.Infrastructure.RepoImplementations
             _context = context;
             _addresses = context.Addresses;
         }
-
-        public Task<bool> UpdateUserAddress(Guid addressId)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

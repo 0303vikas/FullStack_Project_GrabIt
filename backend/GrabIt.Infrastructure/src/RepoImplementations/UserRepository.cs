@@ -17,24 +17,36 @@ namespace GrabIt.Infrastructure.RepoImplementations
             _users = _context.Users;
         }
 
-        public Task<bool> CheckEmailDuplicate(string email, Guid? userId = null)
+        public async Task<bool> CheckEmailDuplicate(string email, Guid? userId = null)
         {
-            throw new NotImplementedException();
+            if (await _users.FirstOrDefaultAsync(u => u.Email == email && u.Id != userId) == null) return false;
+            else return true;
         }
 
-        public Task<User> CreateAdmin(User user)
+        public async Task<User> CreateAdmin(User user)
         {
-            throw new NotImplementedException();
+            user.Role = UserRole.Admin;
+            await _users.AddAsync(user);
+            await _context.SaveChangesAsync();
+            return user;
         }
 
         public Task<User?> FindOneByEmail(string email)
         {
-            throw new NotImplementedException();
+            return _users.FirstOrDefaultAsync(u => u.Email == email);
         }
 
-        public Task<User> GetProfile(Guid id)
+        public override Task<User> CreateOne(User createData)
         {
-            throw new NotImplementedException();
+            createData.Role = UserRole.Customer;
+            return base.CreateOne(createData);
+        }
+
+        public Task<User> UpdatePassword(User user)
+        {
+            _users.Update(user);
+            _context.SaveChanges();
+            return Task.FromResult(user);
         }
     }
 

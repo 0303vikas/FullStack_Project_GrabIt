@@ -4,16 +4,18 @@ namespace GrabIt.Service.Dtos
 {
     public class CartReadDto
     {
-        public Dictionary<int, Product> CartProducts { get; set; }
+        public Guid UserId { get; set; }
+
+        public List<CartProduct> CartProducts { get; set; }
     }
 
     public class CartCreateDto
     {
-        public Dictionary<int, Product> CartProducts { get; set; }
+        public Guid UserId { get; set; }
     }
 
     public class CartUpdateDto
     {
-        public Dictionary<int, Product> CartProducts { get; set; }
+        public Guid UserId { get; set; }
     }
 }

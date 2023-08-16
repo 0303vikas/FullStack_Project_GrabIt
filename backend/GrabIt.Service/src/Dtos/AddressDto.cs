@@ -1,4 +1,4 @@
-namespace GrabIt.Service.src.Dtos
+namespace GrabIt.Service.Dtos
 {
     public class AddressReadDto
     {
@@ -11,12 +11,12 @@ namespace GrabIt.Service.src.Dtos
 
     public class AddressCreateDto
     {
-        public Guid Id { get; set; }
         public string Street { get; set; }
         public string City { get; set; }
         public string State { get; set; }
         public string PostalCode { get; set; }
         public string Country { get; set; }
+        public Guid UserId { get; set; }
     }
 
     public class AddressUpdateDto

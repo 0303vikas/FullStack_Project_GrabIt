@@ -1,7 +1,8 @@
-namespace GrabIt.Service.src.Dtos
+namespace GrabIt.Service.Dtos
 {
     public class ImageReadDto
     {
+        public Guid Id { get; set; }
         public string URL { get; set; }
     }
 

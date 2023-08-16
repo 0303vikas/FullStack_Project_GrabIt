@@ -8,8 +8,11 @@ namespace GrabIt.Core.src.Entities
         public string Password { get; set; }
         public byte[] Salt { get; set; }
         public UserRole Role { get; set; }
-        public List<Address> Addresses { get; set; } = new();
-        public Image ImageURL { get; set; }
+        public string ImageURL { get; set; }
+
+        public List<Address> Addresses { get; set; }
+        public List<Order> Orders { get; set; }
+
     }
 
     public enum UserRole

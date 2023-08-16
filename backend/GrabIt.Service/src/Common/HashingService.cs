@@ -9,13 +9,13 @@ namespace GrabIt.Service.src.Implementations
         {
             var hash = new HMACSHA256();
             salt = hash.Key;
-            hashPassword = hash.ComputeHash(Encoding.UTF8.GetBytes(password)).ToString();
+            hashPassword = Encoding.UTF8.GetString(hash.ComputeHash(Encoding.UTF8.GetBytes(password)));
         }
 
         public static bool VerifyPassword(string password, byte[] salt, string hashPassword)
         {
             var hash = new HMACSHA256(salt);
-            return hash.ComputeHash(Encoding.UTF8.GetBytes(password)).ToString() == hashPassword;
+            return Encoding.UTF8.GetString(hash.ComputeHash(Encoding.UTF8.GetBytes(password))) == hashPassword;
         }
 
     }

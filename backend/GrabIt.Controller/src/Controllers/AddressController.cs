@@ -1,7 +1,6 @@
 using GrabIt.Core.src.Entities;
+using GrabIt.Service.Dtos;
 using GrabIt.Service.ServiceInterfaces;
-using GrabIt.Service.src.Dtos;
-
 namespace GrabIt.Controller.src.Controllers
 {
     public class AddressController : GenericBaseController<Address, AddressReadDto, AddressCreateDto, AddressUpdateDto>

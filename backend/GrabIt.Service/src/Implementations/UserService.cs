@@ -29,13 +29,6 @@ namespace GrabIt.Service.Implementations
             return _mapper.Map<UserReadDto>(await _userRepo.CreateAdmin(user));
         }
 
-        public async Task<UserReadDto> GetProfile(Guid id)
-        {
-            // check if user exists
-            await GetOneById(id);
-            return _mapper.Map<UserReadDto>(await _userRepo.GetProfile(id));
-        }
-
         public override async Task<UserReadDto> CreateOne(UserCreateDto createData)
         {
             // Check Empty
@@ -51,9 +44,9 @@ namespace GrabIt.Service.Implementations
             userEntity.Password = hashPassword;
             userEntity.Salt = salt;
 
-            var createdUser = await base.CreateOne(_mapper.Map<UserCreateDto>(userEntity)) ?? throw ErrorHandlerService.ExceptionInternalServerError("User not created.");
+            var createdUser = await _userRepo.CreateOne(userEntity) ?? throw ErrorHandlerService.ExceptionInternalServerError("User not created.");
             //Error Handling
-            return createdUser;
+            return _mapper.Map<UserReadDto>(createdUser);
         }
 
         public override async Task<UserReadDto> UpdateOneById(Guid id, UserUpdateDto updateData)
@@ -68,6 +61,15 @@ namespace GrabIt.Service.Implementations
             var updatedUser = await base.UpdateOneById(id, updateData) ?? throw ErrorHandlerService.ExceptionInternalServerError("User not updated.");
             //Error Handling
             return updatedUser;
+        }
+
+        public async Task<UserReadDto> UpdatePassword(Guid userId, string password)
+        {
+            var userEntity = _mapper.Map<User>(GetOneById(userId));
+            HashingService.HashPassword(password, out var salt, out var hashPassword);
+            userEntity.Password = hashPassword;
+            userEntity.Salt = salt;
+            return _mapper.Map<UserReadDto>(await _userRepo.UpdateOne(userEntity));
         }
     }
 }

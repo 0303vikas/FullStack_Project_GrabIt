@@ -1,9 +1,9 @@
 using AutoMapper;
 using GrabIt.Core.src.Entities;
 using GrabIt.Core.src.RepositoryInterfaces;
+using GrabIt.Service.Dtos;
 using GrabIt.Service.ErrorHandler;
-using GrabIt.Service.src.Dtos;
-using GrabIt.Service.src.ServiceInterfaces;
+using GrabIt.Service.ServiceInterfaces;
 
 namespace GrabIt.Service.Implementations
 {

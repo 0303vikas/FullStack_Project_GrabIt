@@ -1,12 +1,13 @@
 using AutoMapper;
 using GrabIt.Core.src.Entities;
 using GrabIt.Core.src.RepositoryInterfaces;
+using GrabIt.Service.Dtos;
 using GrabIt.Service.ErrorHandler;
-using GrabIt.Service.src.Dtos;
+using GrabIt.Service.ServiceInterfaces;
 
 namespace GrabIt.Service.Implementations
 {
-    public class CategoryService : BaseService<Category, CategoryReadDto, CategoryCreateDto, CategoryUpdateDto>
+    public class CategoryService : BaseService<Category, CategoryReadDto, CategoryCreateDto, CategoryUpdateDto>, ICategoryService
     {
         public CategoryService(ICategoryRepo categoryRepo, IMapper mapper) : base(categoryRepo, mapper)
         {

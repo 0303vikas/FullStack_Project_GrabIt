@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using GrabIt.Core.src.Entities;
+using GrabIt.Service.Dtos;
 using GrabIt.Service.ServiceInterfaces;
-using GrabIt.Service.src.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 

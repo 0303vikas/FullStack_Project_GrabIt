@@ -4,12 +4,15 @@ namespace GrabIt.Service.Dtos
 {
     public class UserReadDto
     {
+        public Guid Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
         public UserRole Role { get; set; }
+        public string ImageURL { get; set; }
+
         public List<Address> Addresses { get; set; }
-        public Image ImageURL { get; set; }
+        public List<Order> Orders { get; set; }
     }
 
 
@@ -18,7 +21,7 @@ namespace GrabIt.Service.Dtos
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
-        public Image ImageUrl { get; set; }
+        public string ImageURL { get; set; }
         public string Password { get; set; }
 
     }
@@ -29,8 +32,7 @@ namespace GrabIt.Service.Dtos
         public string LastName { get; set; }
         public string Email { get; set; }
         public UserRole Role { get; set; }
-        public List<Address> Addresses { get; set; }
-        public Image ImageUrl { get; set; }
+        public string ImageURL { get; set; }
     }
 
     public class UserLoginDto

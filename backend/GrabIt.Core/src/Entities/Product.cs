@@ -7,7 +7,11 @@ namespace GrabIt.Core.src.Entities
         public float Price { get; set; }
         public int Stock { get; set; }
         public string Description { get; set; }
+        public Guid CategoryId { get; set; }
+        public List<string> ImageURLList { get; set; }
+
         public Category Category { get; set; }
-        public List<Image> ImageURLList { get; set; }
+        public List<OrderProduct> OrderProducts { get; set; }
+
     }
 }

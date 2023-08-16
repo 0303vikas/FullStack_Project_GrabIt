@@ -16,9 +16,9 @@ namespace GrabIt.Infrastructure.RepoImplementations
             _payment = _context.Payments;
         }
 
-        public Task<Payment> GetOneByTransectionId(string id)
+        public async Task<Payment?> GetOneByTransectionId(string id)
         {
-            throw new NotImplementedException();
+            return await _payment.FirstOrDefaultAsync(p => p.Transection_id == id);
         }
     }
 }

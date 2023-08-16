@@ -1,5 +1,3 @@
-
-
 namespace GrabIt.Core.src.Entities
 {
     public class Address : BaseEntityWithDate
@@ -9,5 +7,6 @@ namespace GrabIt.Core.src.Entities
         public string State { get; set; }
         public string PostalCode { get; set; }
         public string Country { get; set; }
+        public Guid UserId { get; set; }
     }
 }

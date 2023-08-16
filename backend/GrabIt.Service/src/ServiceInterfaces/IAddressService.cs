@@ -1,5 +1,5 @@
 using GrabIt.Core.src.Entities;
-using GrabIt.Service.src.Dtos;
+using GrabIt.Service.Dtos;
 
 namespace GrabIt.Service.ServiceInterfaces
 {

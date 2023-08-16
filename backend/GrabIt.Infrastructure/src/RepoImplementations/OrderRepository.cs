@@ -10,21 +10,28 @@ namespace GrabIt.Infrastructure.RepoImplementations
     public class OrderRepository : BaseRepository<Order>, IOrderRepo
     {
         private readonly DatabaseContext _context;
-        private readonly DbSet<Order> _payment;
+        private readonly DbSet<Order> _orders;
         public OrderRepository(DatabaseContext context) : base(context)
         {
             _context = context;
-            _payment = _context.Orders;
+            _orders = _context.Orders;
         }
 
-        public Task<IEnumerable<Order>> GetOrdersByUserId(Guid userId)
+        public async Task<IEnumerable<Order>> GetOrdersByUserId(Guid userId)
         {
-            throw new NotImplementedException();
+            return await _orders.Where(o => o.UserId == userId).ToListAsync();
         }
 
-        public Task<Order> UpdateOrderStatus(Guid orderId, OrderStatusType orderStatus)
+        public async Task<Order> UpdateOrderStatus(Guid orderId, OrderStatusType orderStatus)
         {
-            throw new NotImplementedException();
+            var author = await _orders.FindAsync(orderId);
+            if (author == null)
+            {
+                throw new Exception("Order not found");
+            }
+            author.Status = orderStatus;
+            await _context.SaveChangesAsync();
+            return author;
         }
     }
 }

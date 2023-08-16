@@ -16,29 +16,39 @@ namespace GrabIt.Infrastructure.src.RepoImplementations
             _context = context;
         }
 
-        public Task<T> CreateOne(T createData)
+        public virtual async Task<T> CreateOne(T createData)
         {
-            throw new NotImplementedException();
+            await _dbSet.AddAsync(createData);
+            await _context.SaveChangesAsync();
+            Console.WriteLine($"CreatedOne image hello: {createData}");
+            return createData;
         }
 
-        public Task<bool> DeleteOneById(Guid id)
+        public async Task<bool> DeleteOneById(Guid id)
         {
-            throw new NotImplementedException();
+            var entity = await _dbSet.FindAsync(id);
+            if (entity == null) return false;
+            _dbSet.Remove(entity);
+            await _context.SaveChangesAsync();
+            return true;
         }
 
-        public Task<IEnumerable<T>> GetAll(QueryOptions queryType)
+        public async Task<IEnumerable<T>> GetAll(QueryOptions queryType)
         {
-            throw new NotImplementedException();
+            return await _dbSet.ToArrayAsync();
         }
 
-        public Task<T> GetOneById(Guid id)
+        public async Task<T?> GetOneById(Guid id)
         {
-            throw new NotImplementedException();
+            return await _dbSet.FindAsync(id);
         }
 
-        public Task<T> UpdateOne(T originalData, T updateData)
+        public virtual async Task<T> UpdateOne(T updateData)
         {
-            throw new NotImplementedException();
+            _dbSet.Update(updateData);
+            await _context.SaveChangesAsync();
+            return updateData;
+
         }
     }
 }
