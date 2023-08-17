@@ -30,21 +30,21 @@ namespace GrabIt.Controller.src.Controllers
         }
 
         [HttpDelete("{id:Guid}")]
-        public async Task<ActionResult<bool>> DeleteOneById([FromRoute] Guid id)
+        public virtual async Task<ActionResult<bool>> DeleteOneById([FromRoute] Guid id)
         {
             var result = await _baseService.DeleteOneById(id);
             return Ok(result);
         }
 
         [HttpPut("{id:Guid}")]
-        public async Task<ActionResult<TReadDto>> UpdateOneById([FromRoute] Guid id, [FromBody] TUpdateDto updateData)
+        public virtual async Task<ActionResult<TReadDto>> UpdateOneById([FromRoute] Guid id, [FromBody] TUpdateDto updateData)
         {
             var result = await _baseService.UpdateOneById(id, updateData);
             return Ok(result);
         }
 
         [HttpPost]
-        public async Task<ActionResult<TReadDto>> CreateOne([FromBody] TCreateDto createData)
+        public virtual async Task<ActionResult<TReadDto>> CreateOne([FromBody] TCreateDto createData)
         {
             var result = await _baseService.CreateOne(createData);
             return Ok(result);

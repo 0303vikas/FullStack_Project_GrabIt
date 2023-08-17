@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace GrabIt.Controller.src.Controllers
 {
     // [Authorize]
-    [AllowAnonymous]
     public class UserController : GenericBaseController<User, UserReadDto, UserCreateDto, UserUpdateDto>
     {
         private readonly IUserService _baseRepo;
@@ -15,12 +14,15 @@ namespace GrabIt.Controller.src.Controllers
         {
             _baseRepo = baseRepo;
         }
+
+        [Authorize(Roles = "Admin")]
         [HttpPost("createAdmin")]
         public async Task<ActionResult<UserReadDto>> CreateAdmin([FromBody] UserCreateDto user)
         {
             return CreatedAtAction(nameof(CreateAdmin), await _baseRepo.CreateAdmin(user));
         }
 
+        [Authorize]
         [HttpPut("userId:Guid")]
         public async Task<ActionResult<UserReadDto>> UpdatePassword([FromQuery] Guid userId, [FromBody] string password)
         {

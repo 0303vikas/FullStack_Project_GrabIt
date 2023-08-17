@@ -48,7 +48,6 @@ namespace GrabIt.Infrastructure.Database
             modelBuilder.Entity<Cart>().HasKey("UserId");
             modelBuilder.Entity<Payment>().HasIndex(p => p.TransectionId).IsUnique();
             modelBuilder.Entity<Payment>().HasKey("OrderId");
-            modelBuilder.Entity<OrderProduct>().HasKey("OrderId");
 
             // Foreign Keys
             modelBuilder.Entity<Product>().HasOne(p => p.Category).WithMany(c => c.Products).HasForeignKey(p => p.CategoryId);
