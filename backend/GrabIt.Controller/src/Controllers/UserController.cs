@@ -16,11 +16,11 @@ namespace GrabIt.Controller.src.Controllers
             _baseRepo = baseRepo;
         }
         [HttpPost("createAdmin")]
-        public async Task<ActionResult<UserReadDto>> CreateAdmin([FromBody] User user)
+        public async Task<ActionResult<UserReadDto>> CreateAdmin([FromBody] UserCreateDto user)
         {
             return CreatedAtAction(nameof(CreateAdmin), await _baseRepo.CreateAdmin(user));
-
         }
+
         [HttpPut("userId:Guid")]
         public async Task<ActionResult<UserReadDto>> UpdatePassword([FromQuery] Guid userId, [FromBody] string password)
         {

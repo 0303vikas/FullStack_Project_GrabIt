@@ -23,7 +23,7 @@ namespace GrabIt.Controller.src.Controllers
         }
 
         [HttpGet("{id:Guid}")]
-        public async Task<ActionResult<TReadDto>> GetOneById([FromRoute] Guid id)
+        public virtual async Task<ActionResult<TReadDto>> GetOneById([FromRoute] Guid id)
         {
             var result = await _baseService.GetOneById(id);
             return Ok(result);

@@ -17,6 +17,7 @@ namespace GrabIt.Service.Implementations
 
         public async Task<IEnumerable<ProductReadDto>> GetAllByCategoryId(Guid categoryId)
         {
+            Console.WriteLine(categoryId);
             if (categoryId.Equals(Guid.Empty)) throw ErrorHandlerService.ExceptionArgumentNull($"{nameof(categoryId)} can't be empty or null.");
             return _mapper.Map<IEnumerable<ProductReadDto>>(await _productRepo.GetAllByCategoryId(categoryId));
         }

@@ -15,13 +15,13 @@ namespace GrabIt.Service.Dtos
     public class OrderProductCreateDto
     {
         public float Quantity { get; set; }
-        public Product ProductId { get; set; }
-        public Order OrderId { get; set; }
+        public Guid ProductId { get; set; }
+        public Guid OrderId { get; set; }
     }
 
     public class OrderProductUpdateDto
     {
         public float Quantity { get; set; }
-        public Product ProductId { get; set; }
+        public Guid ProductId { get; set; }
     }
 }

@@ -43,8 +43,15 @@ namespace GrabIt.Infrastructure.Database
         {
             modelBuilder.HasPostgresEnum<UserRole>();
             modelBuilder.HasPostgresEnum<OrderStatusType>();
-            modelBuilder.Entity<OrderProduct>().HasKey("OrderId", "ProductId");
             modelBuilder.Entity<User>().HasIndex(u => u.Email).IsUnique();
+            modelBuilder.Entity<Category>().HasIndex(c => c.Name).IsUnique();
+            modelBuilder.Entity<Cart>().HasKey("UserId");
+            modelBuilder.Entity<Payment>().HasIndex(p => p.TransectionId).IsUnique();
+            modelBuilder.Entity<Payment>().HasKey("OrderId");
+            modelBuilder.Entity<OrderProduct>().HasKey("OrderId");
+
+            // Foreign Keys
+            modelBuilder.Entity<Product>().HasOne(p => p.Category).WithMany(c => c.Products).HasForeignKey(p => p.CategoryId);
         }
     }
 }

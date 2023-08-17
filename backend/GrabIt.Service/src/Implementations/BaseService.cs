@@ -23,7 +23,7 @@ namespace GrabIt.Service.Implementations
             return _mapper.Map<IEnumerable<TReadDto>>(await _baseRepo.GetAll(queryType));
         }
 
-        public async Task<TReadDto> GetOneById(Guid id)
+        public virtual async Task<TReadDto> GetOneById(Guid id)
         {
             var foundItem = await _baseRepo.GetOneById(id) ?? throw ErrorHandlerService.ExceptionNotFound($"No Item with id: {id} was found.");
             return _mapper.Map<TReadDto>(foundItem);
@@ -39,7 +39,8 @@ namespace GrabIt.Service.Implementations
         public virtual async Task<TReadDto> UpdateOneById(Guid id, TUpdateDto updateData)
         {
             var foundEntity = await _baseRepo.GetOneById(id) ?? throw ErrorHandlerService.ExceptionNotFound($"No Item with id: {id} was found.");
-            var updatedEntity = await _baseRepo.UpdateOne(_mapper.Map<T>(updateData)) ?? throw ErrorHandlerService.ExceptionInternalServerError($"Error updating item with id: {id}");
+            _mapper.Map(updateData, foundEntity);
+            var updatedEntity = await _baseRepo.UpdateOne(foundEntity) ?? throw ErrorHandlerService.ExceptionInternalServerError($"Error updating item with id: {id}");
             return _mapper.Map<TReadDto>(updatedEntity);
         }
 

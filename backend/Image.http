@@ -1,0 +1,13 @@
+#### creating image #####
+POST  http://localhost:5028/api/v1/images
+Content-Type: application/json
+
+{
+    "url": "https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png"
+}
+
+##### get allimage #####
+GET  http://localhost:5028/api/v1/images
+
+##### get image by id #####
+GET  http://localhost:5028/api/v1/images/2ae327e8-9756-49ca-97b2-5449762d5a35

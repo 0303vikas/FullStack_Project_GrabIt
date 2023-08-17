@@ -1,0 +1,59 @@
+##### Creating User #####
+POST http://localhost:5028/api/v1/users
+Content-Type: application/json
+
+{
+  "firstName": "Bhakat",
+  "lastName": "desh",
+  "email": "Bhakat@mail.com",
+  "imageURL":"https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png",
+  "password": "bhakat-desh"
+}
+
+### Get all users ###
+GET http://localhost:5028/api/v1/users
+
+### Get user by id ###
+GET http://localhost:5028/api/v1/users/3f70891b-b3b8-4f69-99b9-f0403323caf1
+
+### Create Admin ###
+POST http://localhost:5028/api/v1/users/createAdmin
+Content-Type: application/json
+
+{
+  
+  "firstName": "Adam",
+  "lastName": "Rodrigo",
+  "email": "Adam@mail.com",
+  "imageURL":"https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png",
+  "password": "adam-rodrigo"
+}
+
+### Login ###
+POST http://localhost:5028/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "email": "Bhakat@mail.com",
+  "password": "bhakat-desh"
+}
+
+### Update one user ###
+PUT http://localhost:5028/api/v1/users/3f70891b-b3b8-4f69-99b9-f0403323caf1
+Content-Type: application/json
+
+{
+  "firstName": "Bhakat Updated",
+  "lastName": "desh",
+  "email": "Bhakat@mail.com",
+  "imageURL":"https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png"
+}
+
+### Delete one user ###
+DELETE http://localhost:5028/api/v1/users/914033c6-e9c4-4a87-b42d-2d9ef324009b
+
+
+
+
+
+

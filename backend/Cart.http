@@ -1,0 +1,16 @@
+### Create Cart ###
+Post http://localhost:5028/api/v1/carts
+Content-Type: application/json
+
+{
+    "userId": "91ac1556-95ee-4d7e-ac1e-8645a900ec21"
+}
+
+### Get all Carts ###
+Get http://localhost:5028/api/v1/carts
+
+### Get Cart by Id ###
+Get http://localhost:5028/api/v1/carts/91ac1556-95ee-4d7e-ac1e-8645a900ec21
+
+### Delete Cart ###
+Delete http://localhost:5028/api/v1/carts/91ac1556-95ee-4d7e-ac1e-8645a900ec21

@@ -5,7 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GrabIt.Controller.src.Controllers
 {
-    [AllowAnonymous]
+    [ApiController]
+    [Route("api/v1/[controller]")]
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
@@ -15,6 +16,7 @@ namespace GrabIt.Controller.src.Controllers
             _authService = authService;
         }
 
+        [AllowAnonymous]
         [HttpPost("login")]
         public async Task<ActionResult<string>> UserLogin([FromBody] UserLoginDto user)
         {

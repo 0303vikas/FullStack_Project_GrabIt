@@ -13,7 +13,7 @@ namespace GrabIt.Controller.src.Controllers
             _baseRepo = baseRepo;
         }
         [HttpGet("category/{categoryId:Guid}")]
-        public async Task<ActionResult<IEnumerable<ProductReadDto>>> GetAllByCategoryId([FromQuery] Guid categoryId)
+        public async Task<ActionResult<IEnumerable<ProductReadDto>>> GetAllByCategoryId([FromRoute] Guid categoryId)
         {
             return Ok(await _baseRepo.GetAllByCategoryId(categoryId));
         }

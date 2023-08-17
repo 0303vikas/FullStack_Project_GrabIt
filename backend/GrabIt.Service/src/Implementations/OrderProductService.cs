@@ -19,10 +19,10 @@ namespace GrabIt.Service.Implementations
         public override async Task<OrderProductReadDto> CreateOne(OrderProductCreateDto createData)
         {
             //Error Handling 
-            if (createData.ProductId == null) throw ErrorHandlerService.ExceptionArgumentNull("OrderId and Product can't be empty or null.");
+            if (createData.ProductId.Equals(Guid.Empty)) throw ErrorHandlerService.ExceptionArgumentNull("OrderId and Product can't be empty or null.");
             if (createData.Quantity <= 0) throw ErrorHandlerService.ExceptionArgumentNull("Quantity can't be less than or equal to 0.");
             //Check Product Stock
-            if (createData.ProductId.Stock < createData.Quantity) throw ErrorHandlerService.ExceptionBadRequest("Product Stock is less than Quantity.");
+            // if (createData.ProductId.Stock < createData.Quantity) throw ErrorHandlerService.ExceptionBadRequest("Product Stock is less than Quantity.");
 
             var createdEntity = await base.CreateOne(createData) ?? throw ErrorHandlerService.ExceptionInternalServerError($"Error occured while creating new OrderProduct.");
             return createdEntity;
@@ -33,7 +33,6 @@ namespace GrabIt.Service.Implementations
             //Error Handling
             if (updateData.Quantity <= 0) throw ErrorHandlerService.ExceptionArgumentNull("Quantity can't be less than or equal to 0.");
             //Check Product Stock
-            if (updateData.ProductId.Stock < updateData.Quantity) throw ErrorHandlerService.ExceptionBadRequest("Product Stock is less than Quantity.");
 
             var createdEntity = await base.UpdateOneById(id, updateData) ?? throw ErrorHandlerService.ExceptionInternalServerError($"Error occured while updating OrderProduct.");
             return createdEntity;

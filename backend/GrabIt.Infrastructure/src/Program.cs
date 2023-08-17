@@ -8,6 +8,8 @@ using GrabIt.Core.src.RepositoryInterfaces;
 using GrabIt.Infrastructure.RepoImplementations;
 using GrabIt.Service.ServiceInterfaces;
 using GrabIt.Service.Implementations;
+using GrabIt.Service.src.ServiceInterfaces;
+using GrabIt.Service.src.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +34,7 @@ builder.Services.AddScoped<IOrderProductRepo, OrderProductRepository>();
 builder.Services.AddScoped<IImageRepo, ImageRepository>();
 builder.Services.AddScoped<IPaymentRepo, PaymentRepository>();
 
+
 // add Services Injections
 
 builder.Services.AddScoped<IUserService, UserService>();
@@ -44,6 +47,7 @@ builder.Services.AddScoped<ICartProductService, CartProductService>();
 builder.Services.AddScoped<IOrderProductService, OrderProductService>();
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 
 

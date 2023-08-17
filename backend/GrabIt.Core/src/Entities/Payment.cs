@@ -5,6 +5,6 @@ namespace GrabIt.Core.src.Entities
     {
         public Guid OrderId { get; set; }
         public string PaymentMethod { get; set; }
-        public string Transection_id { get; set; }
+        public string TransectionId { get; set; }
     }
 }
