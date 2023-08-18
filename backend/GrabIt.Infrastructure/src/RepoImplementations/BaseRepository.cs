@@ -48,7 +48,6 @@ namespace GrabIt.Infrastructure.src.RepoImplementations
             _dbSet.Update(updateData);
             await _context.SaveChangesAsync();
             return updateData;
-
         }
     }
 }

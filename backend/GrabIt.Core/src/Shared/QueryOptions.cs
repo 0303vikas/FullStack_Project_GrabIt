@@ -16,6 +16,8 @@ namespace GrabIt.Core.src.Shared
         Asc,
         Desc,
         UpdatedAt,
-        CreatedAt
+        UpdatedAtDesc,
+        CreatedAt,
+        CreatedAtDesc,
     }
 }

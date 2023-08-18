@@ -19,7 +19,6 @@ namespace GrabIt.Service.Implementations
 
         public virtual async Task<IEnumerable<TReadDto>> GetAll(QueryOptions queryType)
         {
-
             return _mapper.Map<IEnumerable<TReadDto>>(await _baseRepo.GetAll(queryType));
         }
 

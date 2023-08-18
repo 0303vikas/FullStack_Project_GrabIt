@@ -3,6 +3,7 @@ using GrabIt.Core.src.RepositoryInterfaces;
 using GrabIt.Core.src.Shared;
 using GrabIt.Infrastructure.Database;
 using GrabIt.Infrastructure.src.RepoImplementations;
+using GrabIt.Infrastructure.src.Shared;
 using Microsoft.EntityFrameworkCore;
 
 namespace GrabIt.Infrastructure.RepoImplementations
@@ -36,7 +37,34 @@ namespace GrabIt.Infrastructure.RepoImplementations
 
         public override async Task<IEnumerable<Order>> GetAll(QueryOptions queryType)
         {
-            return await _orders.Include(e => e.Address).Include(e => e.OrderProducts).Include(e => e.Payment).ToArrayAsync();
+            IQueryable<Order> queryBuilder = _orders.Include(e => e.Address).Include(e => e.OrderProducts).Include(e => e.Payment);
+
+            // sorting
+            switch (queryType.Sort)
+            {
+                case SortMethods.Asc:
+                    queryBuilder = queryBuilder.OrderBy(e => e.Status);
+                    break;
+                case SortMethods.Desc:
+                    queryBuilder = queryBuilder.OrderByDescending(e => e.Status);
+                    break;
+                case SortMethods.UpdatedAt:
+                    queryBuilder = queryBuilder.OrderBy(e => e.UpdatedAt);
+                    break;
+                case SortMethods.CreatedAt:
+                    queryBuilder = queryBuilder.OrderBy(e => e.CreatedAt);
+                    break;
+                case SortMethods.UpdatedAtDesc:
+                    queryBuilder = queryBuilder.OrderByDescending(e => e.UpdatedAt);
+                    break;
+                case SortMethods.CreatedAtDesc:
+                    queryBuilder = queryBuilder.OrderByDescending(e => e.CreatedAt);
+                    break;
+                default:
+                    queryBuilder = queryBuilder.OrderBy(e => e.CreatedAt);
+                    break;
+            }
+            return await Pagination<Order>.CreateAsync(queryBuilder, queryType.PageNumber, queryType.PerPage);
         }
     }
 }

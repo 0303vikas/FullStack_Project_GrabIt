@@ -3,6 +3,7 @@ using GrabIt.Core.src.RepositoryInterfaces;
 using GrabIt.Core.src.Shared;
 using GrabIt.Infrastructure.Database;
 using GrabIt.Infrastructure.src.RepoImplementations;
+using GrabIt.Infrastructure.src.Shared;
 using Microsoft.EntityFrameworkCore;
 
 namespace GrabIt.Infrastructure.RepoImplementations
@@ -24,7 +25,39 @@ namespace GrabIt.Infrastructure.RepoImplementations
 
         public override async Task<IEnumerable<Product>> GetAll(QueryOptions queryType)
         {
-            return await _products.ToArrayAsync(); ;
+            IQueryable<Product> queryBuilder = _products;
+            // check search string
+            if (!string.IsNullOrEmpty(queryType.SearchString))
+            {
+                queryBuilder = queryBuilder.Where(e => e.Title.Contains(queryType.SearchString) || e.Description.Contains(queryType.SearchString));
+            }
+
+            //  sorting 
+            switch (queryType.Sort)
+            {
+                case SortMethods.Asc:
+                    queryBuilder = queryBuilder.OrderBy(e => e.Title);
+                    break;
+                case SortMethods.Desc:
+                    queryBuilder = queryBuilder.OrderByDescending(e => e.Title);
+                    break;
+                case SortMethods.UpdatedAt:
+                    queryBuilder = queryBuilder.OrderBy(e => e.UpdatedAt);
+                    break;
+                case SortMethods.CreatedAt:
+                    queryBuilder = queryBuilder.OrderBy(e => e.CreatedAt);
+                    break;
+                case SortMethods.UpdatedAtDesc:
+                    queryBuilder = queryBuilder.OrderByDescending(e => e.UpdatedAt);
+                    break;
+                case SortMethods.CreatedAtDesc:
+                    queryBuilder = queryBuilder.OrderByDescending(e => e.CreatedAt);
+                    break;
+                default:
+                    queryBuilder = queryBuilder.OrderBy(e => e.CreatedAt);
+                    break;
+            }
+            return await Pagination<Product>.CreateAsync(queryBuilder, queryType.PageNumber, queryType.PerPage);
         }
     }
 }

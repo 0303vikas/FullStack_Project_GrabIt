@@ -3,6 +3,7 @@ using GrabIt.Core.src.RepositoryInterfaces;
 using GrabIt.Core.src.Shared;
 using GrabIt.Infrastructure.Database;
 using GrabIt.Infrastructure.src.RepoImplementations;
+using GrabIt.Infrastructure.src.Shared;
 using Microsoft.EntityFrameworkCore;
 
 namespace GrabIt.Infrastructure.RepoImplementations
@@ -52,9 +53,40 @@ namespace GrabIt.Infrastructure.RepoImplementations
 
         public override async Task<IEnumerable<User>> GetAll(QueryOptions queryType)
         {
-            return await _users.Include(e => e.Addresses).Include(e => e.Orders).ToArrayAsync();
+            IQueryable<User> queryBuilder = _users.Include(e => e.Addresses).Include(e => e.Orders);
+            // check search string
+            if (!string.IsNullOrEmpty(queryType.SearchString))
+            {
+                queryBuilder = queryBuilder.Where(e => e.FirstName.Contains(queryType.SearchString) || e.LastName.Contains(queryType.SearchString) || e.Email.Contains(queryType.SearchString));
+            }
+
+            //  sorting 
+            switch (queryType.Sort)
+            {
+                case SortMethods.Asc:
+                    queryBuilder = queryBuilder.OrderBy(e => e.FirstName);
+                    break;
+                case SortMethods.Desc:
+                    queryBuilder = queryBuilder.OrderByDescending(e => e.FirstName);
+                    break;
+                case SortMethods.UpdatedAt:
+                    queryBuilder = queryBuilder.OrderBy(e => e.UpdatedAt);
+                    break;
+                case SortMethods.CreatedAt:
+                    queryBuilder = queryBuilder.OrderBy(e => e.CreatedAt);
+                    break;
+                case SortMethods.UpdatedAtDesc:
+                    queryBuilder = queryBuilder.OrderByDescending(e => e.UpdatedAt);
+                    break;
+                case SortMethods.CreatedAtDesc:
+                    queryBuilder = queryBuilder.OrderByDescending(e => e.CreatedAt);
+                    break;
+                default:
+                    queryBuilder = queryBuilder.OrderBy(e => e.CreatedAt);
+                    break;
+            }
+
+            return await Pagination<User>.CreateAsync(queryBuilder, queryType.PageNumber, queryType.PerPage);
         }
     }
-
-
 }
