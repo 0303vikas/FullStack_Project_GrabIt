@@ -1,0 +1,10 @@
+### Create Order ###
+Post http://localhost:5028/api/v1/orders
+Content-Type: application/json
+
+{
+  "totalPrice": 10,
+  "userId": "b5c790ce-d997-4c5b-8d0c-60ea7f9bb6ec",
+  "addressId": "c67f7517-6a10-4520-ba93-91d0bc0d1e42",
+  "status": 0
+}

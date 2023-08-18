@@ -9,7 +9,7 @@ namespace GrabIt.Service.Dtos
         public Guid CartId { get; set; }
         public Guid ProductId { get; set; }
 
-        public Product Product { get; set; }
+        public ProuctReadWithoutNavigationalPropertiesDto Product { get; set; }
     }
 
     public class CartProductCreateDto

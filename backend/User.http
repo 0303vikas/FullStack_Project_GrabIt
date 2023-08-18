@@ -50,7 +50,7 @@ Content-Type: application/json
 }
 
 ### Delete one user ###
-DELETE http://localhost:5028/api/v1/users/914033c6-e9c4-4a87-b42d-2d9ef324009b
+DELETE http://localhost:5028/api/v1/users/719137ca-cc83-4cb4-ae07-2705c2407dc9
 
 
 

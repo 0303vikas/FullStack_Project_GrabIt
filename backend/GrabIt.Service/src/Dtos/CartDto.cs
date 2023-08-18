@@ -6,7 +6,7 @@ namespace GrabIt.Service.Dtos
     {
         public Guid UserId { get; set; }
 
-        public List<CartProduct> CartProducts { get; set; }
+        public List<CartProductReadDto> CartProducts { get; set; }
     }
 
     public class CartCreateDto

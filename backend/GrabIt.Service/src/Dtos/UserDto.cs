@@ -11,8 +11,8 @@ namespace GrabIt.Service.Dtos
         public UserRole Role { get; set; }
         public string ImageURL { get; set; }
 
-        public List<Address> Addresses { get; set; }
-        public List<Order> Orders { get; set; }
+        public List<AddressReadDto> Addresses { get; set; }
+        public List<OrderReadDto> Orders { get; set; }
     }
 
 

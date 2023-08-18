@@ -1,6 +1,7 @@
 using AutoMapper;
 using GrabIt.Core.src.Entities;
 using GrabIt.Core.src.RepositoryInterfaces;
+using GrabIt.Core.src.Shared;
 using GrabIt.Service.Dtos;
 using GrabIt.Service.ErrorHandler;
 using GrabIt.Service.ServiceInterfaces;
@@ -28,5 +29,12 @@ namespace GrabIt.Service.Implementations
             var createdEntity = await base.CreateOne(createData) ?? throw ErrorHandlerService.ExceptionInternalServerError($"Error occured while creating new Product.");
             return createdEntity;
         }
+
+        public override async Task<IEnumerable<ProductReadDto>> GetAll(QueryOptions queryType)
+        {
+            var entity = await _productRepo.GetAll(queryType);
+            return _mapper.Map<IEnumerable<ProductReadDto>>(entity);
+        }
+
     }
 }

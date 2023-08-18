@@ -33,7 +33,7 @@ namespace GrabIt.Infrastructure.src.RepoImplementations
             return true;
         }
 
-        public async Task<IEnumerable<T>> GetAll(QueryOptions queryType)
+        public virtual async Task<IEnumerable<T>> GetAll(QueryOptions queryType)
         {
             return await _dbSet.ToArrayAsync();
         }

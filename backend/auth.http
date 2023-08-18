@@ -1,0 +1,17 @@
+#### login user ####
+Post http://localhost:5028/api/v1/auth/login
+Content-Type: application/json
+
+{
+    "Email": "Bhakat@mail.com",
+    "Password": "bhakat-desh"
+}
+
+### login admin user ###
+Post http://localhost:5028/api/v1/auth/login
+Content-Type: application/json
+
+{
+    "Email": "Adam@mail.com",
+    "Password": "adam-rodrigo"
+}

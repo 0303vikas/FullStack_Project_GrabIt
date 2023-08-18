@@ -1,0 +1,29 @@
+### Create new Category ###
+Post http://localhost:5028/api/v1/categorys
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJBZGFtQG1haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiQWRhbSBSb2RyaWdvIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiJhOWE5Y2U2Zi1mN2QxLTQ4NGMtYTA0My1lZWFhYzE5MDNmYzEiLCJleHAiOjE2OTIyNzk4MzMsImlzcyI6ImdyYWItaXQtc3RvcmUtYmFja2VuZCJ9.3Fx7EJHCU3YH37BktI_hKvKKoB4wTa1I-NGWGmCHd48
+
+{
+    "Name": "Category 1",
+    "ImageURL": "https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png"
+}
+
+
+### Get all Categories ###
+Get http://localhost:5028/api/v1/categorys
+
+### Get Category by Id ###
+Get http://localhost:5028/api/v1/categorys/267ff6e9-9a9f-4eaa-9de3-1ea085747fd6
+
+### Update Category ###
+Put http://localhost:5028/api/v1/categorys/267ff6e9-9a9f-4eaa-9de3-1ea085747fd6
+Content-Type: application/json
+
+{
+    "Name": "Category 1 Updated",
+    "ImageURL": "https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png"
+}
+
+### Delete Category ###
+Delete http://localhost:5028/api/v1/categorys/267ff6e9-9a9f-4eaa-9de3-1ea085747fd6
+

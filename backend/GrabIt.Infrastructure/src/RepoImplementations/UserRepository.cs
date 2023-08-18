@@ -31,22 +31,28 @@ namespace GrabIt.Infrastructure.RepoImplementations
             return user;
         }
 
-        public Task<User?> FindOneByEmail(string email)
+        public async Task<User?> FindOneByEmail(string email)
         {
-            return _users.FirstOrDefaultAsync(u => u.Email == email);
+            Console.WriteLine($"FindOneByEmail: {await _users.FirstOrDefaultAsync(u => u.Email == email)}");
+            return await _users.FirstOrDefaultAsync(u => u.Email == email);
         }
 
-        public override Task<User> CreateOne(User createData)
+        public override async Task<User> CreateOne(User createData)
         {
             createData.Role = UserRole.Customer;
-            return base.CreateOne(createData);
+            return await base.CreateOne(createData);
         }
 
-        public Task<User> UpdatePassword(User user)
+        public async Task<User> UpdatePassword(User user)
         {
             _users.Update(user);
-            _context.SaveChanges();
-            return Task.FromResult(user);
+            await _context.SaveChangesAsync();
+            return user;
+        }
+
+        public override async Task<IEnumerable<User>> GetAll(QueryOptions queryType)
+        {
+            return await _users.Include(e => e.Addresses).Include(e => e.Orders).ToArrayAsync();
         }
     }
 

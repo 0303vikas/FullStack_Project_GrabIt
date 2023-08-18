@@ -16,7 +16,7 @@ namespace GrabIt.Controller.src.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TReadDto>>> GetAll([FromQuery] QueryOptions options)
+        public virtual async Task<ActionResult<IEnumerable<TReadDto>>> GetAll([FromQuery] QueryOptions options)
         {
             var result = await _baseService.GetAll(options);
             return Ok(result);

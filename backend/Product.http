@@ -1,0 +1,57 @@
+Post http://localhost:5028/api/v1/products
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJBZGFtQG1haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiQWRhbSBSb2RyaWdvIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiJhOWE5Y2U2Zi1mN2QxLTQ4NGMtYTA0My1lZWFhYzE5MDNmYzEiLCJleHAiOjE2OTIyNzk4MzMsImlzcyI6ImdyYWItaXQtc3RvcmUtYmFja2VuZCJ9.3Fx7EJHCU3YH37BktI_hKvKKoB4wTa1I-NGWGmCHd48
+
+{
+  "title": "Product1",
+  "price": 10,
+  "description": "Very First Product",
+  "stock": 10,
+  "categoryId": "e000ee04-f2f3-4e41-a865-ba2e88cae05d",
+  "imageURLList": [
+    "ImageString"
+  ]
+}
+
+### create second user ###
+Post http://localhost:5028/api/v1/products
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJBZGFtQG1haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiQWRhbSBSb2RyaWdvIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiJhOWE5Y2U2Zi1mN2QxLTQ4NGMtYTA0My1lZWFhYzE5MDNmYzEiLCJleHAiOjE2OTIyNzk4MzMsImlzcyI6ImdyYWItaXQtc3RvcmUtYmFja2VuZCJ9.3Fx7EJHCU3YH37BktI_hKvKKoB4wTa1I-NGWGmCHd48
+
+{
+  "title": "Product2",
+  "price": 10,
+  "description": "Second Product",
+  "stock": 10,
+  "categoryId": "e000ee04-f2f3-4e41-a865-ba2e88cae05d",
+  "imageURLList": [
+    "ImageString"
+  ]
+}
+
+### Get all products ###
+GET http://localhost:5028/api/v1/products
+
+### Get product by id ###
+GET http://localhost:5028/api/v1/products/c3b2db93-87d8-4ba3-b142-18f43e1998e5
+
+### Update product ###
+PUT http://localhost:5028/api/v1/products/c3b2db93-87d8-4ba3-b142-18f43e1998e5
+Content-Type: application/json
+
+{
+  "title": "Product 1 Update",
+  "price": 10,
+  "description": "Very First Product Updated",
+  "stock": 10,
+  "categoryId": "d02e6eff-9af6-4282-b309-5a56a3fc3f39",
+  "imageURLList": [
+    "ImageString"
+  ]
+}
+
+### Delete product ###
+DELETE http://localhost:5028/api/v1/products/c3b2db93-87d8-4ba3-b142-18f43e1998e5
+
+### Get Products by Category id ###
+GET http://localhost:5028/api/v1/products/category/981fe888-4c4a-42f8-bbbd-57f94755a667

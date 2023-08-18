@@ -33,5 +33,10 @@ namespace GrabIt.Infrastructure.RepoImplementations
             await _context.SaveChangesAsync();
             return author;
         }
+
+        public override async Task<IEnumerable<Order>> GetAll(QueryOptions queryType)
+        {
+            return await _orders.Include(e => e.Address).Include(e => e.OrderProducts).Include(e => e.Payment).ToArrayAsync();
+        }
     }
 }

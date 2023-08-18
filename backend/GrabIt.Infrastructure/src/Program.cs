@@ -10,6 +10,9 @@ using GrabIt.Service.ServiceInterfaces;
 using GrabIt.Service.Implementations;
 using GrabIt.Service.src.ServiceInterfaces;
 using GrabIt.Service.src.Implementations;
+using System.Text.Json.Serialization;
+using GrabIt.Infrastructure.MiddleWare;
+using GrabIt.Infrastructure.src.AuthorizationRequirements;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,36 +26,34 @@ builder.Services.AddDbContext<DatabaseContext>();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 // add Repository injections
-builder.Services.AddScoped<IUserRepo, UserRepository>();
-builder.Services.AddScoped<IAddressRepo, AddressRepository>();
-builder.Services.AddScoped<IProductRepo, ProductRepository>();
-builder.Services.AddScoped<IOrderRepo, OrderRepository>();
-builder.Services.AddScoped<ICategoryRepo, CategoryRepository>();
-builder.Services.AddScoped<ICartRepo, CartRepository>();
-builder.Services.AddScoped<ICartProductRepo, CartProductRepository>();
-builder.Services.AddScoped<IOrderProductRepo, OrderProductRepository>();
-builder.Services.AddScoped<IImageRepo, ImageRepository>();
-builder.Services.AddScoped<IPaymentRepo, PaymentRepository>();
-
+builder.Services.AddScoped<IUserRepo, UserRepository>()
+.AddScoped<IAddressRepo, AddressRepository>()
+.AddScoped<IProductRepo, ProductRepository>()
+.AddScoped<IOrderRepo, OrderRepository>()
+.AddScoped<ICategoryRepo, CategoryRepository>()
+.AddScoped<ICartRepo, CartRepository>()
+.AddScoped<ICartProductRepo, CartProductRepository>()
+.AddScoped<IOrderProductRepo, OrderProductRepository>()
+.AddScoped<IImageRepo, ImageRepository>()
+.AddScoped<IPaymentRepo, PaymentRepository>();
 
 // add Services Injections
 
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IAddressService, AddressService>();
-builder.Services.AddScoped<IProductService, ProductService>();
-builder.Services.AddScoped<IOrderService, OrderService>();
-builder.Services.AddScoped<ICategoryService, CategoryService>();
-builder.Services.AddScoped<ICartService, CartService>();
-builder.Services.AddScoped<ICartProductService, CartProductService>();
-builder.Services.AddScoped<IOrderProductService, OrderProductService>();
-builder.Services.AddScoped<IImageService, ImageService>();
-builder.Services.AddScoped<IPaymentService, PaymentService>();
-builder.Services.AddScoped<IAuthService, AuthService>();
-
-
+builder.Services.AddScoped<IUserService, UserService>()
+.AddScoped<IAddressService, AddressService>()
+.AddScoped<IProductService, ProductService>()
+.AddScoped<IOrderService, OrderService>()
+.AddScoped<ICategoryService, CategoryService>()
+.AddScoped<ICartService, CartService>()
+.AddScoped<ICartProductService, CartProductService>()
+.AddScoped<IOrderProductService, OrderProductService>()
+.AddScoped<IImageService, ImageService>()
+.AddScoped<IPaymentService, PaymentService>()
+.AddScoped<IAuthService, AuthService>();
 
 // Add services to the container.
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -67,12 +68,17 @@ builder.Services.AddSwaggerGen(options =>
 
 });
 
+builder.Services.AddSingleton<ErrorHandlerMiddleware>();
+
 // Config route
 builder.Services.Configure<RouteOptions>(options =>
 {
     options.LowercaseUrls = true;
     options.LowercaseQueryStrings = true;
 });
+
+// add policy requirements handler
+builder.Services.AddSingleton<OrderOwnerOnlyRequirementHandler>();
 
 // JWT Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -89,6 +95,12 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
+// Authorization Policies
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("OrderOwnerOnly", policy => policy.Requirements.Add(new OrderOwnerRequirements()));
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -99,6 +111,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.UseAuthentication();
 

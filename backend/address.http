@@ -1,0 +1,15 @@
+#### Create Address ####
+Post http://localhost:5028/api/v1/addresss
+Content-Type:  application/json
+
+{
+    "street": "Main Street",
+  "city": "Turku",
+  "state": "Turku",
+  "postalCode": "183829",
+  "country": "Finland",
+  "userId": "b5c790ce-d997-4c5b-8d0c-60ea7f9bb6ec"
+}
+
+#### Get all address ####
+Get http://localhost:5028/api/v1/addresss

@@ -7,9 +7,9 @@ namespace GrabIt.Service.Dtos
         public float TotalPrice { get; set; }
         public OrderStatusType Status { get; set; }
 
-        public Address Address { get; set; }
-        public List<OrderProduct> OrderProducts { get; set; }
-        public Payment Payment { get; set; }
+        public AddressReadDto Address { get; set; }
+        public List<OrderProductReadDto> OrderProducts { get; set; }
+        public PaymentReadDto Payment { get; set; }
 
     }
 

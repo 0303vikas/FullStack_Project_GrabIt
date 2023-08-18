@@ -1,5 +1,6 @@
 using GrabIt.Core.src.Entities;
 using GrabIt.Core.src.RepositoryInterfaces;
+using GrabIt.Core.src.Shared;
 using GrabIt.Infrastructure.Database;
 using GrabIt.Infrastructure.src.RepoImplementations;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +20,12 @@ namespace GrabIt.Infrastructure.RepoImplementations
         public async Task<IEnumerable<Product>> GetAllByCategoryId(Guid categoryId)
         {
             return await _products.Where(e => e.CategoryId == categoryId).ToListAsync();
+        }
+
+        public override async Task<IEnumerable<Product>> GetAll(QueryOptions queryType)
+        {
+            var entity = await _products.ToArrayAsync();
+            return entity;
         }
     }
 }
