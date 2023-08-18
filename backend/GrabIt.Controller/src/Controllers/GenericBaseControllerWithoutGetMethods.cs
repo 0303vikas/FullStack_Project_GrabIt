@@ -1,30 +1,18 @@
-using GrabIt.Core.src.Shared;
 using GrabIt.Service.ServiceInterfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GrabIt.Controller.src.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]s")]
-    public class GenericBaseController<T, TReadDto, TCreateDto, TUpdateDto> : ControllerBase
+    public class GenericBaseControllerWithoutGetMethods<T, TReadDto, TCreateDto, TUpdateDto> : ControllerBase
     {
         private readonly IBaseService<T, TReadDto, TCreateDto, TUpdateDto> _baseService;
 
-        public GenericBaseController(IBaseService<T, TReadDto, TCreateDto, TUpdateDto> baseService)
+        public GenericBaseControllerWithoutGetMethods(IBaseService<T, TReadDto, TCreateDto, TUpdateDto> baseService)
         {
             _baseService = baseService;
-        }
-
-        [HttpGet]
-        public virtual async Task<ActionResult<IEnumerable<TReadDto>>> GetAll([FromQuery] QueryOptions options)
-        {
-            return Ok(await _baseService.GetAll(options));
-        }
-
-        [HttpGet("{id:Guid}")]
-        public virtual async Task<ActionResult<TReadDto>> GetOneById([FromRoute] Guid id)
-        {
-            return Ok(await _baseService.GetOneById(id));
         }
 
         [HttpDelete("{id:Guid}")]

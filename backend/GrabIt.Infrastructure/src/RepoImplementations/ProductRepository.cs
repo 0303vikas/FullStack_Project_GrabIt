@@ -24,8 +24,7 @@ namespace GrabIt.Infrastructure.RepoImplementations
 
         public override async Task<IEnumerable<Product>> GetAll(QueryOptions queryType)
         {
-            var entity = await _products.ToArrayAsync();
-            return entity;
+            return await _products.ToArrayAsync(); ;
         }
     }
 }

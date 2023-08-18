@@ -1,13 +1,12 @@
-using System.Threading.Tasks;
 using GrabIt.Core.src.Entities;
 using GrabIt.Service.Dtos;
 using GrabIt.Service.ServiceInterfaces;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GrabIt.Controller.src.Controllers
 {
-    public class CartProductController : GenericBaseController<CartProduct, CartProductReadDto, CartProductCreateDto, CartProductUpdateDto>
+    [Authorize]
+    public class CartProductController : GenericBaseControllerWithoutGetMethods<CartProduct, CartProductReadDto, CartProductCreateDto, CartProductUpdateDto>
     {
 
         public CartProductController(ICartProductService baseRepo) : base(baseRepo)

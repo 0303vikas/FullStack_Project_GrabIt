@@ -13,24 +13,21 @@ namespace GrabIt.Controller.src.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public override async Task<ActionResult<bool>> DeleteOneById([FromRoute] Guid id)
+        public override async Task<ActionResult> DeleteOneById([FromRoute] Guid id)
         {
-            var result = await base.DeleteOneById(id);
-            return Ok(result);
+            return await base.DeleteOneById(id);
         }
 
         [Authorize(Roles = "Admin")]
         public override async Task<ActionResult<CategoryReadDto>> UpdateOneById([FromRoute] Guid id, [FromBody] CategoryUpdateDto updateData)
         {
-            var result = await base.UpdateOneById(id, updateData);
-            return Ok(result);
+            return await base.UpdateOneById(id, updateData);
         }
 
         [Authorize(Roles = "Admin")]
         public override async Task<ActionResult<CategoryReadDto>> CreateOne([FromBody] CategoryCreateDto createData)
         {
-            var result = await base.CreateOne(createData);
-            return Ok(result);
+            return await base.CreateOne(createData);
         }
     }
 }
