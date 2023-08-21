@@ -53,7 +53,7 @@ namespace GrabIt.Infrastructure.RepoImplementations
                     break;
             }
 
-            return await Pagination<Category>.CreateAsync(queryBuilder, queryType.PageNumber, queryType.PerPage);
+            return await Pagination<Category>.CreateAsync(queryBuilder.AsNoTracking(), queryType.PageNumber, queryType.PerPage);
         }
     }
 }

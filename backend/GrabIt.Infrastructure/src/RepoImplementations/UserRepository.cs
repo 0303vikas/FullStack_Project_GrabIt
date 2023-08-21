@@ -34,8 +34,7 @@ namespace GrabIt.Infrastructure.RepoImplementations
 
         public async Task<User?> FindOneByEmail(string email)
         {
-            Console.WriteLine($"FindOneByEmail: {await _users.FirstOrDefaultAsync(u => u.Email == email)}");
-            return await _users.FirstOrDefaultAsync(u => u.Email == email);
+            return await _users.AsNoTracking().FirstOrDefaultAsync(u => u.Email == email);
         }
 
         public override async Task<User> CreateOne(User createData)
@@ -86,7 +85,7 @@ namespace GrabIt.Infrastructure.RepoImplementations
                     break;
             }
 
-            return await Pagination<User>.CreateAsync(queryBuilder, queryType.PageNumber, queryType.PerPage);
+            return await Pagination<User>.CreateAsync(queryBuilder.AsNoTracking(), queryType.PageNumber, queryType.PerPage);
         }
     }
 }

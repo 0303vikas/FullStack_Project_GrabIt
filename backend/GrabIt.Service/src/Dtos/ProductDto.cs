@@ -1,4 +1,3 @@
-using GrabIt.Core.src.Entities;
 
 namespace GrabIt.Service.Dtos
 {
@@ -9,7 +8,6 @@ namespace GrabIt.Service.Dtos
         public float Price { get; set; }
         public string Description { get; set; }
         public List<string> ImageURLList { get; set; }
-
 
         public CategoryReadDto Category { get; set; }
     }

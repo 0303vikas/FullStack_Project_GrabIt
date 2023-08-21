@@ -11,7 +11,6 @@ namespace GrabIt.Core.src.Entities
         public List<string> ImageURLList { get; set; }
 
         public Category Category { get; set; }
-        public List<OrderProduct> OrderProducts { get; set; }
 
     }
 }

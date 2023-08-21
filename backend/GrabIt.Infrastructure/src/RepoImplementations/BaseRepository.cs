@@ -35,7 +35,7 @@ namespace GrabIt.Infrastructure.src.RepoImplementations
 
         public virtual async Task<IEnumerable<T>> GetAll(QueryOptions queryType)
         {
-            return await _dbSet.ToArrayAsync();
+            return await _dbSet.AsNoTracking().ToArrayAsync();
         }
 
         public async Task<T?> GetOneById(Guid id)
