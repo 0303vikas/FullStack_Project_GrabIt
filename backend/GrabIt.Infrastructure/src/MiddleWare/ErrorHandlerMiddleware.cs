@@ -10,14 +10,11 @@ namespace GrabIt.Infrastructure.MiddleWare
             try
             {
                 await next(context);
-
             }
             catch (ErrorHandlerService e)
             {
                 context.Response.StatusCode = e.StatusCode;
-
                 await context.Response.WriteAsJsonAsync(e.Message);
-
             }
             catch (DbUpdateException e)
             {

@@ -28,8 +28,14 @@ namespace GrabIt.Service.Implementations
 
         public override async Task<PaymentReadDto> UpdateOneById(Guid id, PaymentUpdateDto updateData)
         {
-            if (updateData.PaymentMethod == null || updateData.TransectionId == null) throw ErrorHandlerService.ExceptionArgumentNull("PaymentMethod and Transection Id can't be null.");
-            if (updateData.PaymentMethod == "" || updateData.TransectionId == "") throw ErrorHandlerService.ExceptionArgumentNull("PaymentMethod and Transection Id can't be empty.");
+            if (
+                updateData.PaymentMethod == null ||
+                updateData.TransectionId == null
+                ) throw ErrorHandlerService.ExceptionArgumentNull("PaymentMethod and Transection Id can't be null.");
+            if (
+                updateData.PaymentMethod == "" ||
+                updateData.TransectionId == ""
+                ) throw ErrorHandlerService.ExceptionArgumentNull("PaymentMethod and Transection Id can't be empty.");
             var createdEntity = await base.UpdateOneById(id, updateData) ?? throw ErrorHandlerService.ExceptionInternalServerError($"Error Updating Payment.");
             return createdEntity;
         }

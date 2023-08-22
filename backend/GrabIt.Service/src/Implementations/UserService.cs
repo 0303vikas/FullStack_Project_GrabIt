@@ -34,9 +34,17 @@ namespace GrabIt.Service.Implementations
         public override async Task<UserReadDto> CreateOne(UserCreateDto createData)
         {
             // Check Empty
-            if (createData.Email == "" || createData.FirstName == "" || createData.LastName == "") throw ErrorHandlerService.ExceptionNotFound("Email, FirstName, LastName cannot be empty.");
+            if (
+                createData.Email == "" ||
+                createData.FirstName == "" ||
+                createData.LastName == ""
+                ) throw ErrorHandlerService.ExceptionNotFound("Email, FirstName, LastName cannot be empty.");
             // Check null Data 
-            if (createData.Email == null || createData.FirstName == null || createData.LastName == null) throw ErrorHandlerService.ExceptionNotFound("Email, FirstName, LastName cannot be null.");
+            if (
+                createData.Email == null ||
+                createData.FirstName == null ||
+                createData.LastName == null
+                ) throw ErrorHandlerService.ExceptionNotFound("Email, FirstName, LastName cannot be null.");
             // Check Email Duplicate            
             if (await _userRepo.CheckEmailDuplicate(createData.Email)) throw ErrorHandlerService.ExceptionDuplicateData("Email already exists.");
 
@@ -54,9 +62,17 @@ namespace GrabIt.Service.Implementations
         public override async Task<UserReadDto> UpdateOneById(Guid id, UserUpdateDto updateData)
         {
             // Check Empty
-            if (updateData.Email == "" || updateData.FirstName == "" || updateData.LastName == "") throw ErrorHandlerService.ExceptionNotFound("Email, FirstName, LastName cannot be empty.");
+            if (
+                updateData.Email == "" ||
+                updateData.FirstName == "" ||
+                updateData.LastName == ""
+                ) throw ErrorHandlerService.ExceptionNotFound("Email, FirstName, LastName cannot be empty.");
             // Check null Data 
-            if (updateData.Email == null || updateData.FirstName == null || updateData.LastName == null) throw ErrorHandlerService.ExceptionNotFound("Email, FirstName, LastName cannot be null.");
+            if (
+                updateData.Email == null ||
+                updateData.FirstName == null ||
+                updateData.LastName == null
+                ) throw ErrorHandlerService.ExceptionNotFound("Email, FirstName, LastName cannot be null.");
             // Check Email Duplicate
             if (await _userRepo.CheckEmailDuplicate(updateData.Email, id)) throw ErrorHandlerService.ExceptionDuplicateData("Email already exists.");
 

@@ -17,7 +17,10 @@ namespace GrabIt.Service.Implementations
 
         public override async Task<ImageReadDto> CreateOne(ImageCreateDto createData)
         {
-            if (createData.URL == null || createData.URL == "") throw ErrorHandlerService.ExceptionArgumentNull("ImageUrl can't be null or empty.");
+            if (
+                createData.URL == null ||
+                createData.URL == ""
+                ) throw ErrorHandlerService.ExceptionArgumentNull("ImageUrl can't be null or empty.");
             var createdEntity = await base.CreateOne(createData) ?? throw ErrorHandlerService.ExceptionInternalServerError($"Error creating Image.");
             return createdEntity;
         }

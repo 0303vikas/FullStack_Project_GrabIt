@@ -15,7 +15,11 @@ namespace GrabIt.Service.Implementations
 
         public override async Task<CategoryReadDto> CreateOne(CategoryCreateDto createData)
         {
-            if (createData.Name == null || createData.Name == "") throw ErrorHandlerService.ExceptionArgumentNull("Category Name can't be null or empty.");
+            if (
+                createData.Name == null ||
+                createData.Name == ""
+                ) throw ErrorHandlerService.ExceptionArgumentNull("Category Name can't be null or empty.");
+
             var createdEntity = await base.CreateOne(createData) ?? throw ErrorHandlerService.ExceptionInternalServerError($"Error creating Category.");
             return createdEntity;
         }
