@@ -83,11 +83,12 @@ namespace GrabIt.Service.Implementations
 
         public async Task<UserReadDto> UpdatePassword(Guid userId, string password)
         {
-            var userEntity = _mapper.Map<User>(GetOneById(userId));
+            var userEntity = await _userRepo.GetOneById(userId) ?? throw ErrorHandlerService.ExceptionNotFound("User not found.");
             HashingService.HashPassword(password, out var salt, out var hashPassword);
             userEntity.Password = hashPassword;
             userEntity.Salt = salt;
-            return _mapper.Map<UserReadDto>(await _userRepo.UpdateOne(userEntity));
+            var updatedUser = await _userRepo.UpdatePassword(userEntity) ?? throw ErrorHandlerService.ExceptionInternalServerError("User not updated.");
+            return _mapper.Map<UserReadDto>(updatedUser);
         }
     }
 }

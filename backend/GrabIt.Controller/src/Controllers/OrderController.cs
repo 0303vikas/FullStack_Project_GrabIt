@@ -16,25 +16,26 @@ namespace GrabIt.Controller.src.Controllers
         }
 
         [HttpGet("GetOrdersByUserId/{userId:Guid}")]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<IEnumerable<OrderReadDto>>> GetOrdersByUserId([FromQuery] Guid userId)
         {
             return Ok(await _orderRepo.GetOrdersByUserId(userId));
         }
 
         [HttpGet("updateOrder/{orderId:Guid}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<OrderReadDto>> UpdateOrderStatus([FromQuery] Guid orderId, [FromBody] OrderStatusType orderStatus)
         {
             return Ok(await _orderRepo.UpdateOrderStatus(orderId, orderStatus));
         }
 
-        [Authorize]
+        [Authorize(Policy = "OrderOwnerOnly")]
         public override async Task<ActionResult<OrderReadDto>> CreateOne([FromBody] OrderCreateDto createData)
         {
             return await base.CreateOne(createData);
         }
 
-        [Authorize]
+        [Authorize(Policy = "OrderOwnerOnly")]
         public override async Task<ActionResult> DeleteOneById([FromRoute] Guid id)
         {
             return await base.DeleteOneById(id);
@@ -52,7 +53,7 @@ namespace GrabIt.Controller.src.Controllers
             return await base.GetOneById(id);
         }
 
-        [Authorize]
+        [Authorize(Policy = "OrderOwnerOnly")]
         public override async Task<ActionResult<OrderReadDto>> UpdateOneById([FromRoute] Guid id, [FromBody] OrderUpdateDto updateData)
         {
             return await base.UpdateOneById(id, updateData);

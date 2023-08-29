@@ -3,7 +3,7 @@ Post http://localhost:5028/api/v1/carts
 Content-Type: application/json
 
 {
-    "userId": "91ac1556-95ee-4d7e-ac1e-8645a900ec21"
+    "userId": "b5c790ce-d997-4c5b-8d0c-60ea7f9bb6ec"
 }
 
 ### Get all Carts ###
