@@ -44,7 +44,7 @@ export const SingleProduct = () => {
 
       <DisplayGrid gap={2} gridTemplateColumns={"repeat(3,1fr)"}>
         {item && (
-          <Card key={item.id} item={item} imagesNo={item.images.length} />
+          <Card key={item.id} item={item} imagesNo={item.imageURLList.length} />
         )}
       </DisplayGrid>
     </ContainerProductCategory>

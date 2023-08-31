@@ -1,10 +1,10 @@
 export interface CategoryType {
-  id: number
+  id: string
   name: string
-  image: string
+  imageURL: string
 }
 
 export interface UpdateCategoryType {
-  id: number
+  id: string
   newData: Partial<CategoryType>
 }

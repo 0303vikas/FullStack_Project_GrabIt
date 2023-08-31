@@ -17,14 +17,14 @@ namespace GrabIt.Controller.src.Controllers
 
         [HttpGet("GetOrdersByUserId/{userId:Guid}")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<IEnumerable<OrderReadDto>>> GetOrdersByUserId([FromQuery] Guid userId)
+        public async Task<ActionResult<IEnumerable<OrderReadDto>>> GetOrdersByUserId([FromRoute] Guid userId)
         {
             return Ok(await _orderRepo.GetOrdersByUserId(userId));
         }
 
         [HttpGet("updateOrder/{orderId:Guid}")]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<OrderReadDto>> UpdateOrderStatus([FromQuery] Guid orderId, [FromBody] OrderStatusType orderStatus)
+        public async Task<ActionResult<OrderReadDto>> UpdateOrderStatus([FromRoute] Guid orderId, [FromBody] OrderStatusType orderStatus)
         {
             return Ok(await _orderRepo.UpdateOrderStatus(orderId, orderStatus));
         }

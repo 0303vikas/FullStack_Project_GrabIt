@@ -20,7 +20,7 @@ export const fetchProductData = createAsyncThunk(
   async (params) => {
     try {
       const request = await axios.get<ProductType[]>(
-        "https://api.escuelajs.co/api/v1/products"
+        "https://localhost:5001/api/v1/products"
       )
       return request.data
     } catch (e) {

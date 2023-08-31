@@ -25,7 +25,7 @@ namespace GrabIt.Controller.src.Controllers
 
         [Authorize]
         [HttpPut("updatePassword/{userId:Guid}")]
-        public async Task<ActionResult<UserReadDto>> UpdatePassword([FromQuery] Guid userId, [FromBody] string password)
+        public async Task<ActionResult<UserReadDto>> UpdatePassword([FromRoute] Guid userId, [FromBody] UserPasswordUpdateDto password)
         {
             var updateResult = await _baseService.UpdatePassword(userId, password);
             if (updateResult == null) return NotFound();

@@ -6,7 +6,7 @@ export interface ProductType {
   price: number
   description: string
   category: CategoryType
-  images: string[]
+  imageURLList: string[]
   creationAt?: string
   updatedAt?: string
 }

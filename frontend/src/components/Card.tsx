@@ -57,7 +57,7 @@ export const Card = ({
           <CardMedia
             component="img"
             height="140"
-            image={item.images[currentImage]}
+            image={item.imageURLList[currentImage]}
             alt={item.title + " image."}
           />
         </CardContent>

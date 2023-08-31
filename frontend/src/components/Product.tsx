@@ -43,11 +43,11 @@ const Product = () => {
     dispatch(fetchProductData())
   }, [])
 
-  let filterList: {
-    filterItem: ProductType[]
-    minValueRange: number
-    maxValueRange: number
-  } = filterProduct(products, "id", id)
+  // let filterList: {
+  //   filterItem: ProductType[]
+  //   minValueRange: number
+  //   maxValueRange: number
+  // } = filterProduct(products, "id", id)
 
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
@@ -56,12 +56,14 @@ const Product = () => {
     setCurrentPage(value)
   }
 
-  const paginationHandler = Math.ceil(
-    filterList.filterItem.filter(
-      (item) =>
-        item.price > filterList.minValueRange && item.price < filterPrice
-    ).length / 9
-  )
+  console.log("products", products)
+
+  // const paginationHandler = Math.ceil(
+  //   filterList.filterItem.filter(
+  //     (item) =>
+  //       item.price > filterList.minValueRange && item.price < filterPrice
+  //   ).length / 9
+  // )
 
   if (loading)
     return (
@@ -113,9 +115,9 @@ const Product = () => {
         <div style={{ display: "flex", flexDirection: "row", margin: "10px" }}>
           <input
             type="range"
-            min={filterList.minValueRange}
+            min={products.length}
             // step="5"
-            max={filterList.maxValueRange}
+            max={products.length}
             onChange={(e) => setfilterPrice(Number(e.target.value))}
             title="Set price Range"
           />
@@ -133,19 +135,16 @@ const Product = () => {
       </div>
 
       <DisplayGrid gap={2} gridTemplateColumns={"repeat(3,1fr)"}>
-        {filterList.filterItem &&
-          filterList.filterItem
-            .filter(
-              (item) =>
-                item.price >= filterList.minValueRange &&
-                item.price <= filterPrice
-            )
-            .slice(currentPage * 9 - 9, currentPage * 9)
-            .map((item, index) => (
-              <Card key={item.id} item={item} imagesNo={item.images.length} />
-            ))}
+        {products.length > 0 &&
+          products.map((item, index) => (
+            <Card
+              key={item.id}
+              item={item}
+              imagesNo={item.imageURLList.length}
+            />
+          ))}
       </DisplayGrid>
-      <Pagination
+      {/* <Pagination
         count={paginationHandler}
         page={currentPage}
         onChange={handlePageChange}
@@ -157,7 +156,7 @@ const Product = () => {
             color: theme.palette.common.black,
           },
         }}
-      />
+      /> */}
     </ContainerProductCategory>
   )
 }

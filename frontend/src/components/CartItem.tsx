@@ -26,12 +26,12 @@ const CartItem = ({ item }: { item: CartType }) => {
 
   return (
     <DisplayCardHorizontal>
-      <CardMedia
+      {/* <CardMedia
         component="img"
         style={{ height: "33vh", width: "20vw" }}
         image={item.images[1]}
         alt={item.title + "image."}
-      />
+      /> */}
       <HorizontalCardBox sx={{ paddingLeft: "2rem" }}>
         <Box>
           <Box sx={{ ...theme.typography.h2 }}>{item.title}</Box>

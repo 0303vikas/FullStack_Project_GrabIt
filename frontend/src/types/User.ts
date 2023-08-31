@@ -1,10 +1,10 @@
 export interface UserType {
-  id: number
-  name: string
+  firstName: string
+  lastName: string
   role: string
   email: string
   password: string
-  avatar: string
+  imageURL: string
 }
 
 export interface UserLoginType {

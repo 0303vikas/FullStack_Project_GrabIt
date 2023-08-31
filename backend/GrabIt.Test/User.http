@@ -20,8 +20,7 @@ GET http://localhost:5028/api/v1/users/3f70891b-b3b8-4f69-99b9-f0403323caf1
 POST http://localhost:5028/api/v1/users/createAdmin
 Content-Type: application/json
 
-{
-  
+{  
   "firstName": "Adam",
   "lastName": "Rodrigo",
   "email": "Adam@mail.com",
@@ -35,7 +34,7 @@ Content-Type: application/json
 
 {
   "email": "Bhakat@mail.com",
-  "password": "bhakat-desh"
+  "password": "bhakat-desh-updated"
 }
 
 ### Update one user ###
@@ -51,6 +50,17 @@ Content-Type: application/json
 
 ### Delete one user ###
 DELETE http://localhost:5028/api/v1/users/719137ca-cc83-4cb4-ae07-2705c2407dc9
+
+
+### UpdatePassword 
+PUT http://localhost:5028/api/v1/users/updatepassword/e3ef8838-a289-4b3d-ac8a-092e55a8d010
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJCaGFrYXRAbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJDdXN0b21lciIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWUiOiJCaGFrYXQgdXBkYXRlZCBEZXNoIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiJlM2VmODgzOC1hMjg5LTRiM2QtYWM4YS0wOTJlNTVhOGQwMTAiLCJleHAiOjE2OTM0MTU5NjEsImlzcyI6ImdyYWItaXQtc3RvcmUtYmFja2VuZCJ9.0aK-qWome-m2R1WcBJeHULi1_Fax7kJAUKi5hEcKXnE
+
+{
+  "oldPassword": "bhakat-desh",
+  "newPassword": "bhakat-desh-updated"
+}
 
 
 

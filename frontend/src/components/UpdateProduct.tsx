@@ -87,7 +87,7 @@ const UpdateCard = ({
   const [title, setTitle] = useState(product.title)
   const [description, setDescription] = useState(product.description)
   const [currentCategory, setCurrentCategory] = useState(product.category.name)
-  const [images, setImages] = useState(product.images)
+  const [images, setImages] = useState(product.imageURLList)
   const [currentImage, setCurrentImage] = useState("")
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
@@ -105,7 +105,7 @@ const UpdateCard = ({
         title: title,
         description: description,
         category: category.find((item) => item.name === currentCategory),
-        images: images,
+        imageURLList: images,
       },
     }
     dispatch(updateProduct(newProduct))
