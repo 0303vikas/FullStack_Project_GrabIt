@@ -31,11 +31,13 @@ const productServer = setupServer(
       if (!newProduct.price || newProduct.price < 1) {
         error.push("Price should be greater than zero")
       }
-      if (!Array.isArray(newProduct.images)) {
+      if (!Array.isArray(newProduct.imageURLList)) {
         error.push("images must be an array")
-      } else if (newProduct.images.length < 1) {
+      } else if (newProduct.imageURLList.length < 1) {
         error.push("images must contain at least 1 image")
-      } else if (newProduct.images.some((item) => typeof item !== "string")) {
+      } else if (
+        newProduct.imageURLList.some((item) => typeof item !== "string")
+      ) {
         error.push("images must be an array of string")
       }
       if (!category) {
@@ -46,8 +48,8 @@ const productServer = setupServer(
           price: newProduct.price,
           category: category,
           description: newProduct.description,
-          images: newProduct.images,
-          id: 1,
+          imageURLList: newProduct.imageURLList,
+          id: "1",
         }
       }
       if (error.length > 0) {
@@ -71,7 +73,7 @@ const productServer = setupServer(
 
       const error: string[] = []
 
-      const findProduct = Products.find((item) => item.id === Number(ProductId))
+      const findProduct = Products.find((item) => item.id === ProductId)
 
       if (!findProduct) {
         error.push(`Category with id ${ProductId} doesn't exist`)
@@ -99,7 +101,7 @@ const productServer = setupServer(
 
       if (!ProductId) {
         error = "Needs to provide Id"
-      } else if (!Products.find((item) => item.id === Number(ProductId))) {
+      } else if (!Products.find((item) => item.id === ProductId)) {
         error = "Id doesn't match any product"
       }
 

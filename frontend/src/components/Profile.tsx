@@ -25,8 +25,9 @@ interface PasswordType {
 const Profile = () => {
   const { currentUser, users, error } = useAppSelector((store) => store.user)
   const theme = useTheme()
-  const [image, setImage] = useState(currentUser?.avatar)
-  const [name, setName] = useState(currentUser?.name)
+  const [image, setImage] = useState(currentUser?.imageURL)
+  const [firstName, setFirstName] = useState(currentUser?.firstName)
+  const [lastName, setLastName] = useState(currentUser?.lastName)
   const [email, setEmail] = useState(currentUser?.email)
   const [emailError, setEmailError] = useState("")
   const {
@@ -53,8 +54,9 @@ const Profile = () => {
         id: currentUser.id,
         updateData: {
           email: email,
-          name: name,
-          image: image,
+          firstName: firstName,
+          lastName: lastName,
+          imageUrl: image,
         },
       }
       dispatch(updateUser(updateData)).then(() => {
@@ -124,7 +126,7 @@ const Profile = () => {
               component="img"
               height="400"
               image={image ? image : ""}
-              alt={name ? name + " image." : "Category Image."}
+              alt={firstName ? firstName + " image." : "Category Image."}
               sx={{
                 [theme.breakpoints.down("md")]: {
                   display: "none",
@@ -142,12 +144,21 @@ const Profile = () => {
             )}
             <div style={{ display: "grid", rowGap: "2rem" }} id="create-Form">
               <TextField
-                id="create-Form--Name"
+                id="create-Form--FirstName"
                 label="Name"
                 type="string"
                 variant="filled"
-                value={name ? name : currentUser?.name}
-                onChange={(e) => setName(e.target.value)}
+                value={firstName ? firstName : currentUser?.firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                onClick={() => setEmailError("")}
+              />
+              <TextField
+                id="create-Form--LastName"
+                label="Name"
+                type="string"
+                variant="filled"
+                value={lastName ? lastName : currentUser?.lastName}
+                onChange={(e) => setLastName(e.target.value)}
                 onClick={() => setEmailError("")}
               />
               <TextField

@@ -40,7 +40,7 @@ const CreateCategory = () => {
 
     const newCategory: NewCategoryType = {
       name: name,
-      image: image,
+      imageURL: image,
     }
 
     dispatch(createCategory(newCategory)).then(() => {

@@ -20,7 +20,7 @@ export const fetchProductData = createAsyncThunk(
   async (params) => {
     try {
       const request = await axios.get<ProductType[]>(
-        "https://localhost:5001/api/v1/products"
+        `${process.env.REACT_APP_URL}/api/v1/products`
       )
       return request.data
     } catch (e) {
@@ -67,7 +67,7 @@ export const updateProduct = createAsyncThunk(
 
 export const deleteProduct = createAsyncThunk(
   "deleteProduct",
-  async (id: number) => {
+  async (id: string) => {
     try {
       const request = await axios.delete<boolean>(
         `https://api.escuelajs.co/api/v1/products/${id}`
@@ -86,13 +86,6 @@ const productSlice = createSlice({
   reducers: {
     clearProductStore: (state) => {
       return initilState
-    },
-    sortAsc: (state, action) => {
-      if (action.payload === "asc") {
-        state.products.sort((a, b) => a.title.localeCompare(b.title))
-      } else {
-        state.products.sort((a, b) => b.title.localeCompare(a.title))
-      }
     },
   },
   extraReducers: (build) => {
@@ -159,6 +152,6 @@ const productSlice = createSlice({
 })
 
 const productReducer = productSlice.reducer
-export const { clearProductStore, sortAsc } = productSlice.actions
+export const { clearProductStore } = productSlice.actions
 
 export default productReducer

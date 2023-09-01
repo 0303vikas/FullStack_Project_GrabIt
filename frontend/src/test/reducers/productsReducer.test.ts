@@ -9,7 +9,6 @@ import {
 import productServer from "../servers/productServer"
 import { invalidProduct, newProduct, updatedProduct4 } from "../data/products"
 
-
 beforeEach(() => {
   store.dispatch(clearProductStore())
 })
@@ -63,7 +62,7 @@ describe("Testing Redux Store Product Reducer", () => {
   })
   test("Test delete product", async () => {
     await store.dispatch(fetchProductData())
-    await store.dispatch(deleteProduct(1))
+    await store.dispatch(deleteProduct("1"))
     expect(store.getState().product.products.length).toBe(3)
   })
 })

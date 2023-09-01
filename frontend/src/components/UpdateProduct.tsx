@@ -46,7 +46,7 @@ export const UpdateProduct = () => {
     dispatch(fetchProductData())
   }, [])
 
-  const findProduct = products.find((item) => item.id === Number(id))
+  const findProduct = products.find((item) => item.id === id)
   return (
     <ContainerProductCategory
       id="product--container"
@@ -119,7 +119,7 @@ const UpdateCard = ({
     setImages(newImageList)
   }
 
-  const handleProductDelete = (id: number) => {
+  const handleProductDelete = (id: string) => {
     alert("Delete Product?")
     dispatch(deleteProduct(product.id))
     setTimeout(() => {

@@ -65,7 +65,7 @@ export const updateCategory = createAsyncThunk(
 
 export const deleteCategory = createAsyncThunk(
   "deleteCategory",
-  async (id: number) => {
+  async (id: string) => {
     try {
       const request = await axios.delete<boolean>(
         `https://api.escuelajs.co/api/v1/categories/${id}`

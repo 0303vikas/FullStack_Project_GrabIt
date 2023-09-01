@@ -20,14 +20,14 @@ const CategoryServer = setupServer(
       if (!newCategoryFetch.name) {
         error.push("Category name is required")
       }
-      if (!newCategoryFetch.image || newCategoryFetch.image === "") {
+      if (!newCategoryFetch.imageURL || newCategoryFetch.imageURL === "") {
         error.push("images must not be empty string")
       }
 
       category = {
-        id: 1,
+        id: "1",
         name: newCategoryFetch.name,
-        image: newCategoryFetch.image,
+        imageURL: newCategoryFetch.imageURL,
       }
 
       if (error.length > 0) {
@@ -52,9 +52,7 @@ const CategoryServer = setupServer(
       const { CategoryId } = req.params
 
       const error: string[] = []
-      let findCategory = Categories.find(
-        (item) => item.id === Number(CategoryId)
-      )
+      let findCategory = Categories.find((item) => item.id === CategoryId)
 
       if (!findCategory) {
         error.push(`Category with id ${CategoryId} doesn't exist`)
@@ -80,9 +78,7 @@ const CategoryServer = setupServer(
       const { CategoryId } = req.params
 
       let error: string = ""
-      let findCategory = Categories.find(
-        (item) => item.id === Number(CategoryId)
-      )
+      let findCategory = Categories.find((item) => item.id === CategoryId)
 
       if (!findCategory) {
         error = `Category with id ${CategoryId} doesn't exist`

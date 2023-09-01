@@ -22,12 +22,12 @@ const cartSlice = createSlice({
         }
       }
     },
-    removeFromCart: (state, action: PayloadAction<number>) => {
+    removeFromCart: (state, action: PayloadAction<string>) => {
       return state.filter((item) => item.id !== action.payload)
     },
     updateCart: (
       state,
-      action: PayloadAction<{ id: number; quantity: number }>
+      action: PayloadAction<{ id: string; quantity: number }>
     ) => {
       return state.map((item, index) => {
         if (item.id === action.payload.id) {

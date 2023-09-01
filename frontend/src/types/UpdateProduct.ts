@@ -1,6 +1,6 @@
 import { ProductType } from "./Product"
 
 export interface UpdateProductType {
-  id: number
+  id: string
   update: Partial<ProductType>
 }

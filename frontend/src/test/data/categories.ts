@@ -1,35 +1,35 @@
 import { CategoryType, UpdateCategoryType } from "../../types/Category"
 
 const category1: CategoryType = {
-  id: 1,
+  id: "1",
   name: "A category",
-  image: "",
+  imageURL: "",
 }
 
 const category2: CategoryType = {
-  id: 2,
+  id: "2",
   name: "B category",
-  image: "",
+  imageURL: "",
 }
 
 const category3: CategoryType = {
-  id: 3,
+  id: "3",
   name: "C category",
-  image: "",
+  imageURL: "",
 }
 
 const newCategory: Omit<CategoryType, "id"> = {
   name: "D category",
-  image: "https://placeimg.com",
+  imageURL: "https://placeimg.com",
 }
 
 const invalidCategory: Omit<CategoryType, "id"> = {
   name: "hello",
-  image: "",
+  imageURL: "",
 }
 
 const updateCat: Partial<UpdateCategoryType> = {
-  id: 1,
+  id: "1",
   newData: {
     name: "hello",
   },

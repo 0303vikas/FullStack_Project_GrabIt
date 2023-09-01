@@ -13,7 +13,7 @@ import Categories, {
   updateCat,
 } from "../data/categories"
 
-test('hello', () => {
+test("hello", () => {
   expect(3).toBe(3)
 })
 beforeAll(() => {
@@ -68,7 +68,7 @@ describe("Category Reducer Testing", () => {
       expect(store.getState().categories.category[0].name).toEqual("hello")
     })
     test("Delete a Category", async () => {
-      await store.dispatch(deleteCategory(1))
+      await store.dispatch(deleteCategory("1"))
 
       expect(store.getState().categories.category.length).toBe(2)
     })

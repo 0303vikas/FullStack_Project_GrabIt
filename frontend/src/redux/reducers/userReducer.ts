@@ -60,7 +60,7 @@ export const createUser = createAsyncThunk(
 
 export const updateUser = createAsyncThunk(
   "updateUser",
-  async (user: { id: number; updateData: Partial<UserType> }) => {
+  async (user: { id: string; updateData: Partial<UserType> }) => {
     try {
       const request = await axios.put<UserType>(
         `https://api.escuelajs.co/api/v1/users/${user.id}`,

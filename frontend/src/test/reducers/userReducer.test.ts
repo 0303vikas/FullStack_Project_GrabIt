@@ -39,12 +39,13 @@ describe("Testing User Reducer", () => {
   })
   test.only("Create User", async () => {
     const user: UserType = {
-      id: 1,
+      id: "1",
       email: "test@gmail.com",
       role: "customer",
       password: "tester",
-      name: "Tester",
-      avatar: "",
+      firstName: "Tester",
+      lastName: "TestLast",
+      imageURL: "",
     }
     const state = userReducer(undefined, createUserLocally(user))
     expect(state).toEqual({
@@ -54,9 +55,3 @@ describe("Testing User Reducer", () => {
     })
   })
 })
-
-// expect(store.getState().user).toEqual({
-//     users: [],
-//     loading: false,
-//     error: "",
-//   })

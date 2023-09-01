@@ -21,9 +21,7 @@ export const filterProduct = (
   maxValueRange: number
 } => {
   if (id) {
-    const filterItem = products.filter(
-      (item) => item.category.id === Number(id)
-    )
+    const filterItem = products.filter((item) => item.category.id === id)
     const minValueRange = Math.floor(
       Math.min(...filterItem.map((item) => item.price))
     )

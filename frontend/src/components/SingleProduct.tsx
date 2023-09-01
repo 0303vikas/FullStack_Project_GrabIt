@@ -21,7 +21,7 @@ export const SingleProduct = () => {
   const { products } = useAppSelector((state) => state.product)
   const { id } = useParams()
 
-  const item = products.find((product) => product.id === Number(id))
+  const item = products.find((product) => product.id === id)
 
   return (
     <ContainerProductCategory

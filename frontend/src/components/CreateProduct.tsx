@@ -37,6 +37,7 @@ export const CreateProduct = () => {
   const theme = useTheme()
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
+  const [stock, setStock] = useState(10)
   const [currentCategory, setCurrentCategory] = useState("")
   const [price, setPrice] = useState(0)
   const [images, setImages] = useState<string[]>([])
@@ -52,15 +53,21 @@ export const CreateProduct = () => {
     dispatch(fetchCategoryData())
   }, [])
 
-  const findCategory = category.find((item) => item.name === currentCategory)
+  const createHandler = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
 
-  const createHandler = () => {
+    const findCategory = category.find((item) => item.name === currentCategory)
+
+    if (findCategory === undefined) return false
+    alert("Category name wasn't found created. Choose a correct category name")
+
     const newProduct: NewProductType = {
       title: title || "Without Title",
       price: price || 10,
+      stock: stock || 10,
       description: description || "Description to be created",
-      categoryId: findCategory ? findCategory.id : 1,
-      images: images,
+      categoryId: findCategory.id,
+      imageURLList: images,
     }
 
     dispatch(createProduct(newProduct)).then(() => {
@@ -100,7 +107,11 @@ export const CreateProduct = () => {
         </aside>
 
         <HorizontalCardBox>
-          <div style={{ display: "grid", rowGap: "2rem" }} id="create-Form">
+          <form
+            onSubmit={createHandler}
+            style={{ display: "grid", rowGap: "2rem" }}
+            id="create-Form"
+          >
             <TextField
               id="create-Form--Text"
               label="Title"
@@ -118,6 +129,13 @@ export const CreateProduct = () => {
                 },
               }}
               onChange={(e) => setPrice(Number(e.target.value))}
+            />
+            <TextField
+              id="create-Form--Stock"
+              label="Stock"
+              type="number"
+              variant="filled"
+              onChange={(e) => setStock(Number(e.target.value))}
             />
             <TextField
               id="create-Form--Description"
@@ -162,12 +180,12 @@ export const CreateProduct = () => {
               </TextField>
             )}
             <UploadImageForm addImage={addImageToList} />
-          </div>
-          <div style={{ display: "flex" }}>
-            <Button variant="contained" color="primary" onClick={createHandler}>
-              Create
-            </Button>
-          </div>
+            <div style={{ display: "flex" }}>
+              <Button variant="contained" color="primary" type="submit">
+                Create
+              </Button>
+            </div>
+          </form>
         </HorizontalCardBox>
       </DisplayCardHorizontal>
     </DisplayGrid>

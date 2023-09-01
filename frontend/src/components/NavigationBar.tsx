@@ -130,43 +130,6 @@ const NavigationRight = () => {
 
   return (
     <NavigationContainer id="navigtionContent--right">
-      <NavigationList title="Select Search Type">
-        <FormControl sx={{ minWidth: "120" }}>
-          <SearchTypeList
-            id="demo-simple-select-filled"
-            value={searchType}
-            onChange={(event: SelectChangeEvent<unknown>) =>
-              setSearchType(event.target.value as string)
-            }
-            MenuProps={{
-              PaperProps: {
-                style: {
-                  backgroundColor: theme.palette.common.white,
-                },
-              },
-            }}
-          >
-            <MenuItem
-              sx={{
-                color: theme.palette.common.black,
-              }}
-              value={"Category"}
-              onClick={() => dispatch(fetchCategoryData())}
-            >
-              Category
-            </MenuItem>
-            <MenuItem
-              sx={{
-                color: theme.palette.common.black,
-              }}
-              value={"Product"}
-              onClick={() => dispatch(fetchProductData())}
-            >
-              Product
-            </MenuItem>
-          </SearchTypeList>
-        </FormControl>
-      </NavigationList>
       <div>
         <Search>
           <SearchIconWrapper>
@@ -189,44 +152,22 @@ const NavigationRight = () => {
           >
             Hide X
           </button>
-          {searchType === "Product"
-            ? (debounceSearch === ""
-                ? product.products
-                : product.products.filter((item) =>
-                    item.title
-                      .toLowerCase()
-                      .includes(debounceSearch.toLowerCase())
-                  )
-              ).map((item, index) => (
-                <List
-                  sx={{
-                    color: theme.palette.common.black,
-                  }}
-                  key={item.id}
-                  onClick={() => navigate(`/single/product/${item.id}`)}
-                >
-                  {item.title}
-                </List>
-              ))
-            : null}
-          {searchType === "Category"
-            ? (debounceSearch === ""
-                ? category.category
-                : category.category.filter((item) =>
-                    item.name
-                      .toLowerCase()
-                      .includes(debounceSearch.toLowerCase())
-                  )
-              ).map((item, index) => (
-                <List
-                  sx={{ color: theme.palette.common.black }}
-                  key={item.id}
-                  onClick={() => navigate(`/category/${item.id}/products`)}
-                >
-                  {item.name}
-                </List>
-              ))
-            : null}
+          {(debounceSearch === ""
+            ? product.products
+            : product.products.filter((item) =>
+                item.title.toLowerCase().includes(debounceSearch.toLowerCase())
+              )
+          ).map((item, index) => (
+            <List
+              sx={{
+                color: theme.palette.common.black,
+              }}
+              key={item.id}
+              onClick={() => navigate(`/single/product/${item.id}`)}
+            >
+              {item.title}
+            </List>
+          ))}
         </SearchResultList>
       </div>
 
@@ -248,7 +189,9 @@ const NavigationRight = () => {
             <Avatar
               alt="Profile Pic"
               src={
-                currentUser ? currentUser.avatar : "/static/images/avatar/2.jpg"
+                currentUser
+                  ? currentUser.imageURL
+                  : "/static/images/avatar/2.jpg"
               }
             />
           </IconButton>

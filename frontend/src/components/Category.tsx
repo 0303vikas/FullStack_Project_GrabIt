@@ -110,7 +110,7 @@ const Category = () => {
                   <CardMedia
                     component="img"
                     height="140"
-                    image={item.image}
+                    image={item.imageURL}
                     alt={item.name + " image."}
                   />
                   <CardContent>
