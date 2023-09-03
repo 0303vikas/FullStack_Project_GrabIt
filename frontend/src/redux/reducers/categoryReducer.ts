@@ -1,9 +1,7 @@
+import axios, { AxiosError } from "axios"
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 
 import { CategoryType, UpdateCategoryType } from "../../types/Category"
-import axios, { AxiosError } from "axios"
-
-const CATEGORYAPI = "https://api.escuelajs.co/api/v1/categories"
 
 const initialState: {
   category: CategoryType[]
@@ -17,7 +15,9 @@ const initialState: {
 
 export const fetchCategoryData = createAsyncThunk("getCategory", async () => {
   try {
-    const request = await axios.get(CATEGORYAPI)
+    const request = await axios.get<CategoryType[]>(
+      `${process.env.REACT_APP_URL}/api/v1/categorys`
+    )
     return request.data
   } catch (e) {
     const error = e as AxiosError
@@ -25,12 +25,27 @@ export const fetchCategoryData = createAsyncThunk("getCategory", async () => {
   }
 })
 
+export const getCategoryById = createAsyncThunk(
+  "getCategoryById",
+  async (id: string) => {
+    try {
+      const request = await axios.get<CategoryType>(
+        `${process.env.REACT_APP_URL}/api/v1/categorys/${id}`
+      )
+      return request.data
+    } catch (e) {
+      const error = e as AxiosError
+      return error
+    }
+  }
+)
+
 export const createCategory = createAsyncThunk(
   "createCategory",
   async (category: Omit<CategoryType, "id">) => {
     try {
       const request = await axios.post(
-        "https://api.escuelajs.co/api/v1/categories/",
+        `${process.env.REACT_APP_URL}/api/v1/categorys/`,
         category
       )
       return request.data
@@ -49,7 +64,7 @@ export const updateCategory = createAsyncThunk(
   async (category: Partial<UpdateCategoryType>) => {
     try {
       const request = await axios.put<CategoryType>(
-        `https://api.escuelajs.co/api/v1/categories/${category.id}`,
+        `${process.env.REACT_APP_URL}/api/v1/categorys/${category.id}`,
         category.newData
       )
       return request.data
@@ -68,7 +83,7 @@ export const deleteCategory = createAsyncThunk(
   async (id: string) => {
     try {
       const request = await axios.delete<boolean>(
-        `https://api.escuelajs.co/api/v1/categories/${id}`
+        `${process.env.REACT_APP_URL}/api/v1/categorys/${id}`
       )
       return { response: request.data, id: id }
     } catch (e) {

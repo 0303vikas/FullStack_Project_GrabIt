@@ -86,7 +86,7 @@ export const Card = ({
          * else return display non
          */}
         {currentUser ? (
-          currentUser.role === "admin" ? (
+          currentUser.role === 0 ? (
             <IconButton
               aria-label="Edit Product"
               onClick={() => navigate(`/product/edit/${item.id}`)}

@@ -34,7 +34,6 @@ import {
   updateProduct,
 } from "../redux/reducers/productReducer"
 import { fetchCategoryData } from "../redux/reducers/categoryReducer"
-import UploadImageForm from "./UploadImageForm"
 
 export const UpdateProduct = () => {
   const theme = useTheme()
@@ -210,7 +209,6 @@ const UpdateCard = ({
                 </MenuItem>
               ))}
           </TextField>
-          <UploadImageForm addImage={addImageToList} />
         </div>
         <div style={{ display: "flex", marginTop: "1rem" }}>
           <Button variant="contained" color="primary" onClick={updateHandler}>

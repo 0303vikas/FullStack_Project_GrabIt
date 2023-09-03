@@ -20,8 +20,8 @@ namespace GrabIt.Infrastructure.RepoImplementations
 
         public async Task<bool> CheckEmailDuplicate(string email, Guid? userId = null)
         {
-            if (await _users.FirstOrDefaultAsync(u => u.Email == email && u.Id != userId) == null) return true;
-            else return false;
+            if (await _users.FirstOrDefaultAsync(u => u.Email == email && u.Id != userId) == null) return false;
+            else return true;
         }
 
         public async Task<User> CreateAdmin(User user)

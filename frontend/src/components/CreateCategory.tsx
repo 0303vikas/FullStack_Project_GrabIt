@@ -7,7 +7,6 @@ import {
   DisplayCardHorizontal,
   HorizontalCardBox,
 } from "../themes/horizontalCardTheme"
-import UploadImageForm from "./UploadImageForm"
 import { NewCategoryType } from "../types/NewCategory"
 import { useAppDispatch } from "../hooks/useAppDispatch"
 import {
@@ -89,8 +88,6 @@ const CreateCategory = () => {
               value={image ? image : ""}
               onChange={(e) => setImage(e.target.value)}
             />
-
-            <UploadImageForm addImage={addImage} />
           </div>
           <div style={{ display: "flex" }}>
             <Button variant="contained" color="primary" onClick={createHandler}>

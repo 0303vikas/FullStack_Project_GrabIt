@@ -9,6 +9,8 @@
 
 import { useForm, SubmitHandler, Controller } from "react-hook-form"
 import { Input, useTheme } from "@mui/material"
+import { useNavigate } from "react-router-dom"
+import { useState } from "react"
 
 import ContainerLoginRegister, {
   FormContainerLoginRegister,
@@ -20,14 +22,7 @@ import darkLogo from "../icons/DarkImage.png"
 import lightLogo from "../icons/LightImage.png"
 import { useAppDispatch } from "../hooks/useAppDispatch"
 import { useAppSelector } from "../hooks/useAppSelector"
-import {
-  clearUserLogin,
-  fetchAllUsers,
-  loginUser,
-} from "../redux/reducers/userReducer"
-import { findOneUser } from "../hooks/findOneUser"
-import { useNavigate } from "react-router-dom"
-import { useEffect } from "react"
+import { clearUserLogin, loginUser } from "../redux/reducers/userReducer"
 import { ErrorComponent } from "./ErrorComponent"
 
 interface LoginForm {
@@ -45,7 +40,6 @@ interface LoginForm {
 const Login = () => {
   const {
     handleSubmit,
-    setError,
     control,
     formState: { errors },
   } = useForm<LoginForm>()
@@ -53,45 +47,31 @@ const Login = () => {
   const userStore = useAppSelector((state) => state.user)
   const theme = useTheme()
   const navigate = useNavigate()
-
-  useEffect(() => {
-    dispatch(fetchAllUsers())
-  }, [])
+  const [formError, setFormError] = useState("")
 
   const onSubmit: SubmitHandler<LoginForm> = (data, e) => {
     e?.preventDefault()
-    const userEmailExist = findOneUser(userStore.users, data.userEmail)
 
-    if (!userEmailExist) {
-      setError("userEmail", {
-        type: "manual",
-        message: "*Email is wrong",
-      })
-      return false
-    }
-
-    // if (data.password !== userEmailExist.password) {
-    //   setError("password", {
-    //     type: "manual",
-    //     message: "*Password Didn't match",
-    //   })
-    //   return false
-    // }
     const loginData = {
       email: data.userEmail,
       password: data.password,
     }
 
-    dispatch(loginUser(loginData)).then((data) => {
-      if (data.type === "login/fulfilled" && userStore.error.message === "") {
-        alert("User Logged In Successfully")
-        navigate("/")
-      } else {
-        setTimeout(() => {
-          dispatch(clearUserLogin())
-        }, 3000)
-      }
-    })
+    dispatch(loginUser(loginData))
+      .then((data) => {
+        if (data.type === "login/fulfilled" && userStore.error.message === "") {
+          alert("User Logged In Successfully")
+          navigate("/")
+        } else {
+          setTimeout(() => {
+            dispatch(clearUserLogin())
+          }, 3000)
+        }
+      })
+      .catch((err) => {
+        setFormError(err.message)
+        setTimeout(() => setFormError(""), 3000)
+      })
   }
 
   return (
@@ -107,9 +87,13 @@ const Login = () => {
         onSubmit={handleSubmit(onSubmit)}
       >
         <HeadingContainer>SIGN IN</HeadingContainer>
+        {formError && (
+          <h3 style={{ color: theme.palette.error.dark }}>{formError}</h3>
+        )}
 
         <Controller
           name="userEmail"
+          defaultValue=""
           control={control}
           rules={{
             required: "*Email is required.",
@@ -147,6 +131,7 @@ const Login = () => {
         <Controller
           name="password"
           control={control}
+          defaultValue=""
           rules={{
             required: "*Password is required",
           }}

@@ -27,7 +27,6 @@ import { useAppDispatch } from "../hooks/useAppDispatch"
 import { createProduct } from "../redux/reducers/productReducer"
 import { NewProductType } from "../types/NewProduct"
 import { fetchCategoryData } from "../redux/reducers/categoryReducer"
-import UploadImageForm from "./UploadImageForm"
 
 /**
  * @description Create Product page. After the product is created user is redirecd to login page
@@ -179,7 +178,6 @@ export const CreateProduct = () => {
                 ))}
               </TextField>
             )}
-            <UploadImageForm addImage={addImageToList} />
             <div style={{ display: "flex" }}>
               <Button variant="contained" color="primary" type="submit">
                 Create

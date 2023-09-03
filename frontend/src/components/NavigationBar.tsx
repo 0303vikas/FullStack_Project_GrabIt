@@ -137,7 +137,7 @@ const NavigationRight = () => {
           </SearchIconWrapper>
 
           <StyledInputBase
-            placeholder="Search…"
+            placeholder="Product Search…"
             inputProps={{ "aria-label": "search" }}
             style={{ color: theme.palette.common.black }}
             onFocus={() => setShowSearchList("visible")}
@@ -218,7 +218,7 @@ const NavigationRight = () => {
           }}
         >
           {(currentUser
-            ? currentUser.role === "admin"
+            ? currentUser.role === 0
               ? [...addCustomerOptions, ...addAdminOptions]
               : [...addCustomerOptions]
             : settingOptions

@@ -41,7 +41,7 @@ describe("Testing User Reducer", () => {
     const user: UserType = {
       id: "1",
       email: "test@gmail.com",
-      role: "customer",
+      role: 1,
       password: "tester",
       firstName: "Tester",
       lastName: "TestLast",

@@ -35,7 +35,7 @@ export const createProduct = createAsyncThunk(
   async (product: NewProductType) => {
     try {
       const request = await axios.post<ProductType>(
-        "https://api.escuelajs.co/api/v1/products/",
+        `${process.env.REACT_APP_URL}/api/v1/products`,
         product
       )
       return request.data
@@ -54,7 +54,7 @@ export const updateProduct = createAsyncThunk(
   async (product: UpdateProductType) => {
     try {
       const request = await axios.put<ProductType>(
-        `https://api.escuelajs.co/api/v1/products/${product.id}`,
+        `${process.env.REACT_APP_URL}/api/v1/products/${product.id}`,
         product.update
       )
       return request.data
@@ -70,9 +70,39 @@ export const deleteProduct = createAsyncThunk(
   async (id: string) => {
     try {
       const request = await axios.delete<boolean>(
-        `https://api.escuelajs.co/api/v1/products/${id}`
+        `${process.env.REACT_APP_URL}/api/v1/products/${id}`
       )
-      return id
+      return { response: request.data, id: id }
+    } catch (e) {
+      const error = e as AxiosError
+      return error
+    }
+  }
+)
+
+export const getProductByCategoryId = createAsyncThunk(
+  "getProductByCategoryId",
+  async (id: string) => {
+    try {
+      const request = await axios.get<ProductType[]>(
+        `${process.env.REACT_APP_URL}/api/v1/products/category/${id}`
+      )
+      return request.data
+    } catch (e) {
+      const error = e as AxiosError
+      return error
+    }
+  }
+)
+
+export const getByProductId = createAsyncThunk(
+  "getByProductId",
+  async (id: string) => {
+    try {
+      const request = await axios.get<ProductType>(
+        `${process.env.REACT_APP_URL}/api/v1/products/${id}`
+      )
+      return request.data
     } catch (e) {
       const error = e as AxiosError
       return error
@@ -102,10 +132,7 @@ const productSlice = createSlice({
         state.loading = false
       })
       .addCase(fetchProductData.rejected, (state, action) => {
-        state.error = "Cannot fetch data"
-      })
-      .addCase(createProduct.pending, (state, actioin) => {
-        state.loading = true
+        state.error = "Server Error during fetching product data."
       })
       .addCase(createProduct.fulfilled, (state, action) => {
         if (typeof action.payload === "string") {
@@ -115,8 +142,11 @@ const productSlice = createSlice({
         }
         state.loading = false
       })
-      .addCase(updateProduct.pending, (state, actioin) => {
+      .addCase(createProduct.pending, (state, actioin) => {
         state.loading = true
+      })
+      .addCase(createProduct.rejected, (state, actioin) => {
+        state.error = "Server Error during creating product."
       })
       .addCase(updateProduct.fulfilled, (state, action) => {
         if (action.payload instanceof AxiosError) {
@@ -136,17 +166,30 @@ const productSlice = createSlice({
           }
         }
       })
+      .addCase(updateProduct.pending, (state, actioin) => {
+        state.loading = true
+      })
+      .addCase(updateProduct.rejected, (state, actioin) => {
+        state.error = "Server Error occured during updating product."
+      })
       .addCase(deleteProduct.fulfilled, (state, action) => {
         if (action.payload instanceof AxiosError) {
           state.error = action.payload.message
         } else {
-          const response = action.payload
-          const updatedArray = state.products.filter(
-            (item) => item.id !== response
-          )
-          state.products = updatedArray
+          if (action.payload.response === true) {
+            const response = action.payload
+            const updatedArray = state.products.filter(
+              (item) => item.id !== response.id
+            )
+            state.products = updatedArray
+          } else {
+            state.error = "Delete request failed."
+          }
         }
         state.loading = false
+      })
+      .addCase(deleteProduct.rejected, (state, actioin) => {
+        state.error = "Server Error occured during deleting product."
       })
   },
 })

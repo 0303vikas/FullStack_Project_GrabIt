@@ -3,7 +3,6 @@ import axios, { AxiosError } from "axios"
 
 import { UserLoginType, UserType } from "../../types/User"
 import { NewUserType } from "../../types/NewUser"
-import { imageUpload } from "./image/imageUpload"
 import { ErrorMessageType } from "../../types/ErrorType"
 
 const initialState: {
@@ -26,7 +25,7 @@ const initialState: {
 export const fetchAllUsers = createAsyncThunk("fetchAllUsers", async () => {
   try {
     const request = await axios.get<UserType[]>(
-      "https://api.escuelajs.co/api/v1/users"
+      `${process.env.REACT_APP_URL}/api/v1/users`
     )
     return request.data
   } catch (e) {
@@ -37,24 +36,53 @@ export const fetchAllUsers = createAsyncThunk("fetchAllUsers", async () => {
 
 export const createUser = createAsyncThunk(
   "createUser",
-  async (
-    userData: { file: FormData; user: Omit<NewUserType, "imageFile"> },
-    { dispatch }
-  ) => {
-    const imageString = dispatch(imageUpload(userData.file))
-      .then((data) => {
-        return axios.post<UserType>("https://api.escuelajs.co/api/v1/users/", {
-          ...userData.user,
-          avatar: data.payload,
-        })
-      })
-      .then((newUser) => newUser.data)
-      .catch((e) => {
-        const error = e as AxiosError
-        return error
-      })
+  async (user: NewUserType, { dispatch }) => {
+    try {
+      const request = await axios.post<UserType>(
+        `${process.env.REACT_APP_URL}/api/v1/users`,
+        user
+      )
 
-    return imageString
+      return request.data
+    } catch (e) {
+      const error = e as AxiosError
+      return error
+    }
+  }
+)
+
+export const createAdminUser = createAsyncThunk(
+  "createAdminUser",
+  async (userData: NewUserType) => {
+    try {
+      const request = await axios.post<UserType>(
+        `${process.env.REACT_APP_URL}/api/v1/users/createadmin`,
+        userData
+      )
+      return request.data
+    } catch (e) {
+      const error = e as AxiosError
+      return error
+    }
+  }
+)
+
+export const updatePassword = createAsyncThunk(
+  "updatePassword",
+  async (data: {
+    id: string
+    passwordData: { oldPassword: string; newPassword: string }
+  }) => {
+    try {
+      const request = await axios.put<UserType>(
+        `${process.env.REACT_APP_URL}/api/v1/users/updatepassword/${data.id}`,
+        data.passwordData
+      )
+      return request.data
+    } catch (e) {
+      const error = e as AxiosError
+      return error
+    }
   }
 )
 
@@ -63,7 +91,7 @@ export const updateUser = createAsyncThunk(
   async (user: { id: string; updateData: Partial<UserType> }) => {
     try {
       const request = await axios.put<UserType>(
-        `https://api.escuelajs.co/api/v1/users/${user.id}`,
+        `${process.env.REACT_APP_URL}/api/v1/users/${user.id}`,
         user.updateData
       )
       return request.data
@@ -73,12 +101,25 @@ export const updateUser = createAsyncThunk(
     }
   }
 )
+
+export const deleteUser = createAsyncThunk("deleteUser", async (id: string) => {
+  try {
+    const request = await axios.delete<boolean>(
+      `${process.env.REACT_APP_URL}/api/v1/users/${id}`
+    )
+    return { response: request.data, id: id }
+  } catch (e) {
+    const error = e as AxiosError
+    return error
+  }
+})
+
 export const authenticateUser = createAsyncThunk(
   "authentication",
   async (token: string) => {
     try {
       const request = await axios.get<UserType>(
-        "https://api.escuelajs.co/api/v1/auth/profile",
+        `${process.env.REACT_APP_URL}/api/v1/auth/profile`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -97,15 +138,12 @@ export const loginUser = createAsyncThunk(
   "login",
   async ({ email, password }: UserLoginType, { dispatch }) => {
     try {
-      const request = await axios.post<{
-        access_token: string
-        refresh_token: string
-      }>("https://api.escuelajs.co/api/v1/auth/login", { email, password })
-      localStorage.setItem("userToken", request.data.access_token)
-      localStorage.setItem("userRefreshToken", request.data.refresh_token)
-      const authentication = await dispatch(
-        authenticateUser(request.data.access_token)
+      const request = await axios.post<string>(
+        `${process.env.REACT_APP_URL}/api/v1/auth/login`,
+        { email, password }
       )
+      localStorage.setItem("userToken", request.data)
+      const authentication = await dispatch(authenticateUser(request.data))
       return authentication.payload as UserType
     } catch (e) {
       const error = e as AxiosError
@@ -157,6 +195,12 @@ const userSlice = createSlice({
           state.users.push(action.payload)
         }
       })
+      .addCase(createUser.rejected, (state, action) => {
+        state.error = {
+          message: "Server Error occured during creating new user",
+          statusCode: 500,
+        }
+      })
       .addCase(updateUser.fulfilled, (state, action) => {
         if (action.payload instanceof AxiosError) {
           state.error = action.payload.response?.data as ErrorMessageType
@@ -175,6 +219,12 @@ const userSlice = createSlice({
           }
         }
       })
+      .addCase(updateUser.rejected, (state, action) => {
+        state.error = {
+          message: "Server Error occured during updating the user.",
+          statusCode: 500,
+        }
+      })
       .addCase(loginUser.fulfilled, (state, action) => {
         if (action.payload instanceof AxiosError) {
           state.error = action.payload.response?.data as ErrorMessageType
@@ -183,6 +233,12 @@ const userSlice = createSlice({
         }
         state.loading = false
         state.authloading = true
+      })
+      .addCase(loginUser.rejected, (state, action) => {
+        state.error = {
+          message: "Server Error occured during loggin.",
+          statusCode: 500,
+        }
       })
       .addCase(authenticateUser.fulfilled, (state, action) => {
         if (action.payload instanceof AxiosError) {
@@ -195,13 +251,11 @@ const userSlice = createSlice({
       .addCase(authenticateUser.pending, (state) => {
         state.authloading = true
       })
-      .addCase(imageUpload.fulfilled, (state, action) => {
-        if (action.payload instanceof AxiosError) {
-          state.error = action.payload.response?.data as ErrorMessageType
-        } else {
-          state.imageString = action.payload
+      .addCase(authenticateUser.rejected, (state, action) => {
+        state.error = {
+          message: "Server Error occured during authentication",
+          statusCode: 500,
         }
-        state.loading = false
       })
   },
 })

@@ -1,3 +1,4 @@
+using GrabIt.Core.src.Entities;
 using GrabIt.Service.Dtos;
 using GrabIt.Service.src.ServiceInterfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -21,6 +22,15 @@ namespace GrabIt.Controller.src.Controllers
         public async Task<ActionResult<string>> UserLogin([FromBody] UserLoginDto user)
         {
             return Ok(await _authService.Authenticate(user));
+        }
+
+        [Authorize]
+        [HttpGet("profile")]
+        public async Task<ActionResult<User>> UserAuthorization()
+        {
+            var token = HttpContext.Request.Headers.TryGetValue("Authorization", out var accessToken);
+            if (!token) return NotFound("Authroization token not found.");
+            return Ok(await _authService.AbstractClaims(accessToken.ToString().Replace("Bearer ", "")));
         }
     }
 }

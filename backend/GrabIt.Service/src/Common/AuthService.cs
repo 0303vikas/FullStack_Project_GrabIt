@@ -40,8 +40,10 @@ namespace GrabIt.Service.src.Implementations
             {
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Role, user.Role.ToString()),
-                new Claim(ClaimTypes.Name, user.FirstName + " " + user.LastName),
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+                new Claim(ClaimTypes.Name, user.FirstName),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Surname, user.LastName),
+                new Claim(ClaimTypes.Uri, user.ImageURL)
             };
 
             string secretIssuer = _config["Jwt:Issuer"] ?? "backupSecretIssuer";
@@ -53,6 +55,24 @@ namespace GrabIt.Service.src.Implementations
                 signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        public async Task<User> AbstractClaims(string token)
+        {
+            var handler = new JwtSecurityTokenHandler();
+            var jsonToken = handler.ReadToken(token);
+            var tokenS = handler.ReadToken(token) as JwtSecurityToken;
+            var claims = tokenS.Claims ?? throw ErrorHandlerService.ExceptionInvalidData("Token not valid.");
+            var user = new User
+            {
+                Email = claims.First(claim => claim.Type == ClaimTypes.Email).Value,
+                Role = (UserRole)Enum.Parse(typeof(UserRole), claims.First(claim => claim.Type == ClaimTypes.Role).Value),
+                FirstName = claims.First(claim => claim.Type == ClaimTypes.Name).Value,
+                Id = Guid.Parse(claims.First(claim => claim.Type == ClaimTypes.NameIdentifier).Value),
+                LastName = claims.First(claim => claim.Type == ClaimTypes.Surname).Value,
+                ImageURL = claims.First(claim => claim.Type == ClaimTypes.Uri).Value
+            };
+            return user;
         }
     }
 }

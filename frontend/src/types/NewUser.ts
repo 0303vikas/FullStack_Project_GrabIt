@@ -1,14 +1,16 @@
 export interface RegistrationType {
-  userName: string
-  userEmail: string
+  firstName: string
+  lastName: string
+  email: string
   password: string
   retryPassword: string
-  file: FileList
+  imageURL: string
 }
 
 export interface NewUserType {
-  name: string
+  firstName: string
+  lastName: string
   email: string
   password: string
-  avatar: string
+  imageURL: string
 }

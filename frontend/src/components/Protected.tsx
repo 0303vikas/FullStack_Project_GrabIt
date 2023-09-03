@@ -34,7 +34,7 @@ export const Protected = ({
     (state) => state.user
   )
 
-  if (error) {
+  if (error.message) {
     return (
       <div>
         Error regisered. Redirecting to loginPage
@@ -53,9 +53,9 @@ export const Protected = ({
       )
     return <Navigate to="/login" replace />
   } else {
-    if (currentUser.role !== "admin" && currentUser.role !== "customer") {
+    if (currentUser.role !== 0 && currentUser.role !== 1) {
       return <Navigate to="/login" replace />
-    } else if (currentUser.role !== "admin" && routerType !== "profile") {
+    } else if (currentUser.role !== 0 && routerType !== "profile") {
       return <Navigate to="/login" replace />
     }
     return <Fragment> {children}</Fragment>

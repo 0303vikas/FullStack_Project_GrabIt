@@ -6,7 +6,6 @@ import {
   DisplayCardHorizontal,
   HorizontalCardBox,
 } from "../themes/horizontalCardTheme"
-import UploadImageForm from "./UploadImageForm"
 import { useAppDispatch } from "../hooks/useAppDispatch"
 import { useAppSelector } from "../hooks/useAppSelector"
 import {
@@ -37,10 +36,6 @@ const Profile = () => {
     watch,
   } = useForm<PasswordType>()
   const dispatch = useAppDispatch()
-
-  useEffect(() => {
-    dispatch(fetchAllUsers())
-  }, [])
 
   const updateHandler = () => {
     if (currentUser?.email !== email) {
@@ -145,7 +140,7 @@ const Profile = () => {
             <div style={{ display: "grid", rowGap: "2rem" }} id="create-Form">
               <TextField
                 id="create-Form--FirstName"
-                label="Name"
+                label="FirstName"
                 type="string"
                 variant="filled"
                 value={firstName ? firstName : currentUser?.firstName}
@@ -154,7 +149,7 @@ const Profile = () => {
               />
               <TextField
                 id="create-Form--LastName"
-                label="Name"
+                label="LastName"
                 type="string"
                 variant="filled"
                 value={lastName ? lastName : currentUser?.lastName}
@@ -259,8 +254,6 @@ const Profile = () => {
                   Reset
                 </Button>
               </form>
-
-              <UploadImageForm addImage={addImage} />
             </div>
             <div style={{ display: "flex" }}>
               <Button

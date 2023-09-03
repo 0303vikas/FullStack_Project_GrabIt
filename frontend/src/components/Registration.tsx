@@ -45,47 +45,23 @@ const Registration = () => {
     register,
   } = useForm<RegistrationType>()
 
-  useEffect(() => {
-    dispatch(fetchAllUsers())
-  }, [])
-
   const onSubmit: SubmitHandler<RegistrationType> = (data, e) => {
     e?.preventDefault()
-    const isEmailExisting = checkEmailAvailableHook(
-      userStore.users,
-      data.userName
-    )
+    const isEmailExisting = checkEmailAvailableHook(userStore.users, data.email)
     if (isEmailExisting) {
-      setError("userName", {
+      setError("email", {
         type: "manual",
         message: "Email is not available",
       })
       return false
     }
 
-    if (
-      !data.file[0] ||
-      !data.file[0].type ||
-      data.file[0].type.indexOf("image") === -1
-    ) {
-      setError("file", {
-        type: "manual",
-        message: "Selected file is not an image",
-      })
-      return
-    }
-
-    const imgFormData = new FormData()
-    imgFormData.append("file", data.file[0], data.file[0].name)
-
     const userData = {
-      file: imgFormData,
-      user: {
-        name: data.userName,
-        email: data.userEmail,
-        password: data.password,
-        avatar: "https://api.lorem.space/image/face?w=640&h=480&r=867",
-      },
+      firstName: data.firstName,
+      lastName: data.lastName,
+      email: data.email,
+      password: data.password,
+      imageURL: data.imageURL,
     }
 
     dispatch(createUser(userData)).then((res) => {
@@ -125,27 +101,28 @@ const Registration = () => {
       >
         <HeadingContainer>SIGN UP</HeadingContainer>
         <Controller
-          name="userName"
+          name="firstName"
+          defaultValue=""
           control={control}
           rules={{
-            required: "UserName is required",
+            required: "FirstName is required",
           }}
           render={({ field }) => (
             <>
               <Input
-                className="input--userName"
+                className="input--firstName"
                 type="string"
-                placeholder="UserName"
+                placeholder="First Name"
                 sx={{
                   fontWeight: "bolder",
                   color: theme.palette.common.black,
                   backgroundColor: theme.palette.common.white,
                 }}
-                color={errors.userName ? "error" : "secondary"}
+                color={errors.firstName ? "error" : "secondary"}
                 required
                 {...field}
               />
-              {errors.userName && (
+              {errors.firstName && (
                 <p
                   style={{
                     color: theme.palette.error.main,
@@ -153,17 +130,54 @@ const Registration = () => {
                     margin: "0",
                   }}
                 >
-                  *{errors.userName.message}
+                  *{errors.firstName.message}
                 </p>
               )}
             </>
           )}
         />
         <Controller
-          name="userEmail"
+          name="lastName"
+          defaultValue=""
           control={control}
           rules={{
-            required: "UserEmail is Required",
+            required: "LastName is required",
+          }}
+          render={({ field }) => (
+            <>
+              <Input
+                className="input--lastName"
+                type="string"
+                placeholder="Last Name"
+                sx={{
+                  fontWeight: "bolder",
+                  color: theme.palette.common.black,
+                  backgroundColor: theme.palette.common.white,
+                }}
+                color={errors.lastName ? "error" : "secondary"}
+                required
+                {...field}
+              />
+              {errors.lastName && (
+                <p
+                  style={{
+                    color: theme.palette.error.main,
+                    fontSize: theme.typography.fontSize,
+                    margin: "0",
+                  }}
+                >
+                  *{errors.lastName.message}
+                </p>
+              )}
+            </>
+          )}
+        />
+        <Controller
+          name="email"
+          defaultValue=""
+          control={control}
+          rules={{
+            required: "Email is Required",
             pattern: {
               value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
               message: "Invalid email address",
@@ -172,7 +186,7 @@ const Registration = () => {
           render={({ field }) => (
             <>
               <Input
-                className="input--userEmail"
+                className="input--email"
                 type="string"
                 placeholder="Email"
                 sx={{
@@ -180,11 +194,11 @@ const Registration = () => {
                   color: theme.palette.common.black,
                   backgroundColor: theme.palette.common.white,
                 }}
-                color={errors.userEmail ? "error" : "secondary"}
+                color={errors.email ? "error" : "secondary"}
                 required
                 {...field}
               />
-              {errors.userEmail && (
+              {errors.email && (
                 <p
                   style={{
                     color: theme.palette.error.main,
@@ -192,7 +206,7 @@ const Registration = () => {
                     margin: "0",
                   }}
                 >
-                  *{errors.userEmail.message}
+                  *{errors.email.message}
                 </p>
               )}
             </>
@@ -200,6 +214,7 @@ const Registration = () => {
         />
         <Controller
           name="password"
+          defaultValue=""
           control={control}
           rules={{
             required: "Password is required",
@@ -239,6 +254,7 @@ const Registration = () => {
         />
         <Controller
           name="retryPassword"
+          defaultValue=""
           control={control}
           rules={{
             required: "Password confirmation is required",
@@ -275,21 +291,28 @@ const Registration = () => {
         />
 
         <Controller
-          name="file"
+          name="imageURL"
+          defaultValue=""
           control={control}
-          rules={{ required: "Image is required" }}
+          rules={{
+            required: "ProfileImageURL is Required",
+          }}
           render={({ field }) => (
             <>
-              <input
-                type="file"
-                accept="image/*"
-                {...register("file")}
-                name="file"
+              <Input
+                className="input--image"
+                type="string"
+                placeholder="ProfileImageURL"
+                sx={{
+                  fontWeight: "bolder",
+                  color: theme.palette.common.black,
+                  backgroundColor: theme.palette.common.white,
+                }}
+                color={errors.imageURL ? "error" : "secondary"}
                 required
-                placeholder="Upload Image"
-                style={{ width: "14rem" }}
+                {...field}
               />
-              {errors.file && (
+              {errors.imageURL && (
                 <p
                   style={{
                     color: theme.palette.error.main,
@@ -297,7 +320,7 @@ const Registration = () => {
                     margin: "0",
                   }}
                 >
-                  *{errors.file.message}
+                  *{errors.imageURL.message}
                 </p>
               )}
             </>
