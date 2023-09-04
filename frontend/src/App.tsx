@@ -27,7 +27,7 @@ import { UpdateProduct } from "./components/UpdateProduct"
 import { authenticateUser, clearUserLogin } from "./redux/reducers/userReducer"
 import { SingleProduct } from "./components/SingleProduct"
 import { useAppSelector } from "./hooks/useAppSelector"
-import Profile from "./components/Profile"
+import Profile from "./components/Profile/Profile"
 
 const appRouter = createBrowserRouter([
   {

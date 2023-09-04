@@ -20,12 +20,14 @@ import { checkEmailAvailableHook } from "../hooks/checkEmailAvailibility"
 import darkLogo from "../icons/DarkImage.png"
 import lightLogo from "../icons/LightImage.png"
 import {
+  clearUserError,
   clearUserLogin,
   createUser,
   fetchAllUsers,
 } from "../redux/reducers/userReducer"
 import { useEffect } from "react"
 import { ErrorComponent } from "./ErrorComponent"
+import { AxiosError } from "axios"
 
 /**
  * @description For registing new users, for data consists of username, useremail, password and image upload
@@ -64,14 +66,22 @@ const Registration = () => {
       imageURL: data.imageURL,
     }
 
-    dispatch(createUser(userData)).then((res) => {
-      if (userStore.error.message !== "") {
+    dispatch(createUser(userData)).then((data) => {
+      if (data.type === "createUser/fulfilled") {
+        if (data.payload instanceof AxiosError) {
+          setTimeout(() => {
+            dispatch(clearUserError())
+          }, 3000)
+          return false
+        } else {
+          alert("User Created Successfully")
+          navigate("/")
+        }
+      } else {
         setTimeout(() => {
           dispatch(clearUserLogin())
         }, 3000)
       }
-      alert("Registration Successful")
-      navigate("/login")
     })
   }
   const password = watch("password")

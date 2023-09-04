@@ -81,14 +81,11 @@ namespace GrabIt.Service.Implementations
             return updatedUser;
         }
 
-        public async Task<UserReadDto> UpdatePassword(Guid userId, UserPasswordUpdateDto password)
+        public async Task<UserReadDto> UpdatePassword(Guid userId, string password)
         {
             var userEntity = await _userRepo.GetOneById(userId) ?? throw ErrorHandlerService.ExceptionNotFound("User not found.");
 
-            var checkPassword = HashingService.VerifyPassword(password.OldPassword, userEntity.Salt, userEntity.Password);
-            if (!checkPassword) throw ErrorHandlerService.ExceptionInvalidData("Old Password doesn't match.");
-
-            HashingService.HashPassword(password.NewPassword, out var salt, out var hashPassword);
+            HashingService.HashPassword(password, out var salt, out var hashPassword);
             userEntity.Password = hashPassword;
             userEntity.Salt = salt;
             var updatedUser = await _userRepo.UpdatePassword(userEntity) ?? throw ErrorHandlerService.ExceptionInternalServerError("User not updated.");

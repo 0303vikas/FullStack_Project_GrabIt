@@ -9,7 +9,7 @@ const DisplayCardHorizontal = styled(Card)(({ theme }) => ({
 const HorizontalCardBox = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
-  height: "33vh",
+  height: "max-content",
 }))
 
 const HorizontalCardMedia = styled(CardMedia)(({ theme }) => ({}))

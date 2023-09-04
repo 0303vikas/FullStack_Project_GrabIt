@@ -22,8 +22,13 @@ import darkLogo from "../icons/DarkImage.png"
 import lightLogo from "../icons/LightImage.png"
 import { useAppDispatch } from "../hooks/useAppDispatch"
 import { useAppSelector } from "../hooks/useAppSelector"
-import { clearUserLogin, loginUser } from "../redux/reducers/userReducer"
+import {
+  clearUserError,
+  clearUserLogin,
+  loginUser,
+} from "../redux/reducers/userReducer"
 import { ErrorComponent } from "./ErrorComponent"
+import { AxiosError } from "axios"
 
 interface LoginForm {
   userEmail: string
@@ -47,7 +52,6 @@ const Login = () => {
   const userStore = useAppSelector((state) => state.user)
   const theme = useTheme()
   const navigate = useNavigate()
-  const [formError, setFormError] = useState("")
 
   const onSubmit: SubmitHandler<LoginForm> = (data, e) => {
     e?.preventDefault()
@@ -57,21 +61,23 @@ const Login = () => {
       password: data.password,
     }
 
-    dispatch(loginUser(loginData))
-      .then((data) => {
-        if (data.type === "login/fulfilled" && userStore.error.message === "") {
+    dispatch(loginUser(loginData)).then((data) => {
+      if (data.type === "login/fulfilled") {
+        if (data.payload instanceof AxiosError) {
+          setTimeout(() => {
+            dispatch(clearUserError())
+          }, 3000)
+          return false
+        } else {
           alert("User Logged In Successfully")
           navigate("/")
-        } else {
-          setTimeout(() => {
-            dispatch(clearUserLogin())
-          }, 3000)
         }
-      })
-      .catch((err) => {
-        setFormError(err.message)
-        setTimeout(() => setFormError(""), 3000)
-      })
+      } else {
+        setTimeout(() => {
+          dispatch(clearUserLogin())
+        }, 3000)
+      }
+    })
   }
 
   return (
@@ -87,9 +93,6 @@ const Login = () => {
         onSubmit={handleSubmit(onSubmit)}
       >
         <HeadingContainer>SIGN IN</HeadingContainer>
-        {formError && (
-          <h3 style={{ color: theme.palette.error.dark }}>{formError}</h3>
-        )}
 
         <Controller
           name="userEmail"

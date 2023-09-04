@@ -38,11 +38,5 @@ namespace GrabIt.Service.Dtos
         public string Email { get; set; }
         public string Password { get; set; }
     }
-
-    public class UserPasswordUpdateDto
-    {
-        public string OldPassword { get; set; }
-        public string NewPassword { get; set; }
-    }
 }
 

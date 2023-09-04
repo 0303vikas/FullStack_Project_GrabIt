@@ -25,7 +25,13 @@ const initialState: {
 export const fetchAllUsers = createAsyncThunk("fetchAllUsers", async () => {
   try {
     const request = await axios.get<UserType[]>(
-      `${process.env.REACT_APP_URL}/api/v1/users`
+      `${process.env.REACT_APP_URL}/api/v1/users`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+          "Content-Type": "application/json",
+        },
+      }
     )
     return request.data
   } catch (e) {
@@ -57,7 +63,13 @@ export const createAdminUser = createAsyncThunk(
     try {
       const request = await axios.post<UserType>(
         `${process.env.REACT_APP_URL}/api/v1/users/createadmin`,
-        userData
+        userData,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+            "Content-Type": "application/json",
+          },
+        }
       )
       return request.data
     } catch (e) {
@@ -69,14 +81,17 @@ export const createAdminUser = createAsyncThunk(
 
 export const updatePassword = createAsyncThunk(
   "updatePassword",
-  async (data: {
-    id: string
-    passwordData: { oldPassword: string; newPassword: string }
-  }) => {
+  async (data: { id: string; password: string }) => {
     try {
       const request = await axios.put<UserType>(
         `${process.env.REACT_APP_URL}/api/v1/users/updatepassword/${data.id}`,
-        data.passwordData
+        data.password,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+            "Content-Type": "application/json",
+          },
+        }
       )
       return request.data
     } catch (e) {
@@ -92,7 +107,13 @@ export const updateUser = createAsyncThunk(
     try {
       const request = await axios.put<UserType>(
         `${process.env.REACT_APP_URL}/api/v1/users/${user.id}`,
-        user.updateData
+        user.updateData,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+            "Content-Type": "application/json",
+          },
+        }
       )
       return request.data
     } catch (e) {
@@ -105,7 +126,13 @@ export const updateUser = createAsyncThunk(
 export const deleteUser = createAsyncThunk("deleteUser", async (id: string) => {
   try {
     const request = await axios.delete<boolean>(
-      `${process.env.REACT_APP_URL}/api/v1/users/${id}`
+      `${process.env.REACT_APP_URL}/api/v1/users/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+          "Content-Type": "application/json",
+        },
+      }
     )
     return { response: request.data, id: id }
   } catch (e) {
@@ -179,7 +206,14 @@ const userSlice = createSlice({
       })
       .addCase(fetchAllUsers.fulfilled, (state, action) => {
         if (action.payload instanceof AxiosError) {
-          state.error = action.payload.response?.data as ErrorMessageType
+          state.error = {
+            statusCode: action.payload.response?.data
+              ? action.payload.response.data
+              : 500,
+            message: action.payload.response?.status
+              ? action.payload.response.data
+              : "Server Error occured during fetching user.",
+          } as ErrorMessageType
         } else {
           state.users = action.payload
         }
@@ -190,7 +224,14 @@ const userSlice = createSlice({
       })
       .addCase(createUser.fulfilled, (state, action) => {
         if (action.payload instanceof AxiosError) {
-          state.error = action.payload.response?.data as ErrorMessageType
+          state.error = {
+            statusCode: action.payload.response?.data
+              ? action.payload.response.data
+              : 500,
+            message: action.payload.response?.status
+              ? action.payload.response.data
+              : "Server Error occured during creating user.",
+          } as ErrorMessageType
         } else {
           state.users.push(action.payload)
         }
@@ -203,20 +244,16 @@ const userSlice = createSlice({
       })
       .addCase(updateUser.fulfilled, (state, action) => {
         if (action.payload instanceof AxiosError) {
-          state.error = action.payload.response?.data as ErrorMessageType
+          state.error = {
+            statusCode: action.payload.response?.data
+              ? action.payload.response.data
+              : 500,
+            message: action.payload.response?.status
+              ? action.payload.response.data
+              : "Server Error occured during updating user.",
+          } as ErrorMessageType
         } else {
-          const newdata = action.payload
-          const updatedUsers = state.users.map((user) => {
-            if (newdata.id === user.id) {
-              return { ...user, ...newdata }
-            }
-            return user
-          })
-
-          return {
-            ...state,
-            updatedUsers,
-          }
+          state.currentUser = action.payload
         }
       })
       .addCase(updateUser.rejected, (state, action) => {
@@ -227,7 +264,14 @@ const userSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         if (action.payload instanceof AxiosError) {
-          state.error = action.payload.response?.data as ErrorMessageType
+          state.error = {
+            statusCode: action.payload.response?.data
+              ? action.payload.response.data
+              : 500,
+            message: action.payload.response?.status
+              ? action.payload.response.data
+              : "Server Error occured during loggin.",
+          } as ErrorMessageType
         } else {
           state.currentUser = action.payload
         }
@@ -240,9 +284,39 @@ const userSlice = createSlice({
           statusCode: 500,
         }
       })
+      .addCase(updatePassword.fulfilled, (state, action) => {
+        if (action.payload instanceof AxiosError) {
+          state.error = {
+            statusCode: action.payload.response?.data
+              ? action.payload.response.data
+              : 500,
+            message: action.payload.response?.status
+              ? action.payload.response.data
+              : "Server Error occured during updating password.",
+          } as ErrorMessageType
+        } else {
+          state.currentUser = action.payload
+        }
+        state.loading = false
+      })
+      .addCase(updatePassword.rejected, (state, action) => {
+        state.error = {
+          message: "Server Error occured during updating password.",
+          statusCode: 500,
+        } as ErrorMessageType
+      })
       .addCase(authenticateUser.fulfilled, (state, action) => {
         if (action.payload instanceof AxiosError) {
-          state.error = action.payload.response?.data as ErrorMessageType
+          state.error = {
+            statusCode: action.payload.response?.data
+              ? action.payload.response.data
+              : 500,
+            message: action.payload.response?.status
+              ? action.payload.response.data
+              : "Server Error occured during authenticating user.",
+          } as ErrorMessageType
+          localStorage.removeItem("userToken")
+          clearUserLogin()
         } else {
           state.currentUser = action.payload
         }

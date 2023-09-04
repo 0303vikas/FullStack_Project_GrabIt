@@ -23,7 +23,7 @@ const ContainerProductCategory = styled("section")(({ theme }) => ({
 const DisplayGrid = styled(Box)(({ theme }) => ({
   background: alpha(theme.palette.secondary.light, 0.5),
   width: "60vw",
-  height: "120%",
+  height: "max-content",
   boxShadow: ` inset 20px 0 80px ${theme.palette.secondary.dark},
    20px 20px 60px 10px ${alpha(theme.palette.primary.dark, 0.5)},
    -20px -20px 60px 10px ${alpha(theme.palette.primary.dark, 0.5)} `,
