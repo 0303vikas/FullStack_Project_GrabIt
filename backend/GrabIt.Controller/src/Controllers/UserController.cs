@@ -49,5 +49,11 @@ namespace GrabIt.Controller.src.Controllers
         {
             return await base.GetAll(options);
         }
+
+        [HttpGet("checkEmailAvailability/{id:Guid}/{email}")]
+        public async Task<ActionResult<bool>> CheckEmailAvailability([FromRoute] Guid id, [FromRoute] string email)
+        {
+            return Ok(await _baseService.CheckEmailAvailability(id, email));
+        }
     }
 }

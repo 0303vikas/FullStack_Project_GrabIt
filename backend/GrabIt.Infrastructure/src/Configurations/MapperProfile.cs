@@ -79,6 +79,5 @@ namespace GrabIt.Infrastructure.src.Configurations
             CreateMap<PaymentReadDto, Payment>();
 
         }
-
     }
 }

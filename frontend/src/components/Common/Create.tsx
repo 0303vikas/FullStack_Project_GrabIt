@@ -1,8 +1,8 @@
 import { useTheme } from "@mui/material"
 
-import ContainerProductCategory from "../themes/categoryTheme"
-import { CreateProduct } from "./CreateProduct"
-import CreateCategory from "./CreateCategory"
+import ContainerProductCategory from "../../themes/categoryTheme"
+import { CreateProduct } from "../Product/CreateProduct"
+import CreateCategory from "../Category/CreateCategory"
 
 const Create = ({ createType }: { createType: string }) => {
   const theme = useTheme()

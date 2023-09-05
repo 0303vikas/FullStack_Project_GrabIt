@@ -15,12 +15,12 @@ import {
 } from "@mui/material"
 import { useNavigate } from "react-router-dom"
 
-import { DisplayCard } from "../themes/categoryTheme"
+import { DisplayCard } from "../../themes/categoryTheme"
 import { AddShoppingCart, Settings } from "@mui/icons-material"
-import { ProductType } from "../types/Product"
-import { useAppDispatch } from "../hooks/useAppDispatch"
-import { useAppSelector } from "../hooks/useAppSelector"
-import { addToCart } from "../redux/reducers/cartReducer"
+import { ProductType } from "../../types/Product"
+import { useAppDispatch } from "../../hooks/useAppDispatch"
+import { useAppSelector } from "../../hooks/useAppSelector"
+import { addToCart } from "../../redux/reducers/cartReducer"
 import { ImageChangeButtons } from "./ImageChangeButtons"
 
 /**

@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react"
-import { Button, CardMedia, Input, TextField, useTheme } from "@mui/material"
+import { useState } from "react"
+import { CardMedia, useTheme } from "@mui/material"
 
 import ContainerProductCategory, {
   DisplayGrid,
@@ -8,65 +8,16 @@ import {
   DisplayCardHorizontal,
   HorizontalCardBox,
 } from "../../themes/horizontalCardTheme"
-import { useAppDispatch } from "../../hooks/useAppDispatch"
 import { useAppSelector } from "../../hooks/useAppSelector"
-import {
-  clearUserError,
-  fetchAllUsers,
-  updateUser,
-} from "../../redux/reducers/userReducer"
-import { Controller, SubmitHandler, useForm } from "react-hook-form"
-import { ErrorComponent } from "../ErrorComponent"
+
+import { ErrorComponent } from "../Common/ErrorComponent"
 import { PasswordUpdateForm } from "./PasswordUpdateForm"
-import { AxiosError } from "axios"
+import { UserUpdateForm } from "./UserUpdateForm"
 
 const Profile = () => {
-  const { currentUser, users, error } = useAppSelector((store) => store.user)
+  const { currentUser, error } = useAppSelector((store) => store.user)
   const theme = useTheme()
   const [image, setImage] = useState(currentUser?.imageURL)
-  const [firstName, setFirstName] = useState(currentUser?.firstName)
-  const [lastName, setLastName] = useState(currentUser?.lastName)
-  const [email, setEmail] = useState(currentUser?.email)
-  const [emailError, setEmailError] = useState("")
-
-  const dispatch = useAppDispatch()
-
-  const updateHandler = () => {
-    if (currentUser?.email !== email) {
-      if (users.find((item) => item.email === email)) {
-        setEmailError("Email Already Exists")
-        return
-      }
-    }
-    if (currentUser) {
-      const updateData = {
-        id: currentUser.id,
-        updateData: {
-          email: email,
-          firstName: firstName,
-          lastName: lastName,
-          imageUrl: image,
-        },
-      }
-      dispatch(updateUser(updateData)).then((data) => {
-        if (data.type === "updateUser/fulfilled") {
-          if (data.payload instanceof AxiosError) {
-            setTimeout(() => {
-              dispatch(clearUserError())
-            }, 3000)
-            return false
-          } else {
-            alert("User Updated Successfully.")
-          }
-        }
-      })
-    }
-  }
-
-  // const addImage = (arg: string) => {
-  //   setImage(arg)
-  //   alert("Image added Successfully.")
-  // }
 
   if (currentUser === undefined) return <div>Loading...</div>
 
@@ -94,13 +45,13 @@ const Profile = () => {
           <aside id="image-handling">
             <CardMedia
               component="img"
-              height="400"
               image={image ? image : ""}
-              alt={firstName ? firstName + " image." : "Category Image."}
+              alt={currentUser?.firstName}
               sx={{
                 [theme.breakpoints.down("md")]: {
                   display: "none",
                 },
+                height: "max-content",
               }}
             />
           </aside>
@@ -112,45 +63,7 @@ const Profile = () => {
                 statusCode={error.statusCode}
               />
             )}
-            <form
-              style={{ display: "grid", rowGap: "2rem", height: "100%" }}
-              id="create-Form"
-            >
-              <TextField
-                id="create-Form--FirstName"
-                label="FirstName"
-                type="string"
-                variant="filled"
-                value={firstName ? firstName : currentUser?.firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-                onClick={() => setEmailError("")}
-              />
-              <TextField
-                id="create-Form--LastName"
-                label="LastName"
-                type="string"
-                variant="filled"
-                value={lastName ? lastName : currentUser?.lastName}
-                onChange={(e) => setLastName(e.target.value)}
-                onClick={() => setEmailError("")}
-              />
-              <TextField
-                id="create-Form--email"
-                label="Email"
-                type="email"
-                variant="filled"
-                value={email ? email : currentUser?.email}
-                onChange={(e) => {
-                  setEmail(e.target.value)
-                }}
-              />
-              {emailError && (
-                <p style={{ color: theme.palette.error.main }}>{emailError}</p>
-              )}
-              <Button variant="contained" color="primary" type="submit">
-                Update User
-              </Button>
-            </form>
+            <UserUpdateForm currentUser={currentUser} setImage={setImage} />
             <PasswordUpdateForm theme={theme} currentUser={currentUser} />
           </HorizontalCardBox>
         </DisplayCardHorizontal>

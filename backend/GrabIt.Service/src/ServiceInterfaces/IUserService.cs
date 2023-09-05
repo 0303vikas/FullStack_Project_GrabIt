@@ -7,5 +7,6 @@ namespace GrabIt.Service.ServiceInterfaces
     {
         Task<UserReadDto> CreateAdmin(UserCreateDto user);
         Task<UserReadDto> UpdatePassword(Guid userId, string password);
+        Task<bool> CheckEmailAvailability(Guid id, string email);
     }
 }

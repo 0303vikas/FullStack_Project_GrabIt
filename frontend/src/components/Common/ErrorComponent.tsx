@@ -1,5 +1,5 @@
 import { useTheme } from "@mui/material"
-import { ErrorMessageType } from "../types/ErrorType"
+import { ErrorMessageType } from "../../types/ErrorType"
 
 export const ErrorComponent = ({ message, statusCode }: ErrorMessageType) => {
   const theme = useTheme()

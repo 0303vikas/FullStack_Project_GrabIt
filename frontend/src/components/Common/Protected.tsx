@@ -7,7 +7,7 @@ import { Fragment, ReactNode } from "react"
 import { Navigate } from "react-router-dom"
 import { useTheme, Box, CircularProgress } from "@mui/material"
 
-import { useAppSelector } from "../hooks/useAppSelector"
+import { useAppSelector } from "../../hooks/useAppSelector"
 
 /**
  * @description applied on two routes, Update product and Create Product

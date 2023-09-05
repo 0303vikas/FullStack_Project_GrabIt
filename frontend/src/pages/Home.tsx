@@ -6,10 +6,13 @@
 import { Outlet } from "react-router-dom"
 
 import { FooterContainer, HeaderContainer } from "../themes/HomePageTheme"
-import { NavigationLeft, NavigationRight } from "../components/NavigationBar"
+import {
+  NavigationLeft,
+  NavigationRight,
+} from "../components/Common/NavigationBar"
 import { useAppSelector } from "../hooks/useAppSelector"
 import ErrorComponent from "./Error"
-import { Footer } from "../components/Footer"
+import { Footer } from "../components/Common/Footer"
 
 /**
  * if error

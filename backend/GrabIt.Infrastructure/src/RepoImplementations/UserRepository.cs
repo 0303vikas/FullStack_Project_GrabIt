@@ -18,10 +18,17 @@ namespace GrabIt.Infrastructure.RepoImplementations
             _users = _context.Users;
         }
 
-        public async Task<bool> CheckEmailDuplicate(string email, Guid? userId = null)
+        public async Task<bool> CheckEmailAvailability(string email, Guid? userId = null)
         {
-            if (await _users.FirstOrDefaultAsync(u => u.Email == email && u.Id != userId) == null) return false;
-            else return true;
+            if (userId != null)
+            {
+                if (await _users.FirstOrDefaultAsync(u => u.Email == email && u.Id != userId) == null) return true;
+            }
+            else
+            {
+                if (await _users.FirstOrDefaultAsync(u => u.Email == email) == null) return true;
+            }
+            return false;
         }
 
         public async Task<User> CreateAdmin(User user)
@@ -52,7 +59,7 @@ namespace GrabIt.Infrastructure.RepoImplementations
 
         public override async Task<IEnumerable<User>> GetAll(QueryOptions queryType)
         {
-            IQueryable<User> queryBuilder = _users.Include(e => e.Addresses).Include(e => e.Orders);
+            IQueryable<User> queryBuilder = _users;
             // check search string
             if (!string.IsNullOrEmpty(queryType.SearchString))
             {

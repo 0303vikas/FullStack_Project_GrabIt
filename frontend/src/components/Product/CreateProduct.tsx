@@ -17,16 +17,16 @@ import {
 import { Delete } from "@mui/icons-material"
 import { useNavigate } from "react-router-dom"
 
-import { DisplayGrid } from "../themes/categoryTheme"
-import { useAppSelector } from "../hooks/useAppSelector"
+import { DisplayGrid } from "../../themes/categoryTheme"
+import { useAppSelector } from "../../hooks/useAppSelector"
 import {
   DisplayCardHorizontal,
   HorizontalCardBox,
-} from "../themes/horizontalCardTheme"
-import { useAppDispatch } from "../hooks/useAppDispatch"
-import { createProduct } from "../redux/reducers/productReducer"
-import { NewProductType } from "../types/NewProduct"
-import { fetchCategoryData } from "../redux/reducers/categoryReducer"
+} from "../../themes/horizontalCardTheme"
+import { useAppDispatch } from "../../hooks/useAppDispatch"
+import { createProduct } from "../../redux/reducers/productReducer"
+import { NewProductType } from "../../types/NewProduct"
+import { fetchCategoryData } from "../../redux/reducers/categoryReducer"
 
 /**
  * @description Create Product page. After the product is created user is redirecd to login page
@@ -134,6 +134,7 @@ export const CreateProduct = () => {
               label="Stock"
               type="number"
               variant="filled"
+              InputProps={{ inputProps: { min: 10 } }}
               onChange={(e) => setStock(Number(e.target.value))}
             />
             <TextField
@@ -158,7 +159,7 @@ export const CreateProduct = () => {
                 ))}
               </TextField>
             )}
-            {images && (
+            {/* {images && (
               <TextField
                 id="create-Form--Category"
                 select
@@ -177,7 +178,7 @@ export const CreateProduct = () => {
                   </MenuItem>
                 ))}
               </TextField>
-            )}
+            )} */}
             <div style={{ display: "flex" }}>
               <Button variant="contained" color="primary" type="submit">
                 Create

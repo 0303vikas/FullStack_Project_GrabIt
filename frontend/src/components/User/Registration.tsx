@@ -12,21 +12,21 @@ import ContainerLoginRegister, {
   HeadingContainer,
   ImageContainer,
   SubmitBtn,
-} from "../themes/formTheme"
-import { RegistrationType } from "../types/NewUser"
-import { useAppDispatch } from "../hooks/useAppDispatch"
-import { useAppSelector } from "../hooks/useAppSelector"
-import { checkEmailAvailableHook } from "../hooks/checkEmailAvailibility"
-import darkLogo from "../icons/DarkImage.png"
-import lightLogo from "../icons/LightImage.png"
+} from "../../themes/formTheme"
+import { RegistrationType } from "../../types/NewUser"
+import { useAppDispatch } from "../../hooks/useAppDispatch"
+import { useAppSelector } from "../../hooks/useAppSelector"
+// import { checkEmailAvailableHook } from "../hooks/checkEmailAvailibility"
+import darkLogo from "../../icons/DarkImage.png"
+import lightLogo from "../../icons/LightImage.png"
 import {
   clearUserError,
   clearUserLogin,
   createUser,
   fetchAllUsers,
-} from "../redux/reducers/userReducer"
+} from "../../redux/reducers/userReducer"
 import { useEffect } from "react"
-import { ErrorComponent } from "./ErrorComponent"
+import { ErrorComponent } from "../Common/ErrorComponent"
 import { AxiosError } from "axios"
 
 /**
@@ -49,14 +49,14 @@ const Registration = () => {
 
   const onSubmit: SubmitHandler<RegistrationType> = (data, e) => {
     e?.preventDefault()
-    const isEmailExisting = checkEmailAvailableHook(userStore.users, data.email)
-    if (isEmailExisting) {
-      setError("email", {
-        type: "manual",
-        message: "Email is not available",
-      })
-      return false
-    }
+    // const isEmailExisting = checkEmailAvailableHook(userStore.users, data.email)
+    // if (isEmailExisting) {
+    //   setError("email", {
+    //     type: "manual",
+    //     message: "Email is not available",
+    //   })
+    //   return false
+    // }
 
     const userData = {
       firstName: data.firstName,

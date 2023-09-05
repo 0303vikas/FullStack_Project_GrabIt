@@ -17,17 +17,17 @@ import ContainerLoginRegister, {
   HeadingContainer,
   ImageContainer,
   SubmitBtn,
-} from "../themes/formTheme"
-import darkLogo from "../icons/DarkImage.png"
-import lightLogo from "../icons/LightImage.png"
-import { useAppDispatch } from "../hooks/useAppDispatch"
-import { useAppSelector } from "../hooks/useAppSelector"
+} from "../../themes/formTheme"
+import darkLogo from "../../icons/DarkImage.png"
+import lightLogo from "../../icons/LightImage.png"
+import { useAppDispatch } from "../../hooks/useAppDispatch"
+import { useAppSelector } from "../../hooks/useAppSelector"
 import {
   clearUserError,
   clearUserLogin,
   loginUser,
-} from "../redux/reducers/userReducer"
-import { ErrorComponent } from "./ErrorComponent"
+} from "../../redux/reducers/userReducer"
+import { ErrorComponent } from "../Common/ErrorComponent"
 import { AxiosError } from "axios"
 
 interface LoginForm {

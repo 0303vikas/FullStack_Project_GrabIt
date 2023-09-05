@@ -6,9 +6,11 @@
 import { useTheme } from "@mui/material"
 import { useParams } from "react-router-dom"
 
-import { useAppSelector } from "../hooks/useAppSelector"
-import ContainerProductCategory, { DisplayGrid } from "../themes/categoryTheme"
-import { Card } from "./Card"
+import { useAppSelector } from "../../hooks/useAppSelector"
+import ContainerProductCategory, {
+  DisplayGrid,
+} from "../../themes/categoryTheme"
+import { Card } from "../Common/Card"
 
 /**
  * @description For single product display, after finding one from the search options

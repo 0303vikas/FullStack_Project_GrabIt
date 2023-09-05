@@ -19,21 +19,23 @@ import {
 import { useNavigate, useParams } from "react-router-dom"
 import { Delete } from "@mui/icons-material"
 
-import { UpdateProductType } from "../types/UpdateProduct"
-import ContainerProductCategory, { DisplayGrid } from "../themes/categoryTheme"
-import { useAppSelector } from "../hooks/useAppSelector"
+import { UpdateProductType } from "../../types/UpdateProduct"
+import ContainerProductCategory, {
+  DisplayGrid,
+} from "../../themes/categoryTheme"
+import { useAppSelector } from "../../hooks/useAppSelector"
 import {
   DisplayCardHorizontal,
   HorizontalCardBox,
-} from "../themes/horizontalCardTheme"
-import { ProductType } from "../types/Product"
-import { useAppDispatch } from "../hooks/useAppDispatch"
+} from "../../themes/horizontalCardTheme"
+import { ProductType } from "../../types/Product"
+import { useAppDispatch } from "../../hooks/useAppDispatch"
 import {
   deleteProduct,
   fetchProductData,
   updateProduct,
-} from "../redux/reducers/productReducer"
-import { fetchCategoryData } from "../redux/reducers/categoryReducer"
+} from "../../redux/reducers/productReducer"
+import { fetchCategoryData } from "../../redux/reducers/categoryReducer"
 
 export const UpdateProduct = () => {
   const theme = useTheme()

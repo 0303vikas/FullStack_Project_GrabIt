@@ -2,18 +2,18 @@ import { useEffect, useState } from "react"
 import { Button, CardMedia, TextField, useTheme } from "@mui/material"
 import { useNavigate } from "react-router-dom"
 
-import { DisplayGrid } from "../themes/categoryTheme"
+import { DisplayGrid } from "../../themes/categoryTheme"
 import {
   DisplayCardHorizontal,
   HorizontalCardBox,
-} from "../themes/horizontalCardTheme"
-import { NewCategoryType } from "../types/NewCategory"
-import { useAppDispatch } from "../hooks/useAppDispatch"
+} from "../../themes/horizontalCardTheme"
+import { NewCategoryType } from "../../types/NewCategory"
+import { useAppDispatch } from "../../hooks/useAppDispatch"
 import {
   createCategory,
   fetchCategoryData,
-} from "../redux/reducers/categoryReducer"
-import { useAppSelector } from "../hooks/useAppSelector"
+} from "../../redux/reducers/categoryReducer"
+import { useAppSelector } from "../../hooks/useAppSelector"
 
 const CreateCategory = () => {
   const theme = useTheme()

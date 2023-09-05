@@ -46,7 +46,7 @@ namespace GrabIt.Service.Implementations
                 createData.LastName == null
                 ) throw ErrorHandlerService.ExceptionNotFound("Email, FirstName, LastName cannot be null.");
             // Check Email Duplicate            
-            if (await _userRepo.CheckEmailDuplicate(createData.Email)) throw ErrorHandlerService.ExceptionDuplicateData("Email already exists.");
+            if (!await _userRepo.CheckEmailAvailability(createData.Email)) throw ErrorHandlerService.ExceptionDuplicateData("Email already exists.");
 
             //Password Hashing
             var userEntity = _mapper.Map<User>(createData);
@@ -74,7 +74,7 @@ namespace GrabIt.Service.Implementations
                 updateData.LastName == null
                 ) throw ErrorHandlerService.ExceptionNotFound("Email, FirstName, LastName cannot be null.");
             // Check Email Duplicate
-            if (await _userRepo.CheckEmailDuplicate(updateData.Email, id)) throw ErrorHandlerService.ExceptionDuplicateData("Email already exists.");
+            if (!await _userRepo.CheckEmailAvailability(updateData.Email, id)) throw ErrorHandlerService.ExceptionDuplicateData("Email already exists.");
 
             var updatedUser = await base.UpdateOneById(id, updateData) ?? throw ErrorHandlerService.ExceptionInternalServerError("User not updated.");
             //Error Handling
@@ -90,6 +90,11 @@ namespace GrabIt.Service.Implementations
             userEntity.Salt = salt;
             var updatedUser = await _userRepo.UpdatePassword(userEntity) ?? throw ErrorHandlerService.ExceptionInternalServerError("User not updated.");
             return _mapper.Map<UserReadDto>(updatedUser);
+        }
+
+        public async Task<bool> CheckEmailAvailability(Guid id, string email)
+        {
+            return await _userRepo.CheckEmailAvailability(email, id);
         }
     }
 }

@@ -14,11 +14,9 @@ import {
   Dialog,
   DialogActions,
   DialogTitle,
-  FormControl,
   IconButton,
   Menu,
   MenuItem,
-  SelectChangeEvent,
   Tooltip,
   Typography,
   useTheme,
@@ -30,28 +28,25 @@ import {
   DarkModeRounded,
 } from "@mui/icons-material"
 
-import { useAppDispatch } from "../hooks/useAppDispatch"
-import { useAppSelector } from "../hooks/useAppSelector"
-import { fetchCategoryData } from "../redux/reducers/categoryReducer"
+import { useAppDispatch } from "../../hooks/useAppDispatch"
+import { useAppSelector } from "../../hooks/useAppSelector"
 import {
   IconContainer,
   List,
   NavigationList,
   NavigationContainer,
-  SearchTypeList,
   Search,
   SearchIconWrapper,
   StyledInputBase,
   SettingContainer,
   SearchResultList,
-} from "../themes/HomePageTheme"
-import { clearUserLogin } from "../redux/reducers/userReducer"
-import darkLogo from "../icons/darkLogo.png"
-import lightLogo from "../icons/lightLogo.png"
-import { useDebounce } from "../hooks/useDebounceHook"
-import { changeMode } from "../redux/reducers/modeReducer"
-import { fetchProductData } from "../redux/reducers/productReducer"
-import { setThemeLocalStorage } from "../hooks/setThemeLocalStorage"
+} from "../../themes/HomePageTheme"
+import { clearUserLogin } from "../../redux/reducers/userReducer"
+import darkLogo from "../../icons/darkLogo.png"
+import lightLogo from "../../icons/lightLogo.png"
+import { useDebounce } from "../../hooks/useDebounceHook"
+import { changeMode } from "../../redux/reducers/modeReducer"
+import { setThemeLocalStorage } from "../../hooks/setThemeLocalStorage"
 
 /**
  * @description Contains website logo, navigation button products and navigation button categories
@@ -95,11 +90,9 @@ const NavigationRight = () => {
   const theme = useTheme()
   const reduxState = useAppSelector((state) => state) // get state of redux store
   const product = reduxState.product
-  const category = reduxState.categories
   const mode = reduxState.mode.mode
   const { currentUser } = reduxState.user
   const [openLogoutConfirm, setopenLogoutConfirm] = useState(false)
-  const [searchType, setSearchType] = useState("Product")
   const [search, setSearch] = useState("")
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null

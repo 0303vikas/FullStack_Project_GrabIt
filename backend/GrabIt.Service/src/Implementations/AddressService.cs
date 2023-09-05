@@ -15,5 +15,10 @@ namespace GrabIt.Service.Implementations
         {
             _addressRepo = addressRepo;
         }
+
+        public async Task<IEnumerable<Address>?> GetAddressByUserId(Guid userId)
+        {
+            return await _addressRepo.GetAddressByUserId(userId);
+        }
     }
 }

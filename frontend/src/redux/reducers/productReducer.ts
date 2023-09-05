@@ -36,7 +36,13 @@ export const createProduct = createAsyncThunk(
     try {
       const request = await axios.post<ProductType>(
         `${process.env.REACT_APP_URL}/api/v1/products`,
-        product
+        product,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          },
+        }
       )
       return request.data
     } catch (e) {
@@ -55,7 +61,13 @@ export const updateProduct = createAsyncThunk(
     try {
       const request = await axios.put<ProductType>(
         `${process.env.REACT_APP_URL}/api/v1/products/${product.id}`,
-        product.update
+        product.update,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          },
+        }
       )
       return request.data
     } catch (e) {
@@ -70,7 +82,13 @@ export const deleteProduct = createAsyncThunk(
   async (id: string) => {
     try {
       const request = await axios.delete<boolean>(
-        `${process.env.REACT_APP_URL}/api/v1/products/${id}`
+        `${process.env.REACT_APP_URL}/api/v1/products/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          },
+        }
       )
       return { response: request.data, id: id }
     } catch (e) {

@@ -9,9 +9,6 @@ namespace GrabIt.Service.Dtos
         public string Email { get; set; }
         public UserRole Role { get; set; }
         public string ImageURL { get; set; }
-
-        public List<AddressReadDto> Addresses { get; set; }
-        public List<OrderReadDto> Orders { get; set; }
     }
 
 
@@ -22,7 +19,6 @@ namespace GrabIt.Service.Dtos
         public string Email { get; set; }
         public string ImageURL { get; set; }
         public string Password { get; set; }
-
     }
 
     public class UserUpdateDto

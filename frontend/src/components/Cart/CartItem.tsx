@@ -6,13 +6,13 @@
 import { useState } from "react"
 import { Box, CardMedia, useTheme, Button } from "@mui/material"
 
-import { removeFromCart, updateCart } from "../redux/reducers/cartReducer"
-import { useAppDispatch } from "../hooks/useAppDispatch"
-import { CartType } from "../types/CartType"
+import { removeFromCart, updateCart } from "../../redux/reducers/cartReducer"
+import { useAppDispatch } from "../../hooks/useAppDispatch"
+import { CartType } from "../../types/CartType"
 import {
   DisplayCardHorizontal,
   HorizontalCardBox,
-} from "../themes/horizontalCardTheme"
+} from "../../themes/horizontalCardTheme"
 
 /**
  * @description: displays card Cart

@@ -4,6 +4,7 @@ import axios, { AxiosError } from "axios"
 import { UserLoginType, UserType } from "../../types/User"
 import { NewUserType } from "../../types/NewUser"
 import { ErrorMessageType } from "../../types/ErrorType"
+import { AddressType } from "../../types/Address"
 
 const initialState: {
   users: UserType[]
@@ -12,6 +13,7 @@ const initialState: {
   error: ErrorMessageType
   currentUser?: UserType
   imageString?: string
+  addresses?: AddressType[]
 } = {
   users: [],
   loading: false,
@@ -179,6 +181,70 @@ export const loginUser = createAsyncThunk(
   }
 )
 
+export const getUserAddresses = createAsyncThunk(
+  "getUserAddresses",
+  async (id: string) => {
+    try {
+      const request = await axios.get<AddressType[]>(
+        `${process.env.REACT_APP_URL}/api/v1/users/${id}/addresses`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      return request.data
+    } catch (e) {
+      const error = e as AxiosError
+      return error
+    }
+  }
+)
+
+export const createUserAddress = createAsyncThunk(
+  "createUserAddress",
+  async (data: { id: string; address: AddressType }) => {
+    try {
+      const request = await axios.post<AddressType>(
+        `${process.env.REACT_APP_URL}/api/v1/addresss/${data.id}`,
+        data.address,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      return request.data
+    } catch (e) {
+      const error = e as AxiosError
+      return error
+    }
+  }
+)
+
+export const deleteUserAddress = createAsyncThunk(
+  "deleteUserAddress",
+  async (addressId: string) => {
+    try {
+      const request = await axios.delete<boolean>(
+        `${process.env.REACT_APP_URL}/api/v1/addresss/${addressId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      return addressId
+    } catch (e) {
+      const error = e as AxiosError
+      return error
+    }
+  }
+)
+
 const userSlice = createSlice({
   name: "user",
   initialState: initialState,
@@ -328,6 +394,68 @@ const userSlice = createSlice({
       .addCase(authenticateUser.rejected, (state, action) => {
         state.error = {
           message: "Server Error occured during authentication",
+          statusCode: 500,
+        }
+      })
+      .addCase(getUserAddresses.fulfilled, (state, action) => {
+        if (action.payload instanceof AxiosError) {
+          state.error = {
+            statusCode: action.payload.response?.data
+              ? action.payload.response.data
+              : 500,
+            message: action.payload.response?.status
+              ? action.payload.response.data
+              : "Server Error occured during fetching user addresses.",
+          } as ErrorMessageType
+        } else {
+          state.addresses = action.payload
+        }
+      })
+      .addCase(getUserAddresses.rejected, (state, action) => {
+        state.error = {
+          message: "Server Error occured during fetching user addresses.",
+          statusCode: 500,
+        }
+      })
+      .addCase(createUserAddress.fulfilled, (state, action) => {
+        if (action.payload instanceof AxiosError) {
+          state.error = {
+            statusCode: action.payload.response?.data
+              ? action.payload.response.data
+              : 500,
+            message: action.payload.response?.status
+              ? action.payload.response.data
+              : "Server Error occured during creating user address.",
+          } as ErrorMessageType
+        } else {
+          state.addresses?.push(action.payload)
+        }
+      })
+      .addCase(createUserAddress.rejected, (state, action) => {
+        state.error = {
+          message: "Server Error occured during creating user address.",
+          statusCode: 500,
+        }
+      })
+      .addCase(deleteUserAddress.fulfilled, (state, action) => {
+        if (action.payload instanceof AxiosError) {
+          state.error = {
+            statusCode: action.payload.response?.data
+              ? action.payload.response.data
+              : 500,
+            message: action.payload.response?.status
+              ? action.payload.response.data
+              : "Server Error occured deleting user address.",
+          } as ErrorMessageType
+        } else {
+          state.addresses = state.addresses?.filter(
+            (address) => address.id !== action.payload
+          )
+        }
+      })
+      .addCase(deleteUserAddress.rejected, (state, action) => {
+        state.error = {
+          message: "Server Error occured deleting user address.",
           statusCode: 500,
         }
       })

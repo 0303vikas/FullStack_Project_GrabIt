@@ -14,15 +14,17 @@ import {
 import { useParams } from "react-router-dom"
 import { SortByAlphaOutlined } from "@mui/icons-material"
 
-import { useAppSelector } from "../hooks/useAppSelector"
-import { useAppDispatch } from "../hooks/useAppDispatch"
-import { filterProduct } from "../hooks/filterProduct"
-import { ascDescFunction } from "../hooks/sortProduct"
-import { Card } from "./Card"
-import ContainerProductCategory, { DisplayGrid } from "../themes/categoryTheme"
-import { ProductType } from "../types/Product"
-import "../style.css"
-import { fetchProductData } from "../redux/reducers/productReducer"
+import { useAppSelector } from "../../hooks/useAppSelector"
+import { useAppDispatch } from "../../hooks/useAppDispatch"
+import { filterProduct } from "../../hooks/filterProduct"
+import { ascDescFunction } from "../../hooks/sortProduct"
+import { Card } from "../Common/Card"
+import ContainerProductCategory, {
+  DisplayGrid,
+} from "../../themes/categoryTheme"
+import { ProductType } from "../../types/Product"
+import "../../style.css"
+import { fetchProductData } from "../../redux/reducers/productReducer"
 
 /**
  * @description Product Component with 9 products displayed each page

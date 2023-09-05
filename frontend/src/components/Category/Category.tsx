@@ -21,14 +21,14 @@ import {
 } from "@mui/material"
 import { useNavigate } from "react-router-dom"
 
-import { useAppDispatch } from "../hooks/useAppDispatch"
-import { useAppSelector } from "../hooks/useAppSelector"
+import { useAppDispatch } from "../../hooks/useAppDispatch"
+import { useAppSelector } from "../../hooks/useAppSelector"
 import ContainerProductCategory, {
   DisplayGrid,
   DisplayCard,
-} from "../themes/categoryTheme"
-import { CategoryType } from "../types/Category"
-import { fetchCategoryData } from "../redux/reducers/categoryReducer"
+} from "../../themes/categoryTheme"
+import { CategoryType } from "../../types/Category"
+import { fetchCategoryData } from "../../redux/reducers/categoryReducer"
 
 /**
  * @description check redux store cart state and renders the element accordingly
