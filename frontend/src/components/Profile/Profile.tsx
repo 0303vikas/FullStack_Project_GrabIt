@@ -42,7 +42,7 @@ const Profile = () => {
 
       <DisplayGrid gap={2} gridTemplateColumns={"repeat(1,1fr)"}>
         <DisplayCardHorizontal>
-          <aside id="image-handling">
+          <aside id="image-handling" style={{ width: "50%", height: "100%" }}>
             <CardMedia
               component="img"
               image={image ? image : ""}
@@ -51,12 +51,12 @@ const Profile = () => {
                 [theme.breakpoints.down("md")]: {
                   display: "none",
                 },
-                height: "max-content",
+                height: "100%",
               }}
             />
           </aside>
 
-          <HorizontalCardBox>
+          <HorizontalCardBox sx={{ width: "50%" }}>
             {error.message && (
               <ErrorComponent
                 message={error.message}

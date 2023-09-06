@@ -39,7 +39,7 @@ export const createProduct = createAsyncThunk(
         product,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
             "Content-Type": "application/json",
           },
         }
@@ -64,7 +64,7 @@ export const updateProduct = createAsyncThunk(
         product.update,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
             "Content-Type": "application/json",
           },
         }
@@ -85,7 +85,7 @@ export const deleteProduct = createAsyncThunk(
         `${process.env.REACT_APP_URL}/api/v1/products/${id}`,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
             "Content-Type": "application/json",
           },
         }
@@ -134,6 +134,9 @@ const productSlice = createSlice({
   reducers: {
     clearProductStore: (state) => {
       return initilState
+    },
+    clearProductError: (state) => {
+      state.error = ""
     },
   },
   extraReducers: (build) => {
@@ -213,6 +216,6 @@ const productSlice = createSlice({
 })
 
 const productReducer = productSlice.reducer
-export const { clearProductStore } = productSlice.actions
+export const { clearProductStore, clearProductError } = productSlice.actions
 
 export default productReducer

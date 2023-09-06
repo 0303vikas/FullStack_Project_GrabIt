@@ -120,7 +120,7 @@ export const UserUpdateForm = ({
         onChange={(e) => {
           setEmail(e.target.value)
         }}
-        style={{ marginBottom: "0" }}
+        sx={{ margin: "none" }}
       />
       {email === currentUser.email ? null : emailInfoContainer}
       <TextField

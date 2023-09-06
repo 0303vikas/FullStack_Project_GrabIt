@@ -10,10 +10,6 @@ import { useNavigate } from "react-router-dom"
 import {
   Avatar,
   Badge,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogTitle,
   IconButton,
   Menu,
   MenuItem,
@@ -26,6 +22,7 @@ import {
   ShoppingCart,
   LightModeRounded,
   DarkModeRounded,
+  ExpandLessRounded,
 } from "@mui/icons-material"
 
 import { useAppDispatch } from "../../hooks/useAppDispatch"
@@ -47,6 +44,7 @@ import lightLogo from "../../icons/lightLogo.png"
 import { useDebounce } from "../../hooks/useDebounceHook"
 import { changeMode } from "../../redux/reducers/modeReducer"
 import { setThemeLocalStorage } from "../../hooks/setThemeLocalStorage"
+import { LogoutDialogBox } from "./LogoutDialogBox"
 
 /**
  * @description Contains website logo, navigation button products and navigation button categories
@@ -69,82 +67,38 @@ const NavigationLeft = () => {
     </NavigationContainer>
   )
 }
-/**
- * @description Contains search input, cart icon and setting icon
- * @returns JSX.Elemnet NavigationRight
- * @notes
- * - 1st dropdown list consists of two options product and categorie, selecting
- * - one of them will set the search input to search from the selected list.
- * - Search input will dropdown a list that shows the search data, it also
- * - has a button to close the search list.
- * - Cart icons redirects to cart.
- * - Setting option has shows option according to logged in user role
- * - Search also has a debounce function attached to it
- */
-const NavigationRight = () => {
-  const settingOptions = ["Registration", "Login"]
-  const addCustomerOptions = ["Profile", "Logout", "Registration"]
-  const addAdminOptions = ["CreateProduct", "CreateCategory"]
-  const dispatch = useAppDispatch()
-  const navigate = useNavigate()
-  const theme = useTheme()
-  const reduxState = useAppSelector((state) => state) // get state of redux store
-  const product = reduxState.product
-  const mode = reduxState.mode.mode
-  const { currentUser } = reduxState.user
-  const [openLogoutConfirm, setopenLogoutConfirm] = useState(false)
+
+const NavigationMiddle = () => {
+  const product = useAppSelector((state) => state.product) // get state of redux store
   const [search, setSearch] = useState("")
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
-    null
-  )
-  const [showSearchList, setShowSearchList] = useState<"hidden" | "visible">(
-    "hidden"
-  )
-  const debounceSearch = useDebounce(search, 1000)
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null)
-  }
-
-  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElUser(event.currentTarget)
-  }
-
-  const logout = () => {
-    setopenLogoutConfirm(false)
-    dispatch(clearUserLogin())
-    localStorage.clear()
-    navigate("/")
-  }
+  const theme = useTheme()
+  const navigate = useNavigate()
 
   const filterSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value)
   }
 
+  const [showSearchList, setShowSearchList] = useState<"hidden" | "visible">(
+    "hidden"
+  )
+  const debounceSearch = useDebounce(search, 1000)
   return (
-    <NavigationContainer id="navigtionContent--right">
-      <div>
-        <Search>
-          <SearchIconWrapper>
-            <SearchIcon style={{ color: theme.palette.common.black }} />
-          </SearchIconWrapper>
+    <div>
+      <Search>
+        <SearchIconWrapper>
+          <SearchIcon style={{ color: theme.palette.common.black }} />
+        </SearchIconWrapper>
 
-          <StyledInputBase
-            placeholder="Product Search…"
-            inputProps={{ "aria-label": "search" }}
-            style={{ color: theme.palette.common.black }}
-            onFocus={() => setShowSearchList("visible")}
-            onChange={filterSearch}
-          />
-        </Search>
-        <SearchResultList style={{ visibility: showSearchList }}>
-          <button
-            onClick={() => {
-              setShowSearchList("hidden")
-            }}
-          >
-            Hide X
-          </button>
+        <StyledInputBase
+          placeholder="Product Search…"
+          inputProps={{ "aria-label": "search" }}
+          style={{ color: theme.palette.common.black }}
+          onFocus={() => setShowSearchList("visible")}
+          onChange={filterSearch}
+        />
+      </Search>
+      <SearchResultList style={{ visibility: showSearchList }}>
+        <div style={{ position: "relative" }}>
           {(debounceSearch === ""
             ? product.products
             : product.products.filter((item) =>
@@ -161,21 +115,93 @@ const NavigationRight = () => {
               {item.title}
             </List>
           ))}
-        </SearchResultList>
-      </div>
+          <ExpandLessRounded
+            onClick={() => {
+              setShowSearchList("hidden")
+            }}
+            style={{
+              position: "absolute",
+              bottom: "0",
+              backgroundColor: "rgba(180, 180, 180, 0.9)",
+              width: "100%",
+              textAlign: "center",
+              padding: "0.5rem 0",
+              cursor: "pointer",
+              marginTop: "2rem",
+            }}
+          />
+        </div>
+      </SearchResultList>
+    </div>
+  )
+}
+/**
+ * @description Contains search input, cart icon and setting icon
+ * @returns JSX.Elemnet NavigationRight
+ * @notes
+ * - 1st dropdown list consists of two options product and categorie, selecting
+ * - one of them will set the search input to search from the selected list.
+ * - Search input will dropdown a list that shows the search data, it also
+ * - has a button to close the search list.
+ * - Cart icons redirects to cart.
+ * - Setting option has shows option according to logged in user role
+ * - Search also has a debounce function attached to it
+ */
+const NavigationRight = () => {
+  const settingOptions = ["Registration", "Login"]
+  const addCustomerOptions = ["Profile", "Logout", "Registration"]
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+  const theme = useTheme()
+  const reduxState = useAppSelector((state) => state) // get state of redux store
+  const mode = reduxState.mode.mode
+  const { currentUser } = reduxState.user
+  const [openLogoutConfirm, setopenLogoutConfirm] = useState(false)
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
+    null
+  )
 
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null)
+  }
+
+  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElUser(event.currentTarget)
+  }
+
+  const logout = () => {
+    setopenLogoutConfirm(false)
+    dispatch(clearUserLogin())
+    localStorage.clear()
+    navigate("/")
+  }
+
+  return (
+    <NavigationContainer id="navigtionContent--right">
       <Badge
         onClick={() => navigate("/product/cart")}
         badgeContent={reduxState.cart.length}
         color="secondary"
-        sx={{ margin: "0 1rem" }}
+        sx={{ margin: "0 1rem", cursor: "pointer" }}
       >
         <ShoppingCart
           sx={{ color: theme.palette.common.black }}
           titleAccess="Open Cart"
         />
       </Badge>
-
+      <IconButton
+        style={{ padding: "1rem" }}
+        onClick={() => {
+          dispatch(changeMode())
+          setThemeLocalStorage(mode === "light" ? "dark" : "light")
+        }}
+      >
+        {mode === "light" ? (
+          <DarkModeRounded color="secondary" titleAccess="Turn of lights" />
+        ) : (
+          <LightModeRounded color="secondary" titleAccess="Turn on lights" />
+        )}
+      </IconButton>
       <SettingContainer sx={{ marginRight: "0.5rem" }}>
         <Tooltip title="Open settings">
           <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -210,62 +236,37 @@ const NavigationRight = () => {
             },
           }}
         >
-          {(currentUser
-            ? currentUser.role === 0
-              ? [...addCustomerOptions, ...addAdminOptions]
-              : [...addCustomerOptions]
-            : settingOptions
-          ).map((setting) => (
-            <MenuItem
-              key={setting}
-              onClick={handleCloseUserMenu}
-              style={{
-                color: theme.palette.common.black,
-              }}
-            >
-              <Typography
-                textAlign="center"
-                onClick={
-                  setting === "Logout"
-                    ? () => setopenLogoutConfirm(true)
-                    : () => navigate(`/${setting.toLowerCase()}`)
-                }
+          {(currentUser ? addCustomerOptions : settingOptions).map(
+            (setting) => (
+              <MenuItem
+                key={setting}
+                onClick={handleCloseUserMenu}
+                style={{
+                  color: theme.palette.common.black,
+                }}
               >
-                {setting}
-              </Typography>
-            </MenuItem>
-          ))}
+                <Typography
+                  textAlign="center"
+                  onClick={
+                    setting === "Logout"
+                      ? () => setopenLogoutConfirm(true)
+                      : () => navigate(`/${setting.toLowerCase()}`)
+                  }
+                >
+                  {setting}
+                </Typography>
+              </MenuItem>
+            )
+          )}
         </Menu>
       </SettingContainer>
-      <Dialog
-        open={openLogoutConfirm}
-        keepMounted
-        onClose={() => setopenLogoutConfirm(false)}
-        aria-describedby="logout-confimation"
-      >
-        <DialogTitle>{"Confirm Logout?"}</DialogTitle>
-        <DialogActions>
-          <Button onClick={() => setopenLogoutConfirm(false)}>Cancel</Button>
-          <Button color="error" onClick={logout}>
-            Confirm
-          </Button>
-        </DialogActions>
-      </Dialog>
-      <IconButton
-        style={{ padding: "1rem" }}
-        onClick={() => {
-          dispatch(changeMode())
-          setThemeLocalStorage(mode === "light" ? "dark" : "light")
-        }}
-      >
-        {mode === "light" ? (
-          <DarkModeRounded color="secondary" titleAccess="Turn of lights" />
-        ) : (
-          <LightModeRounded color="secondary" titleAccess="Turn on lights" />
-        )}
-      </IconButton>
+      <LogoutDialogBox
+        setopenLogoutConfirm={setopenLogoutConfirm}
+        logout={logout}
+        openLogoutConfirm={openLogoutConfirm}
+      />
     </NavigationContainer>
   )
 }
 
-export { NavigationLeft, NavigationRight }
+export { NavigationLeft, NavigationRight, NavigationMiddle }

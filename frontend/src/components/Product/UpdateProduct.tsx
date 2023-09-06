@@ -144,10 +144,8 @@ const UpdateCard = ({
   if (error) return <div>{error}</div>
 
   return (
-    <DisplayCardHorizontal
-      sx={{ padding: "2rem", justifyContent: "flex-start" }}
-    >
-      <aside>
+    <DisplayCardHorizontal sx={{ justifyContent: "flex-start" }}>
+      <aside style={{ width: "50%", height: "100%" }}>
         <CardMedia
           component="img"
           height="400"
@@ -157,6 +155,7 @@ const UpdateCard = ({
             [theme.breakpoints.down("md")]: {
               display: "none",
             },
+            width: "100%",
           }}
         />
       </aside>

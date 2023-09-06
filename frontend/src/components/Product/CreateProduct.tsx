@@ -14,8 +14,8 @@ import {
   CardMedia,
   IconButton,
 } from "@mui/material"
-import { Delete } from "@mui/icons-material"
 import { useNavigate } from "react-router-dom"
+import { Delete } from "@mui/icons-material"
 
 import { DisplayGrid } from "../../themes/categoryTheme"
 import { useAppSelector } from "../../hooks/useAppSelector"
@@ -24,9 +24,13 @@ import {
   HorizontalCardBox,
 } from "../../themes/horizontalCardTheme"
 import { useAppDispatch } from "../../hooks/useAppDispatch"
-import { createProduct } from "../../redux/reducers/productReducer"
+import {
+  clearProductError,
+  createProduct,
+} from "../../redux/reducers/productReducer"
 import { NewProductType } from "../../types/NewProduct"
 import { fetchCategoryData } from "../../redux/reducers/categoryReducer"
+import { AxiosError } from "axios"
 
 /**
  * @description Create Product page. After the product is created user is redirecd to login page
@@ -40,6 +44,7 @@ export const CreateProduct = () => {
   const [currentCategory, setCurrentCategory] = useState("")
   const [price, setPrice] = useState(0)
   const [images, setImages] = useState<string[]>([])
+  const [image, setImage] = useState<string>("")
   const [currentImage, setCurrentImage] = useState(
     "https://slp-statics.astockcdn.net/static_assets/staging/23summer/home/EMEA/curated-collections/card-5.jpg?width=580&format=webp"
   )
@@ -57,8 +62,24 @@ export const CreateProduct = () => {
 
     const findCategory = category.find((item) => item.name === currentCategory)
 
-    if (findCategory === undefined) return false
-    alert("Category name wasn't found created. Choose a correct category name")
+    if (findCategory === undefined) {
+      alert(
+        "Category name wasn't found created. Choose a correct category name"
+      )
+      return false
+    }
+
+    if (
+      title === "" ||
+      description === "" ||
+      stock === 0 ||
+      price === 0 ||
+      images.length === 0 ||
+      currentCategory === ""
+    ) {
+      alert("Please fill all the fields.")
+      return false
+    }
 
     const newProduct: NewProductType = {
       title: title || "Without Title",
@@ -69,12 +90,19 @@ export const CreateProduct = () => {
       imageURLList: images,
     }
 
-    dispatch(createProduct(newProduct)).then(() => {
-      if (error) {
-        return false
+    dispatch(createProduct(newProduct)).then((data) => {
+      if (data.type === "createProduct/fullfilled") {
+        if (data.payload instanceof AxiosError) {
+          setTimeout(() => {
+            dispatch(clearProductError())
+          }, 3000)
+          return false
+        } else {
+          alert("Product created")
+          navigate("/")
+        }
       } else {
-        alert("Product created")
-        navigate("/")
+        alert("Error creating product.")
       }
     })
   }
@@ -91,7 +119,7 @@ export const CreateProduct = () => {
   return (
     <DisplayGrid gap={2} gridTemplateColumns={"repeat(1,1fr)"}>
       <DisplayCardHorizontal>
-        <aside id="image-handling">
+        <aside id="image-handling" style={{ width: "50%", height: "100%" }}>
           <CardMedia
             component="img"
             height="400"
@@ -101,6 +129,7 @@ export const CreateProduct = () => {
               [theme.breakpoints.down("md")]: {
                 display: "none",
               },
+              height: "100%",
             }}
           />
         </aside>
@@ -159,7 +188,27 @@ export const CreateProduct = () => {
                 ))}
               </TextField>
             )}
-            {/* {images && (
+            <div>
+              <TextField
+                id="create-Form--Image"
+                label="Image"
+                variant="filled"
+                value={currentImage}
+                onChange={(e) => {
+                  setCurrentImage(e.target.value)
+                  setImage(e.target.value)
+                }}
+              />
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={() => addImageToList(image)}
+              >
+                AddImage
+              </Button>
+            </div>
+
+            {images && (
               <TextField
                 id="create-Form--Category"
                 select
@@ -178,12 +227,11 @@ export const CreateProduct = () => {
                   </MenuItem>
                 ))}
               </TextField>
-            )} */}
-            <div style={{ display: "flex" }}>
-              <Button variant="contained" color="primary" type="submit">
-                Create
-              </Button>
-            </div>
+            )}
+
+            <Button variant="contained" color="primary" type="submit">
+              Create
+            </Button>
           </form>
         </HorizontalCardBox>
       </DisplayCardHorizontal>

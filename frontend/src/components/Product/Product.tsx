@@ -24,6 +24,7 @@ import ContainerProductCategory, {
 } from "../../themes/categoryTheme"
 import { ProductType } from "../../types/Product"
 import "../../style.css"
+import { CreateDialogBox } from "../Common/CreateDialogBox"
 import { fetchProductData } from "../../redux/reducers/productReducer"
 
 /**
@@ -95,7 +96,7 @@ const Product = () => {
         </span>
         roducts
       </h1>
-      <div style={{ display: "flex", flexDirection: "row" }}>
+      {/* <div style={{ display: "flex", flexDirection: "row" }}>
         <div
           style={{ display: "flex", flexDirection: "column", margin: "10px" }}
         >
@@ -134,7 +135,8 @@ const Product = () => {
             € {filterPrice}
           </p>
         </div>
-      </div>
+      </div> */}
+      <CreateDialogBox />
 
       <DisplayGrid gap={2} gridTemplateColumns={"repeat(3,1fr)"}>
         {products.length > 0 &&

@@ -8,6 +8,7 @@ import { Outlet } from "react-router-dom"
 import { FooterContainer, HeaderContainer } from "../themes/HomePageTheme"
 import {
   NavigationLeft,
+  NavigationMiddle,
   NavigationRight,
 } from "../components/Common/NavigationBar"
 import { useAppSelector } from "../hooks/useAppSelector"
@@ -23,13 +24,13 @@ import { Footer } from "../components/Common/Footer"
 const Home = () => {
   const reduxErrorState = useAppSelector((state) => state)
   const productsError = reduxErrorState.product.error
-  const userError = reduxErrorState.user.error
   const categoryError = reduxErrorState.categories.error
 
   return (
     <>
       <HeaderContainer>
         <NavigationLeft />
+        <NavigationMiddle />
         <NavigationRight />
       </HeaderContainer>
       {productsError.length > 0 || categoryError.length > 0 ? (

@@ -106,9 +106,9 @@ export const StyledInputBase = styled(InputBase)(({ theme }) => ({
     transition: theme.transitions.create("width"),
     width: "100%",
     [theme.breakpoints.up("sm")]: {
-      width: "14ch",
+      width: "55ch",
       "&:focus": {
-        width: "20ch",
+        width: "65ch",
       },
     },
   },
@@ -116,7 +116,7 @@ export const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export const SearchResultList = styled("div")(({ theme }) => ({
   position: "absolute",
-  width: "16rem",
+  width: "65ch",
   marginLeft: theme.spacing(1),
   background: theme.palette.common.white,
   marginTop: ".5rem",
@@ -126,6 +126,8 @@ export const SearchResultList = styled("div")(({ theme }) => ({
   OverflowX: "hidden",
   borderRadius: "1rem",
   boxShadow: "0 0 2px 2px rgb(255,255,255,0.5)",
+  display: "flex",
+  flexDirection: "column",
 }))
 
 export const ThemeChangingButton = styled("button")(({ theme }) => ({}))
