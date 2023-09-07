@@ -115,11 +115,15 @@ const NavigationMiddle = () => {
               {item.title}
             </List>
           ))}
+          <br />
+          <br />
+          <br />
           <ExpandLessRounded
             onClick={() => {
               setShowSearchList("hidden")
             }}
-            style={{
+            fontSize="large"
+            sx={{
               position: "absolute",
               bottom: "0",
               backgroundColor: "rgba(180, 180, 180, 0.9)",
@@ -127,7 +131,9 @@ const NavigationMiddle = () => {
               textAlign: "center",
               padding: "0.5rem 0",
               cursor: "pointer",
-              marginTop: "2rem",
+              "&:hover": {
+                boxShadow: "10px 0 0px 0 rgba(255, 255, 255, 0.5)",
+              },
             }}
           />
         </div>
@@ -207,6 +213,7 @@ const NavigationRight = () => {
           <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
             <Avatar
               alt="Profile Pic"
+              sx={{ width: 32, height: 32 }}
               src={
                 currentUser
                   ? currentUser.imageURL

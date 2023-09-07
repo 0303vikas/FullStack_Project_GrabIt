@@ -5,37 +5,23 @@
  * @note
  * - Adding image option not added yet
  */
-import { useEffect, useState } from "react"
-import {
-  CardMedia,
-  useTheme,
-  Button,
-  TextField,
-  MenuItem,
-  Box,
-  IconButton,
-  CircularProgress,
-} from "@mui/material"
-import { useNavigate, useParams } from "react-router-dom"
+import { useEffect } from "react"
+import { useTheme, Box, CircularProgress } from "@mui/material"
+import { useParams } from "react-router-dom"
 import { Delete } from "@mui/icons-material"
 
-import { UpdateProductType } from "../../types/UpdateProduct"
 import ContainerProductCategory, {
   DisplayGrid,
 } from "../../themes/categoryTheme"
 import { useAppSelector } from "../../hooks/useAppSelector"
 import {
-  DisplayCardHorizontal,
-  HorizontalCardBox,
-} from "../../themes/horizontalCardTheme"
-import { ProductType } from "../../types/Product"
-import { useAppDispatch } from "../../hooks/useAppDispatch"
-import {
   deleteProduct,
   fetchProductData,
-  updateProduct,
 } from "../../redux/reducers/productReducer"
 import { fetchCategoryData } from "../../redux/reducers/categoryReducer"
+import { ProductUpdateCreateForm } from "./ProductUpdateCreateForm"
+import { useAppDispatch } from "../../hooks/useAppDispatch"
+import { ProductType } from "../../types/Product"
 
 export const UpdateProduct = () => {
   const theme = useTheme()
@@ -66,12 +52,9 @@ export const UpdateProduct = () => {
         </span>
         pdate
       </h1>
-
-      <DisplayGrid gap={2} gridTemplateColumns={"repeat(1,1fr)"}>
-        {findProduct && (
-          <UpdateCard product={findProduct} loading={loading} error={error} />
-        )}
-      </DisplayGrid>
+      {findProduct && (
+        <UpdateCard product={findProduct} loading={loading} error={error} />
+      )}
     </ContainerProductCategory>
   )
 }
@@ -85,53 +68,12 @@ const UpdateCard = ({
   loading: boolean
   error: string
 }) => {
-  const [title, setTitle] = useState(product.title)
-  const [description, setDescription] = useState(product.description)
-  const [currentCategory, setCurrentCategory] = useState(product.category.name)
-  const [images, setImages] = useState(product.imageURLList)
-  const [currentImage, setCurrentImage] = useState("")
   const dispatch = useAppDispatch()
-  const navigate = useNavigate()
-  const { category } = useAppSelector((store) => store.categories)
   const theme = useTheme()
 
   useEffect(() => {
     dispatch(fetchCategoryData())
   }, [])
-
-  const updateHandler = () => {
-    const newProduct: UpdateProductType = {
-      id: product.id,
-      update: {
-        title: title,
-        description: description,
-        category: category.find((item) => item.name === currentCategory),
-        imageURLList: images,
-      },
-    }
-    dispatch(updateProduct(newProduct))
-    alert("Product Updated")
-    navigate("/")
-  }
-
-  const handleImageRemov = (item: string) => {
-    const newImageList = images.filter((img) => img !== item)
-    console.log(newImageList)
-    setImages(newImageList)
-  }
-
-  const handleProductDelete = (id: string) => {
-    alert("Delete Product?")
-    dispatch(deleteProduct(product.id))
-    setTimeout(() => {
-      setTimeout(() => navigate("/"))
-    }, 2000)
-  }
-
-  const addImageToList = (arg: string) => {
-    setImages([arg, ...images])
-    alert("Image added Successfully.")
-  }
 
   if (loading)
     return (
@@ -144,86 +86,8 @@ const UpdateCard = ({
   if (error) return <div>{error}</div>
 
   return (
-    <DisplayCardHorizontal sx={{ justifyContent: "flex-start" }}>
-      <aside style={{ width: "50%", height: "100%" }}>
-        <CardMedia
-          component="img"
-          height="400"
-          image={currentImage ? currentImage : images[0]}
-          alt={product.title + " image."}
-          sx={{
-            [theme.breakpoints.down("md")]: {
-              display: "none",
-            },
-            width: "100%",
-          }}
-        />
-      </aside>
-
-      <HorizontalCardBox>
-        <div style={{ display: "grid", rowGap: "2rem" }} id="update-Form">
-          <TextField
-            id="update-Form--Text"
-            label="Title"
-            variant="filled"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <TextField
-            id="update-Form--Description"
-            label="Description"
-            variant="filled"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-          {category.length && (
-            <TextField
-              id="update-Form--Category"
-              select
-              label="Categories"
-              defaultValue={currentCategory}
-              onChange={(e) => setCurrentCategory(e.target.value)}
-            >
-              {category.map((item) => (
-                <MenuItem value={item.name} key={item.id}>
-                  {item.name}
-                </MenuItem>
-              ))}
-            </TextField>
-          )}
-
-          <TextField
-            id="update-Form--Category"
-            select
-            label="Images"
-            defaultValue={images?.[0]}
-            onChange={(e) => setCurrentImage(e.target.value)}
-          >
-            {images &&
-              images.map((item) => (
-                <MenuItem value={item} key={item}>
-                  {item}
-
-                  <IconButton onClick={() => handleImageRemov(item)}>
-                    <Delete color="error" />
-                  </IconButton>
-                </MenuItem>
-              ))}
-          </TextField>
-        </div>
-        <div style={{ display: "flex", marginTop: "1rem" }}>
-          <Button variant="contained" color="primary" onClick={updateHandler}>
-            Update
-          </Button>
-          <Button
-            variant="contained"
-            color="error"
-            onClick={() => handleProductDelete(product.id)}
-          >
-            Delete
-          </Button>
-        </div>
-      </HorizontalCardBox>
-    </DisplayCardHorizontal>
+    <DisplayGrid gap={2} gridTemplateColumns={"repeat(1,1fr)"}>
+      <ProductUpdateCreateForm formType="Update" updateData={product} />
+    </DisplayGrid>
   )
 }

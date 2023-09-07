@@ -62,6 +62,10 @@ const updatedProduct4: UpdateProductType = {
   update: {
     title: "Updated D product",
     price: 10,
+    stock: 10,
+    description: "updated product",
+    imageURLList: ["https://placeimg.com/640/480/any"],
+    categoryId: "3",
   },
 }
 

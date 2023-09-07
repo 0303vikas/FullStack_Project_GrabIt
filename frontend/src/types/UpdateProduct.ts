@@ -1,6 +1,6 @@
-import { ProductType } from "./Product"
+import { NewProductType } from "./NewProduct"
 
 export interface UpdateProductType {
   id: string
-  update: Partial<ProductType>
+  update: NewProductType
 }
