@@ -13,26 +13,24 @@ import ContainerProductCategory, {
   DisplayGrid,
 } from "../../themes/categoryTheme"
 import { useAppSelector } from "../../hooks/useAppSelector"
-import {
-  deleteProduct,
-  fetchProductData,
-} from "../../redux/reducers/productReducer"
 import { fetchCategoryData } from "../../redux/reducers/categoryReducer"
-import { ProductUpdateCreateForm } from "./ProductUpdateCreateForm"
 import { useAppDispatch } from "../../hooks/useAppDispatch"
-import { ProductType } from "../../types/Product"
+import { CategoryType } from "../../types/Category"
+import { CategoryUpdateCreateForm } from "./CategoryUpdateCreateForm"
 
-export const UpdateProduct = () => {
+export const UpdateCategory = () => {
   const theme = useTheme()
   const { id } = useParams()
-  const { products, loading, error } = useAppSelector((store) => store.product)
+  const { loading, error, category } = useAppSelector(
+    (store) => store.categories
+  )
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    dispatch(fetchProductData())
+    dispatch(fetchCategoryData())
   }, [])
 
-  const findProduct = products.find((item) => item.id === id)
+  const findCategory = category.find((item) => item.id === id)
   return (
     <ContainerProductCategory
       id="product--container"
@@ -51,28 +49,23 @@ export const UpdateProduct = () => {
         </span>
         pdate
       </h1>
-      {findProduct && (
-        <UpdateCard product={findProduct} loading={loading} error={error} />
+      {findCategory && (
+        <UpdateCard category={findCategory} loading={loading} error={error} />
       )}
     </ContainerProductCategory>
   )
 }
 
 const UpdateCard = ({
-  product,
+  category,
   loading,
   error,
 }: {
-  product: ProductType
+  category: CategoryType
   loading: boolean
   error: string
 }) => {
-  const dispatch = useAppDispatch()
   const theme = useTheme()
-
-  useEffect(() => {
-    dispatch(fetchCategoryData())
-  }, [])
 
   if (loading)
     return (
@@ -86,7 +79,7 @@ const UpdateCard = ({
 
   return (
     <DisplayGrid gap={2} gridTemplateColumns={"repeat(1,1fr)"}>
-      <ProductUpdateCreateForm formType="Update" updateData={product} />
+      <CategoryUpdateCreateForm formType="Update" currentCategory={category} />
     </DisplayGrid>
   )
 }

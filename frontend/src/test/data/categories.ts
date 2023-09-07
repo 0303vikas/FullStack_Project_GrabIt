@@ -28,10 +28,11 @@ const invalidCategory: Omit<CategoryType, "id"> = {
   imageURL: "",
 }
 
-const updateCat: Partial<UpdateCategoryType> = {
+const updateCat: UpdateCategoryType = {
   id: "1",
-  newData: {
+  update: {
     name: "hello",
+    imageURL: "",
   },
 }
 

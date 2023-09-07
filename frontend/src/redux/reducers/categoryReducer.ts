@@ -45,8 +45,14 @@ export const createCategory = createAsyncThunk(
   async (category: Omit<CategoryType, "id">) => {
     try {
       const request = await axios.post(
-        `${process.env.REACT_APP_URL}/api/v1/categorys/`,
-        category
+        `${process.env.REACT_APP_URL}/api/v1/categorys`,
+        category,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+            "Content-Type": "application/json",
+          },
+        }
       )
       return request.data
     } catch (e) {
@@ -61,11 +67,17 @@ export const createCategory = createAsyncThunk(
 
 export const updateCategory = createAsyncThunk(
   "updateCategory",
-  async (category: Partial<UpdateCategoryType>) => {
+  async (category: UpdateCategoryType) => {
     try {
       const request = await axios.put<CategoryType>(
         `${process.env.REACT_APP_URL}/api/v1/categorys/${category.id}`,
-        category.newData
+        category.update,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+            "Content-Type": "application/json",
+          },
+        }
       )
       return request.data
     } catch (e) {
@@ -83,7 +95,13 @@ export const deleteCategory = createAsyncThunk(
   async (id: string) => {
     try {
       const request = await axios.delete<boolean>(
-        `${process.env.REACT_APP_URL}/api/v1/categorys/${id}`
+        `${process.env.REACT_APP_URL}/api/v1/categorys/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+            "Content-Type": "application/json",
+          },
+        }
       )
       return { response: request.data, id: id }
     } catch (e) {
@@ -102,6 +120,9 @@ const categorySlice = createSlice({
   reducers: {
     clearAllCategory: (state) => {
       return initialState
+    },
+    clearCategoryError: (state) => {
+      state.error = ""
     },
     sortCategory: (state, action: PayloadAction<"asc" | "desc">) => {
       if (action.payload === "asc") {
@@ -140,6 +161,9 @@ const categorySlice = createSlice({
         }
         state.loading = false
       })
+      .addCase(createCategory.rejected, (state, action) => {
+        state.error = "Cannot Create Category."
+      })
       .addCase(updateCategory.fulfilled, (state, action) => {
         if (typeof action.payload === "string") {
           state.error = action.payload
@@ -157,6 +181,9 @@ const categorySlice = createSlice({
           }
         }
       })
+      .addCase(updateCategory.rejected, (state, action) => {
+        state.error = "Cannot Update Category."
+      })
       .addCase(deleteCategory.fulfilled, (state, action) => {
         if (typeof action.payload === "string") {
           state.error = action.payload
@@ -168,14 +195,18 @@ const categorySlice = createSlice({
             )
             state.category = newCategoryList
           } else {
-            state.error = "request returned false"
+            state.error = "An Error occured during Deleting Category."
           }
         }
+      })
+      .addCase(deleteCategory.rejected, (state, action) => {
+        state.error = "Cannot Delete Category."
       })
   },
 })
 
 const categoryReducer = categorySlice.reducer
-export const { sortCategory, clearAllCategory } = categorySlice.actions
+export const { sortCategory, clearAllCategory, clearCategoryError } =
+  categorySlice.actions
 
 export default categoryReducer

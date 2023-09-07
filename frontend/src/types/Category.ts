@@ -1,3 +1,5 @@
+import { NewCategoryType } from "./NewCategory"
+
 export interface CategoryType {
   id: string
   name: string
@@ -6,5 +8,5 @@ export interface CategoryType {
 
 export interface UpdateCategoryType {
   id: string
-  newData: Partial<CategoryType>
+  update: NewCategoryType
 }

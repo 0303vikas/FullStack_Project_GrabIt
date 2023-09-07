@@ -59,8 +59,6 @@ const Product = () => {
     setCurrentPage(value)
   }
 
-  console.log("products", products)
-
   // const paginationHandler = Math.ceil(
   //   filterList.filterItem.filter(
   //     (item) =>

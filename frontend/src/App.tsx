@@ -5,13 +5,9 @@
  * @note
  * - change mode button is not working yet
  */
-import React, { createContext, useEffect } from "react"
+import React, { useEffect } from "react"
 import { ThemeProvider } from "@mui/material/styles"
-import {
-  RouterProvider,
-  createBrowserRouter,
-  useNavigate,
-} from "react-router-dom"
+import { RouterProvider, createBrowserRouter } from "react-router-dom"
 
 import { darkMode, lightMode } from "./themes/mainTheme"
 import { useAppDispatch } from "./hooks/useAppDispatch"
@@ -28,6 +24,7 @@ import { authenticateUser, clearUserLogin } from "./redux/reducers/userReducer"
 import { SingleProduct } from "./components/Product/SingleProduct"
 import { useAppSelector } from "./hooks/useAppSelector"
 import Profile from "./components/Profile/Profile"
+import { UpdateCategory } from "./components/Category/UpdateCategory"
 
 const appRouter = createBrowserRouter([
   {
@@ -68,6 +65,14 @@ const appRouter = createBrowserRouter([
         element: (
           <Protected routerType="updateproduct">
             <UpdateProduct />
+          </Protected>
+        ),
+      },
+      {
+        path: "/category/edit/:id",
+        element: (
+          <Protected routerType="updatecategory">
+            <UpdateCategory />
           </Protected>
         ),
       },

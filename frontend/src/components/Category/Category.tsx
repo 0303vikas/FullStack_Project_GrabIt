@@ -18,6 +18,8 @@ import {
   useTheme,
   Box,
   CircularProgress,
+  CardActions,
+  IconButton,
 } from "@mui/material"
 import { useNavigate } from "react-router-dom"
 
@@ -29,6 +31,8 @@ import ContainerProductCategory, {
 } from "../../themes/categoryTheme"
 import { CategoryType } from "../../types/Category"
 import { fetchCategoryData } from "../../redux/reducers/categoryReducer"
+import { Settings } from "@mui/icons-material"
+import { CreateDialogBox } from "../Common/CreateDialogBox"
 
 /**
  * @description check redux store cart state and renders the element accordingly
@@ -45,10 +49,10 @@ const Category = () => {
   const dispatch = useAppDispatch()
   const theme = useTheme()
   const [currentPage, setCurrentPage] = useState<number>(1)
-  const navigation = useNavigate()
-  const { category, error, loading } = useAppSelector(
-    (state) => state.categories
-  )
+  const navigate = useNavigate()
+  const reduxState = useAppSelector((state) => state)
+  const { category, error, loading } = reduxState.categories
+  const { currentUser } = reduxState.user
   const [slicedArray, setSlicedArray] = useState<CategoryType[]>(
     category.slice(0, 8)
   ) // for component rerender after category state change
@@ -91,6 +95,8 @@ const Category = () => {
         </span>
         ategories
       </h1>
+      <CreateDialogBox />
+
       <DisplayGrid gap={1} gridTemplateColumns={"repeat(4,1fr)"}>
         {/**
          * if category exists
@@ -105,7 +111,7 @@ const Category = () => {
             return (
               <DisplayCard key={item.id}>
                 <CardActionArea
-                  onClick={() => navigation(`/category/${item.id}/products`)}
+                  onClick={() => navigate(`/category/${item.id}/products`)}
                 >
                   <CardMedia
                     component="img"
@@ -117,6 +123,26 @@ const Category = () => {
                     <Typography>{item.name}</Typography>
                   </CardContent>
                 </CardActionArea>
+                <CardActions sx={{ bottom: "0px", minHeight: "30%" }}>
+                  {/**
+                   * if current user exists and role is admin, then
+                   * display setting btn
+                   * else return display non
+                   */}
+                  {currentUser ? (
+                    currentUser.role === 0 ? (
+                      <IconButton
+                        aria-label="Edit Category"
+                        onClick={() => navigate(`/category/edit/${item.id}`)}
+                      >
+                        <Settings
+                          color="info"
+                          titleAccess="Go to Category setting"
+                        />
+                      </IconButton>
+                    ) : null
+                  ) : null}
+                </CardActions>
               </DisplayCard>
             )
           })}
