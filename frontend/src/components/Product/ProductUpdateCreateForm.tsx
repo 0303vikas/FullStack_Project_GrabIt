@@ -25,6 +25,7 @@ import {
   DisplayCardHorizontal,
   HorizontalCardBox,
 } from "../../themes/horizontalCardTheme"
+import { current } from "@reduxjs/toolkit"
 
 export const ProductUpdateCreateForm = ({
   formType,
@@ -43,7 +44,7 @@ export const ProductUpdateCreateForm = ({
   const [images, setImages] = useState<string[]>(updateData?.imageURLList || [])
   const [image, setImage] = useState<string>("")
   const [currentImage, setCurrentImage] = useState(
-    "https://slp-statics.astockcdn.net/static_assets/staging/23summer/home/EMEA/curated-collections/card-5.jpg?width=580&format=webp"
+    updateData?.imageURLList[0] || ""
   )
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
@@ -102,7 +103,6 @@ export const ProductUpdateCreateForm = ({
           }
         }
       )
-      return true
     } else {
       dispatch(createProduct(newProduct)).then((data) => {
         if (data.type === "createProduct/fulfilled") {
@@ -114,12 +114,12 @@ export const ProductUpdateCreateForm = ({
           } else {
             alert("Product created")
             navigate("/")
+            return true
           }
         } else {
           alert("Error creating product.")
         }
       })
-      return true
     }
   }
 
@@ -152,7 +152,15 @@ export const ProductUpdateCreateForm = ({
         <CardMedia
           component="img"
           height="400"
-          image={currentImage ? currentImage : images[0]}
+          image={
+            currentImage === undefined ||
+            currentImage === "" ||
+            currentImage === null ||
+            images === null ||
+            images === undefined
+              ? "https://slp-statics.astockcdn.net/static_assets/staging/23summer/home/EMEA/curated-collections/card-5.jpg?width=580&format=webp"
+              : currentImage
+          }
           alt={title + " image."}
           sx={{
             [theme.breakpoints.down("md")]: {
@@ -244,8 +252,14 @@ export const ProductUpdateCreateForm = ({
               id="create-Form--Category"
               select
               label="Images"
-              defaultValue=""
-              value={currentImage ? currentImage : ""}
+              value={
+                currentImage === undefined ||
+                currentImage === null ||
+                images === null ||
+                images === undefined
+                  ? ""
+                  : currentImage
+              }
               onChange={(e) => setCurrentImage(e.target.value)}
             >
               {images.map((item) => (

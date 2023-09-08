@@ -90,7 +90,8 @@ export const deleteProduct = createAsyncThunk(
           },
         }
       )
-      return { response: request.data, id: id }
+
+      return { response: request.statusText, id: id }
     } catch (e) {
       const error = e as AxiosError
       return error
@@ -197,7 +198,7 @@ const productSlice = createSlice({
         if (action.payload instanceof AxiosError) {
           state.error = action.payload.message
         } else {
-          if (action.payload.response === true) {
+          if (action.payload.response === "No Content") {
             const response = action.payload
             const updatedArray = state.products.filter(
               (item) => item.id !== response.id

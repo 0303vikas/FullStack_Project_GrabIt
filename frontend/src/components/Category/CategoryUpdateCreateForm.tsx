@@ -81,6 +81,7 @@ export const CategoryUpdateCreateForm = ({
           } else {
             alert("Category UPdated Successfully.")
             navigate("/")
+            return true
           }
         }
       })

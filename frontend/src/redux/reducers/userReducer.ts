@@ -136,7 +136,7 @@ export const deleteUser = createAsyncThunk("deleteUser", async (id: string) => {
         },
       }
     )
-    return { response: request.data, id: id }
+    return { response: request.statusText, id: id }
   } catch (e) {
     const error = e as AxiosError
     return error

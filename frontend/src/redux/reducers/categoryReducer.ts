@@ -103,12 +103,9 @@ export const deleteCategory = createAsyncThunk(
           },
         }
       )
-      return { response: request.data, id: id }
+      return { response: request.statusText, id: id }
     } catch (e) {
       const error = e as AxiosError
-      if (error.response) {
-        return JSON.stringify(error.response.data)
-      }
       return error
     }
   }
@@ -185,13 +182,13 @@ const categorySlice = createSlice({
         state.error = "Cannot Update Category."
       })
       .addCase(deleteCategory.fulfilled, (state, action) => {
-        if (typeof action.payload === "string") {
-          state.error = action.payload
+        if (action.payload instanceof AxiosError) {
+          state.error = action.payload.message
         } else {
-          if (action.payload.response === true) {
-            const deleteId = action.payload.id
+          if (action.payload.response === "No Content") {
+            const response = action.payload
             const newCategoryList = state.category.filter(
-              (item) => item.id !== deleteId
+              (item) => item.id !== response.id
             )
             state.category = newCategoryList
           } else {
