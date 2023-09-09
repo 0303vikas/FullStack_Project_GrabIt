@@ -115,21 +115,18 @@ const NavigationMiddle = () => {
               {item.title}
             </List>
           ))}
-          <br />
-          <br />
-          <br />
+
           <ExpandLessRounded
             onClick={() => {
               setShowSearchList("hidden")
             }}
             fontSize="large"
             sx={{
-              position: "absolute",
+              position: "sticky",
               bottom: "0",
               backgroundColor: "rgba(180, 180, 180, 0.9)",
               width: "100%",
               textAlign: "center",
-              padding: "0.5rem 0",
               cursor: "pointer",
               "&:hover": {
                 boxShadow: "10px 0 0px 0 rgba(255, 255, 255, 0.5)",

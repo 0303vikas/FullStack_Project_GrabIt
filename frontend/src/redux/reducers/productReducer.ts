@@ -139,6 +139,13 @@ const productSlice = createSlice({
     clearProductError: (state) => {
       state.error = ""
     },
+    sortAsc: (state, action) => {
+      if (action.payload === "asc") {
+        state.products.sort((a, b) => a.title.localeCompare(b.title))
+      } else {
+        state.products.sort((a, b) => b.title.localeCompare(a.title))
+      }
+    },
   },
   extraReducers: (build) => {
     build
@@ -217,6 +224,7 @@ const productSlice = createSlice({
 })
 
 const productReducer = productSlice.reducer
-export const { clearProductStore, clearProductError } = productSlice.actions
+export const { clearProductStore, clearProductError, sortAsc } =
+  productSlice.actions
 
 export default productReducer

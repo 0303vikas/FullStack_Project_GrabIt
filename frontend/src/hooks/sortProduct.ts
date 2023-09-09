@@ -1,4 +1,4 @@
-// import { sortAsc } from "../redux/reducers/productReducer"
+import { sortAsc } from "../redux/reducers/productReducer"
 /**
  *
  * @param dispatch disptach for sorting product
@@ -11,11 +11,11 @@ export const ascDescFunction = (
   sort: string,
   setSort: React.Dispatch<React.SetStateAction<string>>
 ) => {
-  // if (sort === "asc") {
-  //   dispatch(sortAsc("asc"))
-  //   setSort("desc")
-  // } else {
-  //   dispatch(sortAsc("desc"))
-  //   setSort("asc")
-  // }
+  if (sort === "asc") {
+    dispatch(sortAsc("asc"))
+    setSort("desc")
+  } else {
+    dispatch(sortAsc("desc"))
+    setSort("asc")
+  }
 }

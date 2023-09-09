@@ -19,7 +19,10 @@ namespace GrabIt.Infrastructure.src.Shared
         public static async Task<Pagination<T>> CreateAsync(IQueryable<T> source, int pageNumber, int pageSize)
         {
             var count = await source.CountAsync();
-            var items = await source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+            List<T> items;
+            if (pageNumber == 0 || pageSize == 0) { items = await source.ToListAsync(); }
+            else { items = await source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync(); }
+
 
             return new Pagination<T>(items, count, pageNumber, pageSize);
         }

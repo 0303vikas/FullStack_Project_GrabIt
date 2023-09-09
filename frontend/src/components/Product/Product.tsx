@@ -6,13 +6,13 @@
 import React, { useEffect, useState } from "react"
 import {
   Pagination,
-  IconButton,
   useTheme,
   Box,
   CircularProgress,
+  Button,
 } from "@mui/material"
 import { useParams } from "react-router-dom"
-import { SortByAlphaOutlined } from "@mui/icons-material"
+import { FilterList, SortByAlphaOutlined } from "@mui/icons-material"
 
 import { useAppSelector } from "../../hooks/useAppSelector"
 import { useAppDispatch } from "../../hooks/useAppDispatch"
@@ -38,19 +38,20 @@ const Product = () => {
   const theme = useTheme()
   const { products, error, loading } = useAppSelector((state) => state.product)
   const dispatch = useAppDispatch()
-  const [filterPrice, setfilterPrice] = useState(100)
   const { id } = useParams()
   const [sort, setSort] = useState("asc")
+  const [showFilter, setShowFilter] = useState(false)
+  const [filterPrice, setfilterPrice] = useState(0)
 
   useEffect(() => {
     dispatch(fetchProductData())
   }, [])
 
-  // let filterList: {
-  //   filterItem: ProductType[]
-  //   minValueRange: number
-  //   maxValueRange: number
-  // } = filterProduct(products, "id", id)
+  let filterList: {
+    filterItem: ProductType[]
+    minValueRange: number
+    maxValueRange: number
+  } = filterProduct(products, "id", id)
 
   const handlePageChange = (
     event: React.ChangeEvent<unknown>,
@@ -59,12 +60,14 @@ const Product = () => {
     setCurrentPage(value)
   }
 
-  // const paginationHandler = Math.ceil(
-  //   filterList.filterItem.filter(
-  //     (item) =>
-  //       item.price > filterList.minValueRange && item.price < filterPrice
-  //   ).length / 9
-  // )
+  const paginationHandler = Math.ceil(
+    filterPrice === 0
+      ? filterList.filterItem.length / 9
+      : filterList.filterItem.filter(
+          (item) =>
+            item.price > filterList.minValueRange && item.price < filterPrice
+        ).length / 9
+  )
 
   if (loading)
     return (
@@ -94,59 +97,134 @@ const Product = () => {
         </span>
         roducts
       </h1>
-      {/* <div style={{ display: "flex", flexDirection: "row" }}>
+      <aside
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          marginBottom: "7rem",
+        }}
+      >
         <div
-          style={{ display: "flex", flexDirection: "column", margin: "10px" }}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            position: "relative",
+          }}
         >
-          <IconButton
-            onClick={() => ascDescFunction(dispatch, sort, setSort)}
-            className="productCategory--container--sortBtn"
-          >
-            <SortByAlphaOutlined
+          <Button variant="outlined" onClick={() => setShowFilter(!showFilter)}>
+            <FilterList />
+            Filter Products
+          </Button>
+          {showFilter === true && (
+            <div
               style={{
-                color:
-                  theme.palette.mode === "light"
-                    ? theme.palette.primary.dark
-                    : theme.palette.secondary.main,
+                position: "absolute",
+                backgroundColor: theme.palette.common.black,
+                top: "100%",
+                maxWidth: "100%",
               }}
-              titleAccess="Sort Ascending and Descending"
-            />
-          </IconButton>
+            >
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  margin: "10px",
+                }}
+              >
+                <Button
+                  onClick={() => ascDescFunction(dispatch, sort, setSort)}
+                  className="productCategory--container--sortBtn"
+                  variant="text"
+                  sx={{
+                    color:
+                      theme.palette.mode === "light"
+                        ? theme.palette.secondary.dark
+                        : theme.palette.primary.main,
+                    fontSize: "1rem",
+                    fontWeight: "bold",
+                  }}
+                >
+                  <SortByAlphaOutlined
+                    sx={{
+                      color:
+                        theme.palette.mode === "light"
+                          ? theme.palette.secondary.dark
+                          : theme.palette.primary.main,
+                      marginRight: "5px",
+                    }}
+                    titleAccess="Sort Ascending and Descending"
+                  />
+                  Asc & Desc
+                </Button>
+              </div>
+              <hr />
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  margin: "10px",
+                  color:
+                    theme.palette.mode === "light"
+                      ? theme.palette.secondary.dark
+                      : theme.palette.primary.main,
+                  fontSize: "1rem",
+                  fontWeight: "bold",
+                }}
+              >
+                Price Filter
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                  }}
+                >
+                  <input
+                    type="range"
+                    min={filterList.minValueRange}
+                    max={filterList.maxValueRange}
+                    step="5"
+                    onChange={(e) => setfilterPrice(Number(e.target.value))}
+                    title="Set price Range"
+                    style={{ width: "40%" }}
+                  />
+                  <p
+                    style={{
+                      color:
+                        theme.palette.mode === "light"
+                          ? theme.palette.secondary.dark
+                          : theme.palette.primary.main,
+                    }}
+                  >
+                    € {filterPrice ? filterPrice : 0}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
-        <div style={{ display: "flex", flexDirection: "row", margin: "10px" }}>
-          <input
-            type="range"
-            min={products.length}
-            // step="5"
-            max={products.length}
-            onChange={(e) => setfilterPrice(Number(e.target.value))}
-            title="Set price Range"
-          />
-          <p
-            style={{
-              color:
-                theme.palette.mode === "light"
-                  ? theme.palette.primary.dark
-                  : theme.palette.secondary.main,
-            }}
-          >
-            € {filterPrice}
-          </p>
-        </div>
-      </div> */}
-      <CreateDialogBox />
+        <CreateDialogBox />
+      </aside>
 
       <DisplayGrid gap={2} gridTemplateColumns={"repeat(3,1fr)"}>
-        {products.length > 0 &&
-          products.map((item, index) => (
-            <Card
-              key={item.id}
-              item={item}
-              imagesNo={item.imageURLList.length}
-            />
-          ))}
+        {filterList.filterItem &&
+          (filterPrice === 0
+            ? filterList.filterItem
+            : filterList.filterItem.filter(
+                (item) =>
+                  item.price >= filterList.minValueRange &&
+                  item.price <= filterPrice
+              )
+          )
+            .slice(currentPage * 9 - 9, currentPage * 9)
+            .map((item, index) => (
+              <Card
+                key={item.id}
+                item={item}
+                imagesNo={item.imageURLList.length}
+              />
+            ))}
       </DisplayGrid>
-      {/* <Pagination
+      <Pagination
         count={paginationHandler}
         page={currentPage}
         onChange={handlePageChange}
@@ -158,7 +236,7 @@ const Product = () => {
             color: theme.palette.common.black,
           },
         }}
-      /> */}
+      />
     </ContainerProductCategory>
   )
 }
