@@ -1,6 +1,7 @@
 import { Card, alpha, styled } from "@mui/material"
-import { borderAnimation } from "./formTheme"
 import { Box } from "@mui/system"
+
+import { borderAnimation } from "./formTheme"
 
 const ContainerProductCategory = styled("section")(({ theme }) => ({
   background: alpha(theme.palette.common.white, 1),

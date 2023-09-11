@@ -25,6 +25,7 @@ import { SingleProduct } from "./components/Product/SingleProduct"
 import { useAppSelector } from "./hooks/useAppSelector"
 import Profile from "./components/Profile/Profile"
 import { UpdateCategory } from "./components/Category/UpdateCategory"
+import { CreateOrder } from "./components/Order/CreateOrder"
 
 const appRouter = createBrowserRouter([
   {
@@ -99,6 +100,10 @@ const appRouter = createBrowserRouter([
             <Profile />
           </Protected>
         ),
+      },
+      {
+        path: "/placeorder",
+        element: <CreateOrder />,
       },
     ],
   },

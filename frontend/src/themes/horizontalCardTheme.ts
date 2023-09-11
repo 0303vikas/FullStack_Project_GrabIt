@@ -4,12 +4,15 @@ const DisplayCardHorizontal = styled(Card)(({ theme }) => ({
   display: "flex",
   justifyContent: "normal",
   alignContent: "center",
+  height: "100%",
+  width: "100%",
 }))
 
 const HorizontalCardBox = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
-  height: "max-content",
+  height: "100%",
+  width: "50%",
 }))
 
 const HorizontalCardMedia = styled(CardMedia)(({ theme }) => ({}))

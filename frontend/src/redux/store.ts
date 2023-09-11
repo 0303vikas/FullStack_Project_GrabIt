@@ -6,6 +6,8 @@ import cartReducer from "./reducers/cartReducer"
 import userReducer from "./reducers/userReducer"
 import modeReducer from "./reducers/modeReducer"
 import { checkBrowserMode } from "../hooks/reduxMediaModeCheck"
+import addressReducer from "./reducers/addressReducer"
+import orderReducer from "./reducers/orderReducer"
 
 const storedCart = localStorage.getItem("ProductCart")
 const cartData = storedCart !== null ? JSON.parse(storedCart) : []
@@ -18,7 +20,9 @@ const store = configureStore({
     categories: categoryReducer,
     cart: cartReducer,
     user: userReducer,
+    address: addressReducer,
     mode: modeReducer,
+    order: orderReducer,
   },
   preloadedState: {
     product: {
@@ -40,6 +44,22 @@ const store = configureStore({
         statusCode: 200,
       },
       authloading: true,
+    },
+    address: {
+      address: [],
+      loading: false,
+      error: {
+        message: "",
+        statusCode: 200,
+      },
+    },
+    order: {
+      orders: [],
+      loading: false,
+      error: {
+        message: "",
+        statusCode: 200,
+      },
     },
     mode: {
       mode: modeData ? "dark" : "light",
