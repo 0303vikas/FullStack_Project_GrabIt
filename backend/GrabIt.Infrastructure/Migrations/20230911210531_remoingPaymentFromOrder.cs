@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace GrabIt.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class dbMigrations : Migration
+    public partial class remoingPaymentFromOrder : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,6 +16,25 @@ namespace GrabIt.Infrastructure.Migrations
             migrationBuilder.AlterDatabase()
                 .Annotation("Npgsql:Enum:order_status_type", "delivered,shipped,in_process,waiting,canceled")
                 .Annotation("Npgsql:Enum:user_role", "admin,customer");
+
+            migrationBuilder.CreateTable(
+                name: "addresses",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    street = table.Column<string>(type: "text", nullable: false),
+                    city = table.Column<string>(type: "text", nullable: false),
+                    state = table.Column<string>(type: "text", nullable: false),
+                    postal_code = table.Column<string>(type: "text", nullable: false),
+                    country = table.Column<string>(type: "text", nullable: false),
+                    user_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    updated_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_addresses", x => x.id);
+                });
 
             migrationBuilder.CreateTable(
                 name: "carts",
@@ -59,6 +78,19 @@ namespace GrabIt.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "payments",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    payment_method = table.Column<string>(type: "text", nullable: false),
+                    transection_id = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_payments", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "users",
                 columns: table => new
                 {
@@ -76,6 +108,29 @@ namespace GrabIt.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("pk_users", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "orders",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "uuid", nullable: false),
+                    total_price = table.Column<float>(type: "real", nullable: false),
+                    user_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    address_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    status = table.Column<OrderStatusType>(type: "order_status_type", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    updated_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_orders", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_orders_addresses_address_id",
+                        column: x => x.address_id,
+                        principalTable: "addresses",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -99,31 +154,6 @@ namespace GrabIt.Infrastructure.Migrations
                         name: "fk_products_categories_category_id",
                         column: x => x.category_id,
                         principalTable: "categories",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "addresses",
-                columns: table => new
-                {
-                    id = table.Column<Guid>(type: "uuid", nullable: false),
-                    street = table.Column<string>(type: "text", nullable: false),
-                    city = table.Column<string>(type: "text", nullable: false),
-                    state = table.Column<string>(type: "text", nullable: false),
-                    postal_code = table.Column<string>(type: "text", nullable: false),
-                    country = table.Column<string>(type: "text", nullable: false),
-                    user_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    updated_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_addresses", x => x.id);
-                    table.ForeignKey(
-                        name: "fk_addresses_users_user_id",
-                        column: x => x.user_id,
-                        principalTable: "users",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -155,35 +185,6 @@ namespace GrabIt.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "orders",
-                columns: table => new
-                {
-                    id = table.Column<Guid>(type: "uuid", nullable: false),
-                    total_price = table.Column<float>(type: "real", nullable: false),
-                    user_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    address_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    status = table.Column<OrderStatusType>(type: "order_status_type", nullable: false),
-                    created_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    updated_at = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_orders", x => x.id);
-                    table.ForeignKey(
-                        name: "fk_orders_addresses_address_id",
-                        column: x => x.address_id,
-                        principalTable: "addresses",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "fk_orders_users_user_id",
-                        column: x => x.user_id,
-                        principalTable: "users",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "order_products",
                 columns: table => new
                 {
@@ -208,31 +209,6 @@ namespace GrabIt.Infrastructure.Migrations
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateTable(
-                name: "payments",
-                columns: table => new
-                {
-                    order_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    payment_method = table.Column<string>(type: "text", nullable: false),
-                    transection_id = table.Column<string>(type: "text", nullable: false),
-                    id = table.Column<Guid>(type: "uuid", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_payments", x => x.order_id);
-                    table.ForeignKey(
-                        name: "fk_payments_orders_order_id",
-                        column: x => x.order_id,
-                        principalTable: "orders",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateIndex(
-                name: "ix_addresses_user_id",
-                table: "addresses",
-                column: "user_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_cart_products_cart_id",
@@ -264,11 +240,6 @@ namespace GrabIt.Infrastructure.Migrations
                 name: "ix_orders_address_id",
                 table: "orders",
                 column: "address_id");
-
-            migrationBuilder.CreateIndex(
-                name: "ix_orders_user_id",
-                table: "orders",
-                column: "user_id");
 
             migrationBuilder.CreateIndex(
                 name: "ix_payments_transection_id",
@@ -304,22 +275,22 @@ namespace GrabIt.Infrastructure.Migrations
                 name: "payments");
 
             migrationBuilder.DropTable(
-                name: "carts");
+                name: "users");
 
             migrationBuilder.DropTable(
-                name: "products");
+                name: "carts");
 
             migrationBuilder.DropTable(
                 name: "orders");
 
             migrationBuilder.DropTable(
-                name: "categories");
+                name: "products");
 
             migrationBuilder.DropTable(
                 name: "addresses");
 
             migrationBuilder.DropTable(
-                name: "users");
+                name: "categories");
         }
     }
 }

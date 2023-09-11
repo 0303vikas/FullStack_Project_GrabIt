@@ -73,9 +73,6 @@ namespace GrabIt.Infrastructure.Migrations
                     b.HasKey("Id")
                         .HasName("pk_addresses");
 
-                    b.HasIndex("UserId")
-                        .HasDatabaseName("ix_addresses_user_id");
-
                     b.ToTable("addresses", (string)null);
                 });
 
@@ -225,9 +222,6 @@ namespace GrabIt.Infrastructure.Migrations
                     b.HasIndex("AddressId")
                         .HasDatabaseName("ix_orders_address_id");
 
-                    b.HasIndex("UserId")
-                        .HasDatabaseName("ix_orders_user_id");
-
                     b.ToTable("orders", (string)null);
                 });
 
@@ -264,11 +258,8 @@ namespace GrabIt.Infrastructure.Migrations
 
             modelBuilder.Entity("GrabIt.Core.src.Entities.Payment", b =>
                 {
-                    b.Property<Guid>("OrderId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("order_id");
-
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
@@ -282,7 +273,7 @@ namespace GrabIt.Infrastructure.Migrations
                         .HasColumnType("text")
                         .HasColumnName("transection_id");
 
-                    b.HasKey("OrderId")
+                    b.HasKey("Id")
                         .HasName("pk_payments");
 
                     b.HasIndex("TransectionId")
@@ -402,16 +393,6 @@ namespace GrabIt.Infrastructure.Migrations
                     b.ToTable("users", (string)null);
                 });
 
-            modelBuilder.Entity("GrabIt.Core.src.Entities.Address", b =>
-                {
-                    b.HasOne("GrabIt.Core.src.Entities.User", null)
-                        .WithMany("Addresses")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_addresses_users_user_id");
-                });
-
             modelBuilder.Entity("GrabIt.Core.src.Entities.CartProduct", b =>
                 {
                     b.HasOne("GrabIt.Core.src.Entities.Cart", null)
@@ -440,19 +421,12 @@ namespace GrabIt.Infrastructure.Migrations
                         .IsRequired()
                         .HasConstraintName("fk_orders_addresses_address_id");
 
-                    b.HasOne("GrabIt.Core.src.Entities.User", null)
-                        .WithMany("Orders")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_orders_users_user_id");
-
                     b.Navigation("Address");
                 });
 
             modelBuilder.Entity("GrabIt.Core.src.Entities.OrderProduct", b =>
                 {
-                    b.HasOne("GrabIt.Core.src.Entities.Order", "Order")
+                    b.HasOne("GrabIt.Core.src.Entities.Order", null)
                         .WithMany("OrderProducts")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -460,25 +434,13 @@ namespace GrabIt.Infrastructure.Migrations
                         .HasConstraintName("fk_order_products_orders_order_id");
 
                     b.HasOne("GrabIt.Core.src.Entities.Product", "Product")
-                        .WithMany("OrderProducts")
+                        .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_order_products_products_product_id");
 
-                    b.Navigation("Order");
-
                     b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("GrabIt.Core.src.Entities.Payment", b =>
-                {
-                    b.HasOne("GrabIt.Core.src.Entities.Order", null)
-                        .WithOne("Payment")
-                        .HasForeignKey("GrabIt.Core.src.Entities.Payment", "OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_payments_orders_order_id");
                 });
 
             modelBuilder.Entity("GrabIt.Core.src.Entities.Product", b =>
@@ -506,21 +468,6 @@ namespace GrabIt.Infrastructure.Migrations
             modelBuilder.Entity("GrabIt.Core.src.Entities.Order", b =>
                 {
                     b.Navigation("OrderProducts");
-
-                    b.Navigation("Payment")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("GrabIt.Core.src.Entities.Product", b =>
-                {
-                    b.Navigation("OrderProducts");
-                });
-
-            modelBuilder.Entity("GrabIt.Core.src.Entities.User", b =>
-                {
-                    b.Navigation("Addresses");
-
-                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

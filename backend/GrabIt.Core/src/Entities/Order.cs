@@ -11,7 +11,6 @@ namespace GrabIt.Core.src.Entities
 
         public Address Address { get; set; }
         public List<OrderProduct> OrderProducts { get; set; }
-        public Payment Payment { get; set; }
     }
 
     public enum OrderStatusType

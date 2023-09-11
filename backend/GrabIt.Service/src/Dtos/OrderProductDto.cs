@@ -4,9 +4,8 @@ namespace GrabIt.Service.Dtos
 {
     public class OrderProductReadDto
     {
+        public Guid Id { get; set; }
         public float Quantity { get; set; }
-        public Guid OrderId { get; set; }
-
         public ProductReadDto Product { get; set; }
     }
 

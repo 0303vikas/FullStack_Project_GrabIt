@@ -38,19 +38,19 @@ namespace GrabIt.Infrastructure.RepoImplementations
                     queryBuilder = queryBuilder.OrderByDescending(e => e.Product.Title);
                     break;
                 case SortMethods.UpdatedAt:
-                    queryBuilder = queryBuilder.OrderBy(e => e.Order.UpdatedAt);
+                    queryBuilder = queryBuilder.OrderBy(e => e.Product.UpdatedAt);
                     break;
                 case SortMethods.CreatedAt:
-                    queryBuilder = queryBuilder.OrderBy(e => e.Order.CreatedAt);
+                    queryBuilder = queryBuilder.OrderBy(e => e.Product.CreatedAt);
                     break;
                 case SortMethods.UpdatedAtDesc:
-                    queryBuilder = queryBuilder.OrderByDescending(e => e.Order.UpdatedAt);
+                    queryBuilder = queryBuilder.OrderByDescending(e => e.Product.UpdatedAt);
                     break;
                 case SortMethods.CreatedAtDesc:
-                    queryBuilder = queryBuilder.OrderByDescending(e => e.Order.CreatedAt);
+                    queryBuilder = queryBuilder.OrderByDescending(e => e.Product.CreatedAt);
                     break;
                 default:
-                    queryBuilder = queryBuilder.OrderBy(e => e.Order.CreatedAt);
+                    queryBuilder = queryBuilder.OrderBy(e => e.Product.CreatedAt);
                     break;
             }
             return await Pagination<OrderProduct>.CreateAsync(queryBuilder.AsNoTracking(), queryType.PageNumber, queryType.PerPage);

@@ -10,9 +10,13 @@ namespace GrabIt.Service.Implementations
     public class OrderService : BaseService<Order, OrderReadDto, OrderCreateDto, OrderUpdateDto>, IOrderService
     {
         private readonly IOrderRepo _orderRepo;
-        public OrderService(IOrderRepo orderRepo, IMapper mapper) : base(orderRepo, mapper)
+        private readonly IProductRepo _productRepo;
+        private readonly IOrderProductRepo _orderProductRepo;
+        public OrderService(IOrderRepo orderRepo, IProductRepo productRepo, IOrderProductRepo orderProductRepo, IMapper mapper) : base(orderRepo, mapper)
         {
             _orderRepo = orderRepo;
+            _productRepo = productRepo;
+            _orderProductRepo = orderProductRepo;
         }
 
         public async Task<IEnumerable<OrderReadDto>> GetOrdersByUserId(Guid userId)
@@ -32,8 +36,39 @@ namespace GrabIt.Service.Implementations
                 createData.UserId.Equals(Guid.Empty) ||
                 createData.AddressId.Equals(Guid.Empty)
                 ) throw ErrorHandlerService.ExceptionArgumentNull("User and Address can't be null.");
-            if (createData.TotalPrice <= 0) throw ErrorHandlerService.ExceptionArgumentNull("TotalPrice can't be less than or equal to 0.");
-            return await base.CreateOne(createData);
+
+            float totalPrice = 0;
+
+            //check product
+            foreach (var orderProduct in createData.OrderProducts)
+            {
+                if (orderProduct.ProductId.Equals(Guid.Empty)) throw ErrorHandlerService.ExceptionArgumentNull("Product can't be null.");
+                var product = await _productRepo.GetOneById(orderProduct.ProductId);
+                if (product == null) throw ErrorHandlerService.ExceptionNotFound($"Product with id: {orderProduct.ProductId} not found.");
+                if (orderProduct.Quantity > product.Stock) throw ErrorHandlerService.ExceptionArgumentNull($"Product with id: {orderProduct.ProductId} not enough.");
+                totalPrice += orderProduct.Quantity * product.Price;
+            }
+
+
+            //create order                      
+            var mappedOrder = _mapper.Map<Order>(createData);
+            mappedOrder.TotalPrice = totalPrice;
+
+            var createdEntity = await _orderRepo.CreateOne(mappedOrder) ?? throw ErrorHandlerService.ExceptionInternalServerError($"Error creating item.");
+
+
+
+            //create order Product
+            foreach (var orderProduct in createData.OrderProducts)
+            {
+                var orderProductEntity = _mapper.Map<OrderProduct>(orderProduct);
+                orderProductEntity.OrderId = mappedOrder.Id;
+                await _orderProductRepo.CreateOne(orderProductEntity);
+            }
+
+
+
+            return _mapper.Map<OrderReadDto>(createdEntity);
         }
 
         // Update One

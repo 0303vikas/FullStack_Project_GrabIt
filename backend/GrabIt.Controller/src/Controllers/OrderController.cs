@@ -29,7 +29,7 @@ namespace GrabIt.Controller.src.Controllers
             return Ok(await _orderRepo.UpdateOrderStatus(orderId, orderStatus));
         }
 
-        [Authorize(Policy = "OrderOwnerOnly")]
+        [Authorize]
         public override async Task<ActionResult<OrderReadDto>> CreateOne([FromBody] OrderCreateDto createData)
         {
             return await base.CreateOne(createData);

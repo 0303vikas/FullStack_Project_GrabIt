@@ -37,7 +37,7 @@ namespace GrabIt.Infrastructure.RepoImplementations
 
         public override async Task<IEnumerable<Order>> GetAll(QueryOptions queryType)
         {
-            IQueryable<Order> queryBuilder = _orders.Include(e => e.Address).Include(e => e.OrderProducts).Include(e => e.Payment);
+            IQueryable<Order> queryBuilder = _orders.Include(e => e.Address).Include(e => e.OrderProducts);
 
             // sorting
             switch (queryType.Sort)

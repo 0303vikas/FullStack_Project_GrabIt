@@ -25,7 +25,7 @@ namespace GrabIt.Infrastructure.RepoImplementations
 
         public override async Task<IEnumerable<Product>> GetAll(QueryOptions queryType)
         {
-            IQueryable<Product> queryBuilder = _products;
+            IQueryable<Product> queryBuilder = _products.Include(p => p.Category);
             // check search string
             if (!string.IsNullOrEmpty(queryType.SearchString))
             {

@@ -10,9 +10,6 @@ namespace GrabIt.Core.src.Entities
         public UserRole Role { get; set; }
         public string ImageURL { get; set; }
 
-        public List<Address> Addresses { get; set; }
-        public List<Order> Orders { get; set; }
-
     }
 
     public enum UserRole

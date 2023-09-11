@@ -47,10 +47,8 @@ namespace GrabIt.Infrastructure.Database
             modelBuilder.Entity<Category>().HasIndex(c => c.Name).IsUnique();
             modelBuilder.Entity<Cart>().HasKey("UserId");
             modelBuilder.Entity<Payment>().HasIndex(p => p.TransectionId).IsUnique();
-            modelBuilder.Entity<Payment>().HasKey("OrderId");
 
             // auto navigation properties
-            modelBuilder.Entity<Product>().Navigation(e => e.Category).AutoInclude();
             modelBuilder.Entity<OrderProduct>().Navigation(e => e.Product).AutoInclude();
             modelBuilder.Entity<CartProduct>().Navigation(e => e.Product).AutoInclude();
             modelBuilder.Entity<Cart>().Navigation(e => e.CartProducts).AutoInclude();
