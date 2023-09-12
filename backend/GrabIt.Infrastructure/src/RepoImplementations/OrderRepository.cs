@@ -20,7 +20,7 @@ namespace GrabIt.Infrastructure.RepoImplementations
 
         public async Task<IEnumerable<Order>> GetOrdersByUserId(Guid userId)
         {
-            return await _orders.Where(o => o.UserId == userId).ToListAsync();
+            return await _orders.Where(o => o.UserId == userId).Include(e => e.Address).Include(e => e.OrderProducts).ToListAsync();
         }
 
         public async Task<Order> UpdateOrderStatus(Guid orderId, OrderStatusType orderStatus)

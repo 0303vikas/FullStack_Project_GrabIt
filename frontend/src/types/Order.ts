@@ -1,12 +1,10 @@
-import { Address } from "cluster"
+import { AddressType } from "./Address"
 import { OrderProductType } from "./OrderProduct"
-import { PaymentType } from "./Payment"
 
 export interface OrderType {
   id: string
   totalPrice: number
   status: string
-  address: Address
+  address: AddressType
   orderProducts: OrderProductType[]
-  payment: PaymentType
 }

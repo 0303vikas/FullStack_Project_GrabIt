@@ -1,5 +1,7 @@
-import React from "react"
+import { useEffect, useState } from "react"
 import { Button, useTheme } from "@mui/material"
+import { useNavigate } from "react-router-dom"
+import { AxiosError } from "axios"
 
 import ContainerProductCategory, {
   DisplayGrid,
@@ -10,16 +12,13 @@ import {
 } from "../../themes/createOrderTheme"
 import { OrderAddressForm } from "./OrderAddressForm"
 import { OrderProductForm } from "./OrderProductForm"
-import { useEffect, useState } from "react"
 import { useAppDispatch } from "../../hooks/useAppDispatch"
 import { clearOrderError, createOrder } from "../../redux/reducers/orderReducer"
 import { useAppSelector } from "../../hooks/useAppSelector"
 import { AddressType } from "../../types/Address"
 import { CartType } from "../../types/CartType"
-import { useNavigate } from "react-router-dom"
-import { clearUserError } from "../../redux/reducers/userReducer"
-import { AxiosError } from "axios"
 import { fetchAllUserAddress } from "../../redux/reducers/addressReducer"
+import { ErrorComponent } from "../Common/ErrorComponent"
 
 export const CreateOrder = () => {
   const theme = useTheme()
@@ -74,8 +73,8 @@ export const CreateOrder = () => {
           }, 3000)
           return false
         } else {
-          alert("Creating order unsuccessfull.")
-          navigate("/")
+          alert("Creating order successfull.")
+          navigate("/orders")
         }
       }
     })
@@ -101,7 +100,12 @@ export const CreateOrder = () => {
       </h1>
 
       <DisplayGrid sx={{ flexGrow: 1 }}>
-        {error && <div>{error.message}</div>}
+        {error.message && (
+          <ErrorComponent
+            message={error.message}
+            statusCode={error.statusCode}
+          />
+        )}
         <OrderMainContainer container spacing={{ xs: 1 }} direction={"column"}>
           <OrderProductForm setOrderProductData={setOrderProductData} />
           <hr />

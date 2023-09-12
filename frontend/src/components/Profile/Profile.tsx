@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { CardMedia, useTheme } from "@mui/material"
+import { Button, CardMedia, useTheme } from "@mui/material"
 
 import ContainerProductCategory, {
   DisplayGrid,
@@ -13,11 +13,24 @@ import { useAppSelector } from "../../hooks/useAppSelector"
 import { ErrorComponent } from "../Common/ErrorComponent"
 import { PasswordUpdateForm } from "./PasswordUpdateForm"
 import { UserUpdateForm } from "./UserUpdateForm"
+import { useAppDispatch } from "../../hooks/useAppDispatch"
+import { deleteUser } from "../../redux/reducers/userReducer"
+import { useNavigate } from "react-router-dom"
 
 const Profile = () => {
   const { currentUser, error } = useAppSelector((store) => store.user)
   const theme = useTheme()
   const [image, setImage] = useState(currentUser?.imageURL)
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+
+  const handleProfileDelete = () => {
+    if (currentUser === undefined) return alert("Please login to continue")
+    alert("Profile Delete Confirm?")
+    dispatch(deleteUser(currentUser.id))
+    alert("Profile Deleted. Redirecting to Home Page.")
+    navigate("/")
+  }
 
   if (currentUser === undefined) return <div>Loading...</div>
 
@@ -65,6 +78,13 @@ const Profile = () => {
             )}
             <UserUpdateForm currentUser={currentUser} setImage={setImage} />
             <PasswordUpdateForm theme={theme} currentUser={currentUser} />
+            <Button
+              variant="contained"
+              color="error"
+              onClick={handleProfileDelete}
+            >
+              Delete Profile
+            </Button>
           </HorizontalCardBox>
         </DisplayCardHorizontal>
       </DisplayGrid>

@@ -28,7 +28,7 @@ namespace GrabIt.Service.Implementations
             return _mapper.Map<TReadDto>(foundItem);
         }
 
-        public async Task<bool> DeleteOneById(Guid id)
+        public virtual async Task<bool> DeleteOneById(Guid id)
         {
             _ = await _baseRepo.GetOneById(id) ?? throw ErrorHandlerService.ExceptionNotFound($"No Item with id: {id} was found.");
             await _baseRepo.DeleteOneById(id);

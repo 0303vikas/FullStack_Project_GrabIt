@@ -47,34 +47,34 @@ namespace GrabIt.Service.Implementations
                 if (product == null) throw ErrorHandlerService.ExceptionNotFound($"Product with id: {orderProduct.ProductId} not found.");
                 if (orderProduct.Quantity > product.Stock) throw ErrorHandlerService.ExceptionArgumentNull($"Product with id: {orderProduct.ProductId} not enough.");
                 totalPrice += orderProduct.Quantity * product.Price;
+                product.Stock -= (int)orderProduct.Quantity;
+                await _productRepo.UpdateOne(product);
             }
-
 
             //create order                      
             var mappedOrder = _mapper.Map<Order>(createData);
             mappedOrder.TotalPrice = totalPrice;
+            mappedOrder.Status = OrderStatusType.InProcess;
 
             var createdEntity = await _orderRepo.CreateOne(mappedOrder) ?? throw ErrorHandlerService.ExceptionInternalServerError($"Error creating item.");
-
-
-
-            //create order Product
-            foreach (var orderProduct in createData.OrderProducts)
-            {
-                var orderProductEntity = _mapper.Map<OrderProduct>(orderProduct);
-                orderProductEntity.OrderId = mappedOrder.Id;
-                await _orderProductRepo.CreateOne(orderProductEntity);
-            }
-
-
 
             return _mapper.Map<OrderReadDto>(createdEntity);
         }
 
-        // Update One
+        // delete One
 
-
-
+        public override async Task<bool> DeleteOneById(Guid id)
+        {
+            var foundOrder = await _orderRepo.GetOneById(id) ?? throw ErrorHandlerService.ExceptionNotFound($"No Item with id: {id} was found.");
+            foreach (var orderProduct in foundOrder.OrderProducts)
+            {
+                var findProduct = await _productRepo.GetOneById(orderProduct.ProductId) ?? throw ErrorHandlerService.ExceptionNotFound($"No Product with id: {id} was found.");
+                findProduct.Stock += (int)orderProduct.Quantity;
+                await _productRepo.UpdateOne(findProduct);
+                await _orderProductRepo.DeleteOneById(orderProduct.Id);
+            }
+            await _orderRepo.DeleteOneById(id);
+            return true;
+        }
     }
-
 }

@@ -20,7 +20,6 @@ namespace GrabIt.Infrastructure.src.RepoImplementations
         {
             await _dbSet.AddAsync(createData);
             await _context.SaveChangesAsync();
-            Console.WriteLine($"CreatedOne image hello: {createData}");
             return createData;
         }
 

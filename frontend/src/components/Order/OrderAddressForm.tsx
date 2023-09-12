@@ -1,6 +1,7 @@
 import { Button, TextField } from "@mui/material"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { AxiosError } from "axios"
+import { Done } from "@mui/icons-material"
 
 import { OrderMainItem } from "../../themes/createOrderTheme"
 import { useAppSelector } from "../../hooks/useAppSelector"
@@ -8,9 +9,7 @@ import { useAppDispatch } from "../../hooks/useAppDispatch"
 import {
   clearAddressError,
   createAddress,
-  fetchAllUserAddress,
 } from "../../redux/reducers/addressReducer"
-import { Done } from "@mui/icons-material"
 import { AddressType } from "../../types/Address"
 
 export const OrderAddressForm = ({

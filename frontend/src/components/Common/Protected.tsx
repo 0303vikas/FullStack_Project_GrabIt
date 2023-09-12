@@ -55,9 +55,18 @@ export const Protected = ({
   } else {
     if (currentUser.role !== 0 && currentUser.role !== 1) {
       return <Navigate to="/login" replace />
-    } else if (currentUser.role !== 0 && routerType !== "profile") {
+    } else if (
+      (currentUser.role === 1 && routerType === "profile") ||
+      (currentUser.role === 1 && routerType === "placeOrder")
+    ) {
+      return <Fragment> {children}</Fragment>
+    } else if (
+      (currentUser.role !== 0 && routerType !== "profile") ||
+      (currentUser.role !== 0 && routerType !== "placeOrder")
+    ) {
       return <Navigate to="/login" replace />
     }
+
     return <Fragment> {children}</Fragment>
   }
 }

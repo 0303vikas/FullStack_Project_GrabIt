@@ -7,13 +7,14 @@
  * - edit quantity and remove from cart options
  */
 import React from "react"
-import { useTheme } from "@mui/material"
+import { Button, useTheme } from "@mui/material"
 
 import { useAppSelector } from "../../hooks/useAppSelector"
 import CartItem from "./CartItem"
 import ContainerProductCategory, {
   DisplayGrid,
 } from "../../themes/categoryTheme"
+import { useNavigate } from "react-router-dom"
 
 /**
  * @description Cart outer structure, checks state from redux store and display's data is available
@@ -22,6 +23,7 @@ import ContainerProductCategory, {
 const Cart = () => {
   const cartState = useAppSelector((state) => state.cart)
   const theme = useTheme()
+  const navigate = useNavigate()
 
   return (
     <ContainerProductCategory
@@ -41,11 +43,17 @@ const Cart = () => {
         </span>
         art
       </h1>
-      {/**
-       * check redux cart state,
-       * if state === empty, display cart empty message
-       * else display cart data
-       */}
+      <aside
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          marginBottom: "7rem",
+        }}
+      >
+        <Button variant="outlined" onClick={() => navigate("/placeorder")}>
+          Place Order
+        </Button>
+      </aside>
       <DisplayGrid gap={2} gridTemplateColumns={"repeat(1,1fr)"}>
         {cartState.length ? (
           cartState.map((item, key) => <CartItem item={item} key={item.id} />)

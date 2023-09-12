@@ -10,9 +10,9 @@ using GrabIt.Service.ServiceInterfaces;
 using GrabIt.Service.Implementations;
 using GrabIt.Service.src.ServiceInterfaces;
 using GrabIt.Service.src.Implementations;
-using System.Text.Json.Serialization;
 using GrabIt.Infrastructure.MiddleWare;
 using GrabIt.Infrastructure.src.AuthorizationRequirements;
+using Microsoft.AspNetCore.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -78,7 +78,7 @@ builder.Services.Configure<RouteOptions>(options =>
 });
 
 // add policy requirements handler
-builder.Services.AddSingleton<OrderOwnerOnlyRequirementHandler>();
+builder.Services.AddSingleton<IAuthorizationHandler, OrderOwnerOnlyRequirementHandler>();
 
 // JWT Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

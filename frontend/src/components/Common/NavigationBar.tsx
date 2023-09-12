@@ -152,7 +152,7 @@ const NavigationMiddle = () => {
  */
 const NavigationRight = () => {
   const settingOptions = ["Registration", "Login"]
-  const addCustomerOptions = ["Profile", "Logout", "Registration"]
+  const addCustomerOptions = ["Profile", "Logout", "Registration", "Orders"]
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const theme = useTheme()

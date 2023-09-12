@@ -52,6 +52,7 @@ namespace GrabIt.Infrastructure.Database
             modelBuilder.Entity<OrderProduct>().Navigation(e => e.Product).AutoInclude();
             modelBuilder.Entity<CartProduct>().Navigation(e => e.Product).AutoInclude();
             modelBuilder.Entity<Cart>().Navigation(e => e.CartProducts).AutoInclude();
+            modelBuilder.Entity<Order>().Navigation(e => e.OrderProducts).AutoInclude();
 
             // Foreign Keys
             modelBuilder.Entity<Product>().HasOne(p => p.Category).WithMany(c => c.Products).HasForeignKey(p => p.CategoryId);
