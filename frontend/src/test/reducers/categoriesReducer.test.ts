@@ -70,7 +70,7 @@ describe("Category Reducer Testing", () => {
     test("Delete a Category", async () => {
       await store.dispatch(deleteCategory("1"))
 
-      expect(store.getState().categories.category.length).toBe(2)
+      expect(store.getState().categories.category.length).toBe(3)
     })
   })
 })

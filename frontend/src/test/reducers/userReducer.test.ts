@@ -30,14 +30,18 @@ describe("Testing User Reducer", () => {
     expect(state).toEqual({
       users: [],
       loading: false,
-      error: "",
+      error: {
+        message: "",
+        statusCode: 200,
+      },
+      authloading: true,
     })
   })
   test("Fetch all Users", async () => {
     await store.dispatch(fetchAllUsers())
     expect(store.getState().user.users.length).toBe(3)
   })
-  test.only("Create User", async () => {
+  test("Create User", async () => {
     const user: UserType = {
       id: "1",
       email: "test@gmail.com",
@@ -51,7 +55,11 @@ describe("Testing User Reducer", () => {
     expect(state).toEqual({
       users: [user],
       loading: false,
-      error: "",
+      authloading: true,
+      error: {
+        message: "",
+        statusCode: 200,
+      },
     })
   })
 })

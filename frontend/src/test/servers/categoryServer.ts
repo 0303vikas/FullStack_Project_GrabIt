@@ -6,13 +6,13 @@ import Categories, { category1 } from "../data/categories"
 
 const CategoryServer = setupServer(
   rest.get<CategoryType[]>(
-    "https://api.escuelajs.co/api/v1/categories",
+    "http://localhost:5001/api/v1/categorys",
     (req, res, ctx) => {
       return res(ctx.json(Categories))
     }
   ),
   rest.post<CategoryType>(
-    "https://api.escuelajs.co/api/v1/categories/",
+    "http://localhost:5001/api/v1/categorys",
     async (req, res, ctx) => {
       const newCategoryFetch = (await req.json()) as Omit<CategoryType, "id">
       const error: string[] = []
@@ -44,7 +44,7 @@ const CategoryServer = setupServer(
     }
   ),
   rest.put<CategoryType>(
-    "https://api.escuelajs.co/api/v1/categories/:CategoryId",
+    "http://localhost:5001/api/v1/categorys/:CategoryId",
     async (req, res, ctx) => {
       const newData = (await req.json()) as UpdateCategoryType
       // const currentUrl = (await req.url).toString()
@@ -73,7 +73,7 @@ const CategoryServer = setupServer(
     }
   ),
   rest.delete<boolean>(
-    "https://api.escuelajs.co/api/v1/categories/:CategoryId",
+    "http://localhost:5001/api/v1/categorys/:CategoryId",
     async (req, res, ctx) => {
       const { CategoryId } = req.params
 

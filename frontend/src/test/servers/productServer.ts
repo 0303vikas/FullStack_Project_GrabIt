@@ -14,59 +14,56 @@ import categories from "../data/categories"
 
 const productServer = setupServer(
   rest.get<ProductType[]>(
-    "https://api.escuelajs.co/api/v1/products",
+    "http://localhost:5001/api/v1/products",
     (req, res, ctx) => {
       return res(ctx.json([product1, product2, product3, product4]))
     }
   ),
-  rest.post(
-    "https://api.escuelajs.co/api/v1/products/",
-    async (req, res, ctx) => {
-      const newProduct = (await req.json()) as NewProductType
-      const category = categories.find(
-        (item) => item.id === newProduct.categoryId
-      )
-      const error: string[] = []
-      let product: ProductType | null = null
-      if (!newProduct.price || newProduct.price < 1) {
-        error.push("Price should be greater than zero")
-      }
-      if (!Array.isArray(newProduct.imageURLList)) {
-        error.push("images must be an array")
-      } else if (newProduct.imageURLList.length < 1) {
-        error.push("images must contain at least 1 image")
-      } else if (
-        newProduct.imageURLList.some((item) => typeof item !== "string")
-      ) {
-        error.push("images must be an array of string")
-      }
-      if (!category) {
-        error.push("category does not exist")
-      } else {
-        product = {
-          title: newProduct.title,
-          price: newProduct.price,
-          category: category,
-          description: newProduct.description,
-          imageURLList: newProduct.imageURLList,
-          id: "1",
-        }
-      }
-      if (error.length > 0) {
-        return res(
-          ctx.status(400),
-          ctx.json({
-            statusCode: 400,
-            message: error,
-            error: "Bad Request",
-          })
-        )
-      }
-      return res(ctx.status(201), ctx.json(product))
+  rest.post("http://localhost:5001/api/v1/products", async (req, res, ctx) => {
+    const newProduct = (await req.json()) as NewProductType
+    const category = categories.find(
+      (item) => item.id === newProduct.categoryId
+    )
+    const error: string[] = []
+    let product: ProductType | null = null
+    if (!newProduct.price || newProduct.price < 1) {
+      error.push("Price should be greater than zero")
     }
-  ),
+    if (!Array.isArray(newProduct.imageURLList)) {
+      error.push("images must be an array")
+    } else if (newProduct.imageURLList.length < 1) {
+      error.push("images must contain at least 1 image")
+    } else if (
+      newProduct.imageURLList.some((item) => typeof item !== "string")
+    ) {
+      error.push("images must be an array of string")
+    }
+    if (!category) {
+      error.push("category does not exist")
+    } else {
+      product = {
+        title: newProduct.title,
+        price: newProduct.price,
+        category: category,
+        description: newProduct.description,
+        imageURLList: newProduct.imageURLList,
+        id: "1",
+      }
+    }
+    if (error.length > 0) {
+      return res(
+        ctx.status(400),
+        ctx.json({
+          statusCode: 400,
+          message: error,
+          error: "Bad Request",
+        })
+      )
+    }
+    return res(ctx.status(201), ctx.json(product))
+  }),
   rest.put<ProductType[]>(
-    `https://api.escuelajs.co/api/v1/products/:ProductId`,
+    `http://localhost:5001/api/v1/products/:ProductId`,
     async (req, res, ctx) => {
       const newProduct = await req.json()
       const { ProductId } = req.params
@@ -94,7 +91,7 @@ const productServer = setupServer(
     }
   ),
   rest.delete<boolean>(
-    "https://api.escuelajs.co/api/v1/products/:ProductId",
+    "http://localhost:5001/api/v1/products/:ProductId",
     async (req, res, ctx) => {
       const { ProductId } = req.params
       let error: string = ""
