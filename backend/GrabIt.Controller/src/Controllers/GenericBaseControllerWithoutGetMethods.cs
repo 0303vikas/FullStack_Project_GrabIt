@@ -1,5 +1,4 @@
 using GrabIt.Service.ServiceInterfaces;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GrabIt.Controller.src.Controllers

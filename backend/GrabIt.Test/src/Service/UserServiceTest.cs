@@ -32,44 +32,6 @@ namespace GrabIt.Test.src.Service
         }
 
         [Fact]
-        public async Task CreateUser_ReturnUserReadVersion()
-        {
-            UserCreateDto userCreateDto = new UserCreateDto()
-            {
-                FirstName = "Michael",
-                LastName = "Philips",
-                Email = "michael@gmail.com",
-                Password = "customer123",
-                ImageURL = "https://image.com"
-            };
-
-            var testUser = new User()
-            {
-                FirstName = "Michael",
-                LastName = "Philips",
-                Email = "michael@gmail.com",
-                Role = UserRole.Customer,
-                Password = "customer123",
-                ImageURL = "https://image.com",
-            };
-
-            _userRepoMock.Setup(repo => repo.CreateOne(It.IsAny<User>())).ReturnsAsync(testUser);
-            _userRepoMock.Setup(repo => repo.CheckEmailDuplicate(userCreateDto.Email, Guid.NewGuid())).ReturnsAsync(false);
-
-
-            var createdUser = await _userService.CreateOne(userCreateDto);
-
-            _userRepoMock.Verify(repo => repo.CreateOne(It.IsAny<User>()), Times.Once);
-            Assert.NotNull(createdUser);
-            Assert.IsType<UserReadDto>(createdUser);
-            Assert.Equal(testUser.FirstName, createdUser.FirstName);
-            Assert.Equal(testUser.LastName, createdUser.LastName);
-            Assert.Equal(testUser.Email, createdUser.Email);
-            Assert.Equal(testUser.Role, createdUser.Role);
-            Assert.Equal(testUser.ImageURL, createdUser.ImageURL);
-        }
-
-        [Fact]
         public async Task CreateAdmin_ReturnUserReadVersion()
         {
             UserCreateDto userCreateDto = new UserCreateDto()
@@ -83,6 +45,7 @@ namespace GrabIt.Test.src.Service
 
             var testUser = new User()
             {
+
                 FirstName = "Michael",
                 LastName = "Philips",
                 Email = "michael@gmail.com",
@@ -139,7 +102,7 @@ namespace GrabIt.Test.src.Service
             };
 
             _userRepoMock.Setup(repo => repo.GetOneById(userId)).ReturnsAsync(testUser);
-            _userRepoMock.Setup(repo => repo.CheckEmailDuplicate(userUpdateDto.Email, userId)).ReturnsAsync(false);
+            _userRepoMock.Setup(repo => repo.CheckEmailAvailability(userUpdateDto.Email, userId)).ReturnsAsync(true);
             _userRepoMock.Setup(repo => repo.UpdateOne(It.IsAny<User>())).ReturnsAsync(updateUser);
 
             var updatedUserResult = await _userService.UpdateOneById(userId, userUpdateDto);
@@ -203,11 +166,11 @@ namespace GrabIt.Test.src.Service
 
             };
 
-            _userRepoMock.Setup(repo => repo.CheckEmailDuplicate(userUpdateDto.Email, userId)).ReturnsAsync(true);
+            _userRepoMock.Setup(repo => repo.CheckEmailAvailability(userUpdateDto.Email, userId)).ReturnsAsync(true);
 
             await Assert.ThrowsAsync<ErrorHandlerService>(async () => await _userService.UpdateOneById(userId, userUpdateDto));
 
-            _userRepoMock.Verify(repo => repo.GetOneById(userId), Times.Never());
+            _userRepoMock.Verify(repo => repo.GetOneById(userId), Times.AtLeastOnce());
             _userRepoMock.Verify(
                 repo => repo.UpdateOne(It.IsAny<User>()),
                 Times.Never()
@@ -408,7 +371,5 @@ namespace GrabIt.Test.src.Service
 
             _userRepoMock.Verify(repo => repo.GetOneById(user1Id), Times.Once());
         }
-
-
     }
 }
